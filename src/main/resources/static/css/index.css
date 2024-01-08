@@ -1,0 +1,28 @@
+/* #videoContainer video {
+    width: 1500px;
+    height: auto;
+    display: block;
+}
+
+@font-face {
+    font-family: 'Treegarden';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    padding-top: 0;
+    font-family: 'Treegarden', sans-serif;
+}
+
+/* bootstrap .carousel override 4rem*/
+.carousel {
+    margin-bottom: 0;
+}
+
+.navbar {
+    margin-bottom: 4rem;
+}
+
+ */

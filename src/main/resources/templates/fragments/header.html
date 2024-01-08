@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 대문 -->
+<div th:fragment="header" id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <!-- 비디오 -->
+            <div id="videoContainer">
+                <video autoplay loop muted>
+                    <source th:src="@{/vid/production_id_4124024 (2160p).mp4}"
+                        src="/static/vid/production_id_4124024 (2160p).mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Mavi-karga</h1>
+                    <p class="opacity-75">Some representative placeholder content for the first slide of the
+                        carousel.</p>
+                    <!-- <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- navbar -->
+<nav th:fragment="header-navBar" class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+    <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <!-- 화면 축소시 리스트 버튼 -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--  -->
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div style="font-size: 1.5em" class="navbar-nav">
+                <a class="nav-link px-5 active " aria-current="page" href="#">Home</a>
+                <a class="nav-link px-5" href="#">Info</a>
+                <a class="nav-link px-5" href="#">Clothing</a>
+                <a class="nav-link px-5" href="#">Film</a>
+                <a class="nav-link px-5" href="#">Object</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+</html>
