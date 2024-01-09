@@ -18,4 +18,10 @@ public class PageController {
         model.addAttribute("menu", "clothing");
         return "clothing";
     }
+
+    @GetMapping("/info")
+    public String info(Model model) {
+        model.addAttribute("menu", "info");
+        return "info";
+    }
 }
