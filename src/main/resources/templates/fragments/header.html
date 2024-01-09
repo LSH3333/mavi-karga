@@ -34,17 +34,38 @@
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <!--  -->
+        <!-- navBar -->
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div style="font-size: 1.5em" class="navbar-nav">
-                <a class="nav-link px-5 active " aria-current="page" href="#">Home</a>
+                <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가 -->
+                <a class="nav-link px-5" th:classappend="${menu} == 'home' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">Home</a>
                 <a class="nav-link px-5" href="#">Info</a>
-                <a class="nav-link px-5" href="#">Clothing</a>
+                <a class="nav-link px-5" th:classappend="${menu} == 'clothing' ? 'fw-bold active'" href="/templates/clothing.html" th:href="@{/clothing}">Clothing</a>                                    
                 <a class="nav-link px-5" href="#">Film</a>
                 <a class="nav-link px-5" href="#">Object</a>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get all the anchor elements
+            var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+            // Add click event listener to each anchor
+            navLinks.forEach(function (link) {
+                link.addEventListener('click', function () {
+                    // Remove 'active' class from all links
+                    navLinks.forEach(function (navLink) {
+                        navLink.classList.remove('active', 'fw-bold');
+                    });
+
+                    // Add 'active' class to the clicked link
+                    this.classList.add('active', 'fw-bold');
+                });
+            });
+        });
+    </script>
 </nav>
 
 </html>

@@ -1,15 +1,19 @@
+/* ROW */
 .product-row {
     margin-bottom: 10px;
 }
 
+/* 하나의 product */
 .product-placeholder {
     /* border: 1px solid black; */
 }
 
+/* product 이미지 */
 .product-placeholoder-img {
     /* background-color: yellow; */
     width: 100%;
     height: 34vw;
+    /* 뷰포인트 width 따라 이미지 높이 조절 */
     /* 4개 = 34vw */
     /* 3개 = 46vw */
     /* 2개 = 70vw*/
