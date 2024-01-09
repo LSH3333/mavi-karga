@@ -24,4 +24,6 @@ public class PageController {
         model.addAttribute("menu", "info");
         return "info";
     }
+
+
 }

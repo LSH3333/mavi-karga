@@ -8,13 +8,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name="app_user")
 @Data
 public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "member_id")
+    @Column(name = "user_id")
     private Long id;
 
     @NotEmpty(message = "비어있을수 없습니다")

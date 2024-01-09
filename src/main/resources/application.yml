@@ -1,13 +1,9 @@
 spring:
 
-  #  postgresql db (1.local, 2.deploy)
   datasource:
     driver-class-name: org.postgresql.Driver
     platform: postgres
-    # local
-    #    url: jdbc:postgresql://localhost:5432/instawebv2
     url: ${DATASOURCE_URL}
-    #    url: jdbc:postgresql://db:5432/instawebv2
     username: admin_jake
     password: admin_jake
 

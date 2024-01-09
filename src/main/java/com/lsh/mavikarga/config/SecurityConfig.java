@@ -33,9 +33,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
-                        .requestMatchers("/", "/errors/**", "/info", "/clothing").permitAll() // 인증없이 접근 가능 경로
+                        .requestMatchers("/", "/errors/**", "/info", "/clothing", "/login").permitAll() // 인증없이 접근 가능 경로
 
-//                        .requestMatchers("/js/**", "/css/**", "/bootstrap/**", "/img/**", "/*.ico", "/error").permitAll()
+                        .requestMatchers("/js/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
 
                         .requestMatchers("/bag")
                             .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
@@ -44,7 +44,7 @@ public class SecurityConfig {
                 )
                 // OAuth2 로그인 처리
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .loginPage("/login")
+                        .loginPage("/login") // 로그인 필요 경로 요청 시 보낼 경로(로그인 페이지)
                         .userInfoEndpoint(userInfo -> userInfo
                                 // PrincipalOAuth2UserService extends DefaultOAuth2UserService 가 회원가입 처리함
                                 .userService(principalOAuth2UserService))
