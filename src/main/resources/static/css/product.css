@@ -1,0 +1,32 @@
+.product-row {
+    margin-bottom: 10px;
+}
+
+.product-placeholder {
+    /* border: 1px solid black; */
+}
+
+.product-placeholoder-img {
+    /* background-color: yellow; */
+    width: 100%;
+    height: 34vw;
+    /* 4개 = 34vw */
+    /* 3개 = 46vw */
+    /* 2개 = 70vw*/
+}
+
+.product-placeholder-exp {}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (max-width: 1200px) {
+    .product-placeholoder-img {
+        height: 46vw;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+    .product-placeholoder-img {
+        height: 70vw;
+    }
+}
