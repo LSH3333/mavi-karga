@@ -25,5 +25,8 @@ public class PageController {
         return "info";
     }
 
-
+    @GetMapping("/payTest")
+    public String payTest() {
+        return "payments/payTest";
+    }
 }

@@ -34,7 +34,7 @@ public class SecurityConfig {
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
                         .requestMatchers("/", "/errors/**", "/info", "/clothing", "/login").permitAll() // 인증없이 접근 가능 경로
-
+                        .requestMatchers("/payment/validate", "/payTest").permitAll() // 결재 시스템 테스트 중 ..
                         .requestMatchers("/js/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
 
                         .requestMatchers("/bag")
