@@ -49,6 +49,9 @@ public class SecurityConfig {
                                 // PrincipalOAuth2UserService extends DefaultOAuth2UserService 가 회원가입 처리함
                                 .userService(principalOAuth2UserService))
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/"))
                 .csrf(csrf -> csrf.disable());
 
 
