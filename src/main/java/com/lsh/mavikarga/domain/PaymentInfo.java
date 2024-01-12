@@ -38,8 +38,8 @@ public class PaymentInfo {
     private LocalDateTime createdTime;
 
     // 주문 정보
-    @OneToOne(mappedBy = "paymentInfo")
-    private OrderInfo orderInfo;
+//    @OneToOne(mappedBy = "paymentInfo")
+//    private OrderInfo orderInfo;
 
     public PaymentInfo() {}
 

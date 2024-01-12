@@ -32,8 +32,5 @@ public class PageController {
         return "payments/payTest";
     }
 
-    @GetMapping("/admins/addProduct")
-    public String adminPage() {
-        return "admins/addProduct";
-    }
+
 }
