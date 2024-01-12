@@ -4,13 +4,13 @@ import lombok.Data;
 
 /**
  * 포트원 결재
- * 클라이언트에서 보내오는 실제 클라이언트에서 결재한 정보
+ * 클라이언트에서 보내오는 실제 클라이언트에서 결재한 정보 Dto
  * 결재 금액 맞는 지 등 검증 위함
  */
 @Data
 public class PaymentRequestDto {
     private String imp_uid;
-    private String pay_method;
+    private String paid_amount;
     private String merchant_uid;
 
 //    private String paid_amount;

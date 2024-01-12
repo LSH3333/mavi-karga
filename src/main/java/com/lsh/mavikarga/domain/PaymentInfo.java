@@ -2,6 +2,10 @@ package com.lsh.mavikarga.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,6 +24,7 @@ public class PaymentInfo {
     @Column(nullable = false, length = 100)
     private String merchantUid;
 
+    // 결재 금액
     @Column(nullable = false)
     private int amount;
 
@@ -29,8 +34,19 @@ public class PaymentInfo {
     @Column(nullable = false, length = 100)
     private String buyerPostcode;
 
+    // 결재 시간
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    private LocalDateTime createdTime;
 
-    // todo: 결재 User
+    // 결재 상품 리스트
+    @OneToMany(mappedBy = "paymentInfo", fetch = FetchType.LAZY)
+    @OrderBy("createdTime desc")
+    private List<Product> products;
+
+    // 결재한 User
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
 
     public PaymentInfo() {}

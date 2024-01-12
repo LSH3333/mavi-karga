@@ -17,7 +17,7 @@
                 {
                     pg: "kakaopay",
                     pay_method: "card",
-                    merchant_uid: "merchant_" + new Date().getTime(), // 제품 번호 
+                    merchant_uid: "mavikarga_merchant_" + crypto.randomUUID(), // 제품 번호 
                     name: "당근 10kg",
                     amount: 1,
                     buyer_email: "Iamport@chai.finance",
@@ -31,9 +31,9 @@
                     if (rsp.success) {
                         const formData = new FormData();
                         formData.append("imp_uid", rsp.imp_uid);
-                        formData.append("pay_method", rsp.pay_method);
+                        formData.append("paid_amount", rsp.paid_amount);
                         formData.append("merchant_uid", rsp.merchant_uid);
-                        // formData.append("paid_amount", rsp.paid_amount);
+                        // formData.append("pay_method", rsp.pay_method);
                         // formData.append("name", rsp.name); // 주문자명 
                         // formData.append("pg_provider ", rsp.pg_provider); // PG사 구분코드
                         // formData.append("buyer_email", rsp.buyer_email);
