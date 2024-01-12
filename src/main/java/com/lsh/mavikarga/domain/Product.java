@@ -1,8 +1,13 @@
 package com.lsh.mavikarga.domain;
 
+import com.lsh.mavikarga.dto.AddProductDto;
 import jakarta.persistence.*;
+import lombok.Getter;
+
+import java.util.List;
 
 @Entity
+@Getter
 public class Product {
     @Id
     @GeneratedValue
@@ -27,10 +32,17 @@ public class Product {
     // todo: 제품 이미지. 이 부분은 실제 제품 보여주는 페이지가 어떨지 보고 수정해야 할듯. 그리고 관리자가 수정하는 기능 만들지 등 ..
     private String imageUrl;
 
-    // 주문 정보
-    @ManyToOne
-    @JoinColumn(name="orderInfo_id")
-    private OrderInfo orderInfo;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<OrderProduct> orderProducts;
 
+
+    // 관리자 상품 추가용
+    public Product(AddProductDto addProductDto) {
+        this.name = addProductDto.getName();
+        this.price = addProductDto.getPrice();
+        this.description = addProductDto.getDescription();
+        this.size = addProductDto.getSize();
+        this.available = addProductDto.isAvailable();
+    }
 
 }
