@@ -4,6 +4,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     platform: postgres
     url: ${DATASOURCE_URL}
+#    url: jdbc:postgresql://localhost:5432/mavikarga2
     username: admin_jake
     password: admin_jake
 
@@ -16,8 +17,8 @@ spring:
 
   jpa:
     hibernate:
-      # 최초에만 create
-      ddl-auto: create
+      # !!!!!!!!!!!!!!!!! DB 초기화 수정 주의 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      ddl-auto: none
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
     properties:
       hibernate:
@@ -27,6 +28,10 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     open-in-view: false
     generate-ddl: true
+
+  sql:
+    init:
+      mode: always
 
   security:
     oauth2:

@@ -1,9 +1,6 @@
 package com.lsh.mavikarga.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Product {
@@ -32,4 +29,11 @@ public class Product {
 
     // todo: 제품 이미지. 이 부분은 실제 제품 보여주는 페이지가 어떨지 보고 수정해야 할듯. 그리고 관리자가 수정하는 기능 만들지 등 ..
     private String imageUrl;
+
+    // 주문 정보
+    @ManyToOne
+    @JoinColumn(name="orderInfo_id")
+    private OrderInfo orderInfo;
+
+
 }

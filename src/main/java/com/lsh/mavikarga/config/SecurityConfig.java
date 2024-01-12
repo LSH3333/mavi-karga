@@ -40,6 +40,9 @@ public class SecurityConfig {
                         .requestMatchers("/bag")
                             .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
 
+                        .requestMatchers("/admins/**")
+                            .hasRole("ADMIN") // "ROLE_ADMIN"
+
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능
                 )
                 // OAuth2 로그인 처리

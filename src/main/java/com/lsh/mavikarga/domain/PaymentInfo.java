@@ -5,7 +5,6 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
@@ -38,16 +37,9 @@ public class PaymentInfo {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdTime;
 
-    // 결재 상품 리스트
-    @OneToMany(mappedBy = "paymentInfo", fetch = FetchType.LAZY)
-    @OrderBy("createdTime desc")
-    private List<Product> products;
-
-    // 결재한 User
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
-
+    // 주문 정보
+    @OneToOne(mappedBy = "paymentInfo")
+    private OrderInfo orderInfo;
 
     public PaymentInfo() {}
 

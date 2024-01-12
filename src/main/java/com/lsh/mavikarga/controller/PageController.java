@@ -25,8 +25,15 @@ public class PageController {
         return "info";
     }
 
+    ///////
+
     @GetMapping("/payTest")
     public String payTest() {
         return "payments/payTest";
+    }
+
+    @GetMapping("/admins/adminPage")
+    public String adminPage() {
+        return "admins/adminPage";
     }
 }

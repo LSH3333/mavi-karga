@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name="app_user")
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
 
@@ -27,10 +28,14 @@ public class User {
     @NotEmpty(message = "비어있을수 없습니다")
     private String email;
     private String provider; // google, kakao ..
-    private String providerId;
+    private String provider_id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdTime;
+
+    // 주문 리스트
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<OrderInfo> orderInfos;
 
     public User() {}
 
@@ -41,7 +46,7 @@ public class User {
         this.email = email;
         this.role = role;
         this.provider = provider;
-        this.providerId = providerId;
+        this.provider_id = providerId;
         this.createdTime = createdTime;
     }
 }
