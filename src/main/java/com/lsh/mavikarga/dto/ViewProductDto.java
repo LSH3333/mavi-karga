@@ -11,6 +11,9 @@ import java.util.List;
  */
 @Data
 public class ViewProductDto {
+    // Product id
+    private Long id;
+
     // 상품명
     private String name;
 
@@ -28,6 +31,7 @@ public class ViewProductDto {
         List<ViewProductDto> viewProductDtoList = new ArrayList<>();
         for (Product product : allProducts) {
             ViewProductDto viewProductDto = new ViewProductDto();
+            viewProductDto.setId(product.getId());
             viewProductDto.setName(product.getName());
             viewProductDto.setPrice(product.getPrice());
             viewProductDto.setSize(product.getSize());

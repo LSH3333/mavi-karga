@@ -16,10 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,18 +37,15 @@ public class AdminController {
     // 상품 추가
     @GetMapping("/admins/products/add")
     public String addProductForm(@ModelAttribute("addProductDto") AddProductDto addProductDto) {
-        return "/admins/products/add";
+        return "admins/products/add";
     }
 
     @PostMapping("/admins/products/add")
     public String addProduct(@Valid @ModelAttribute("addProductDto") AddProductDto addProductDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            log.info("BINDINGRESULT HAS ERROR");
             return "admins/products/add";
         }
-
-        log.info("addProductDto = {}", addProductDto);
 
         Product product = new Product(addProductDto);
         productService.save(product);
@@ -69,12 +63,40 @@ public class AdminController {
 
         log.info("products = {}", viewProductDtoList);
 
-        return "/admins/products/view";
+        return "admins/products/view";
     }
 
     // 상품 수정
-    @PutMapping("/admins/products/{productId}")
-    public String editProduct() {
-        return "";
+    @GetMapping("/admins/products/edit/{productId}")
+    public String editProductForm(Model model, @PathVariable Long productId) {
+        Product product = productService.findById(productId).orElse(null);
+        if (product == null) {
+            return "error";
+        }
+        AddProductDto addProductDto = AddProductDto.createAddProductDto(product);
+        model.addAttribute("addProductDto", addProductDto);
+        model.addAttribute("productId", productId);
+        return "admins/products/edit";
     }
+
+    @PostMapping("/admins/products/edit/{productId}")
+    public String editProduct(@PathVariable Long productId,
+                              @Valid @ModelAttribute("addProductDto") AddProductDto addProductDto,
+                              BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            // 전체 URL을 지정하지 않고 뷰 이름을 반환하는 경우 Spring MVC는 리디렉션에 원래 요청의 URL 패턴을 사용함.
+            // 이 동작은 view resolution, 리디렉션에 대한 Spring MVC의 기본 동작의 일부.
+            // original request URL 은 '/admins/products/edit/{productId}' 이고
+            // 'admins/products/edit' 을 리턴하면 Spring MVC는 원래 요청의 URL 패턴을 기반으로 리디렉션 URL을 구성.
+            // URL에 {productId} 경로 변수가 자동으로 포함.
+            return "admins/products/edit";
+        }
+
+        // product 수정
+        productService.updateWithAddProductDto(productId, addProductDto);
+
+        return "redirect:/admins/products/view";
+    }
+
 }

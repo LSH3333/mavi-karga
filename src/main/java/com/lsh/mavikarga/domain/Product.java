@@ -46,4 +46,11 @@ public class Product {
         this.available = addProductDto.isAvailable();
     }
 
+    public void updateWithAddProductDto(AddProductDto addProductDto) {
+        this.name = addProductDto.getName();
+        this.price = addProductDto.getPrice();
+        this.description = addProductDto.getDescription();
+        this.size = addProductDto.getSize();
+        this.available = addProductDto.isAvailable();
+    }
 }

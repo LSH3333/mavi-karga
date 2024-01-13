@@ -1,5 +1,6 @@
 package com.lsh.mavikarga.dto;
 
+import com.lsh.mavikarga.domain.Product;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -17,4 +18,14 @@ public class AddProductDto {
     private String description;
     private String size;
     private boolean available;
+
+    public static AddProductDto createAddProductDto(Product product) {
+        AddProductDto addProductDto = new AddProductDto();
+        addProductDto.setName(product.getName());
+        addProductDto.setPrice(product.getPrice());
+        addProductDto.setDescription(product.getDescription());
+        addProductDto.setSize(product.getSize());
+        addProductDto.setAvailable(product.isAvailable());
+        return addProductDto;
+    }
 }

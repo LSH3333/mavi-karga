@@ -33,10 +33,10 @@
             </thead>
             <tbody>
                 <tr th:each="product: ${products}">
-                    <td><a th:text="${product.name}" th:href="@{/}"></a></td>
-                    <td><a th:text="${product.price}" th:href="@{/}"></a></td>
-                    <td><a th:text="${product.size}" th:href="@{/}"></a></td>
-                    <td><a th:text="${product.available} ? 'O' : 'X'" th:href="@{/}"></a></td>
+                    <td><a th:text="${product.name}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
+                    <td><a th:text="${product.price}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
+                    <td><a th:text="${product.size}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
+                    <td><a th:text="${product.available} ? 'O' : 'X'" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
                 </tr>
             </tbody>
         </table>
