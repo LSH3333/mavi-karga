@@ -10,12 +10,18 @@
         th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
 
     <link rel="stylesheet" href="/static/css/dashboard.css" th:href="@{/css/dashboard.css}">
+
+    <style>
+        main {
+            margin-bottom: 3em;
+        }
+    </style>
 </head>
 
 <body>
     <div th:replace="~{fragments/admins/common::icon}"></div>
     <div th:replace="~{fragments/admins/common::header}"></div>
-
+    <!-- 사이드바, 헤더 -->
     <div class="container-fluid">
         <div class="row">
             <!-- 사이드바 -->
@@ -32,7 +38,7 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page"
-                                    href="/templates/admins/addProduct.html" th:href="@{/admins/addProduct}">
+                                    href="/templates/admins/products/add.html" th:href="@{/admins/products/add}">
                                     <svg class="bi">
                                         <use xlink:href="#house-fill" />
                                     </svg>
@@ -41,7 +47,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page"
-                                    href="/templates/admins/listProduct.html" th:href="@{/admins/listProduct}">
+                                    href="/templates/admins/products/view.html" th:href="@{/admins/products/view}">
                                     <svg class="bi">
                                         <use xlink:href="#house-fill" />
                                     </svg>
@@ -123,7 +129,6 @@
             
         </div>
     </div>
-
 
     <!-- js -->
     <script src="/static/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"

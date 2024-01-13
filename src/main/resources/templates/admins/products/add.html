@@ -14,7 +14,7 @@
         </div>
 
         <!-- 상품추가 -->
-        <form action="/admins/addProduct" th:action="@{/admins/addProduct}" method="post">
+        <form action="/admins/products/add" th:action="@{/admins/products/add}" method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">상품명</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="상품명">
@@ -30,7 +30,7 @@
             <div class="mb-3">
                 <label for="size" class="form-label">사이즈</label>
                 <select id="size" name="size" class="form-select">
-                    <option selected>사이즈</option>
+                    <option selected disabled hidden>사이즈</option>
                     <option value="S">S</option>
                     <option value="M">M</option>
                     <option value="L">L</option>
@@ -39,7 +39,7 @@
             <div class="mb-3">
                 <label for="available" class="form-label">재고</label>
                 <select id="available" name="available" class="form-select">
-                    <option selected>재고</option>
+                    <option selected disabled hidden>재고</option>
                     <option value="true">있음</option>
                     <option value="false">없음</option>
                 </select>

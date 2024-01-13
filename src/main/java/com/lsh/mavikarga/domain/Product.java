@@ -35,6 +35,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts;
 
+    public Product() {}
 
     // 관리자 상품 추가용
     public Product(AddProductDto addProductDto) {
