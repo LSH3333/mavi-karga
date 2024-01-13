@@ -14,23 +14,31 @@
         </div>
 
         <!-- 상품추가 -->
-        <form action="/admins/products/add" th:action="@{/admins/products/add}" method="post">
+        <form action="/admins/products/add" th:object="${addProductDto}" th:action="@{/admins/products/add}"
+            method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">상품명</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="상품명">
+                <input th:field="*{name}" type="text" class="form-control" id="name" name="name" placeholder="상품명">
+                <!-- BindingError 에러 발생 -->
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" for="name" style="color:red"></span>
             </div>
             <div class="mb-3">
                 <label for="price" class="form-label">가격</label>
-                <input type="number" class="form-control" id="price" name="price" placeholder="가격">
+                <input th:field="*{price}" type="number" class="form-control" id="price" name="price" placeholder="가격">
+                <!-- BindingError 에러 발생 -->
+                <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" for="price" style="color:red"></span>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">상품 상세</label>
-                <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                <textarea th:field="*{description}" class="form-control" id="description" name="description"
+                    rows="3"></textarea>
+                <!-- BindingError 에러 발생 -->
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" for="description" style="color:red"></span>
             </div>
             <div class="mb-3">
                 <label for="size" class="form-label">사이즈</label>
-                <select id="size" name="size" class="form-select">
-                    <option selected disabled hidden>사이즈</option>
+                <select th:field="*{size}" id="size" name="size" class="form-select">
+                    <option value="-" selected disabled hidden>사이즈</option>
                     <option value="S">S</option>
                     <option value="M">M</option>
                     <option value="L">L</option>
@@ -38,8 +46,8 @@
             </div>
             <div class="mb-3">
                 <label for="available" class="form-label">재고</label>
-                <select id="available" name="available" class="form-select">
-                    <option selected disabled hidden>재고</option>
+                <select th:field="*{available}" id="available" name="available" class="form-select">
+                    <option value="false" selected disabled hidden>재고</option>
                     <option value="true">있음</option>
                     <option value="false">없음</option>
                 </select>
