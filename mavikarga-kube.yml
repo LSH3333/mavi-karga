@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mavi-karga-deployment
+sepc:
+  replicas: 3 # 3개의 레플리카(파드)
+  selector: # Deployment가 어떤 파드를 관리할지 명시 
+    matchLabels: # 어떤 레이블을 갖는 파드를 관리할지 
+      app: mavi-karga-spring-boot
+  template: # 스케일링을 위해 새롭게 만들어질 파드 정의
+    metadata:
+      labels:
+        app: mavi-karga-spring-boot
+    spec:
+      containers:
+        - name: mavi-karga-spring-boot
+          image: 
+  
