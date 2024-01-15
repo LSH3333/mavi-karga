@@ -2,6 +2,7 @@ package com.lsh.mavikarga.config;
 
 
 import com.lsh.mavikarga.config.oauth.PrincipalOAuth2UserService;
+import com.lsh.mavikarga.handler.CustomLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,10 +21,12 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public class SecurityConfig {
 
     private final PrincipalOAuth2UserService principalOAuth2UserService;
+    private final CustomLoginSuccessHandler customLoginSuccessHandler;
 
     @Autowired
-    public SecurityConfig(PrincipalOAuth2UserService principalOAuth2UserService) {
+    public SecurityConfig(PrincipalOAuth2UserService principalOAuth2UserService, CustomLoginSuccessHandler customLoginSuccessHandler) {
         this.principalOAuth2UserService = principalOAuth2UserService;
+        this.customLoginSuccessHandler = customLoginSuccessHandler;
     }
 
 
@@ -36,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
-                        .requestMatchers("/", "/errors/**", "/info",  "/login").permitAll() // 인증없이 접근 가능 경로
+                        .requestMatchers("/", "/errors/**", "/info", "/login").permitAll() // 인증없이 접근 가능 경로
                         // Order
                         .requestMatchers("/clothing", "/order/products").permitAll()
                         // 결재 시스템 테스트 중 ..
@@ -57,6 +60,7 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo
                                 // PrincipalOAuth2UserService extends DefaultOAuth2UserService 가 회원가입 처리함
                                 .userService(principalOAuth2UserService))
+                        .successHandler(customLoginSuccessHandler) // custom
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")

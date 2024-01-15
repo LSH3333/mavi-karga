@@ -40,6 +40,7 @@ public class OrderController {
     public String products(Model model) {
         List<Product> products = productService.findAll();
         model.addAttribute("products", products);
+        model.addAttribute("menu", "clothing");
         log.info("products = {}", products);
         return "clothing";
     }
