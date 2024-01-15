@@ -10,7 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 
 @Configuration
@@ -29,19 +31,23 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+
         http
                 .authorizeHttpRequests(request -> request
                         //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
-                        .requestMatchers("/", "/errors/**", "/info", "/clothing", "/login").permitAll() // 인증없이 접근 가능 경로
-                        .requestMatchers("/payment/validate", "/payTest").permitAll() // 결재 시스템 테스트 중 ..
+                        .requestMatchers("/", "/errors/**", "/info",  "/login").permitAll() // 인증없이 접근 가능 경로
+                        // Order
+                        .requestMatchers("/clothing", "/order/products").permitAll()
+                        // 결재 시스템 테스트 중 ..
+                        .requestMatchers("/payment/validate", "/payTest").permitAll()
                         .requestMatchers("/js/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
 
-                        .requestMatchers("/bag")
-                            .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
+                        .requestMatchers("/bag", "/order/products/add")
+                        .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
 
                         .requestMatchers("/admins/**")
-                            .hasRole("ADMIN") // "ROLE_ADMIN"
+                        .hasRole("ADMIN") // "ROLE_ADMIN"
 
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능
                 )

@@ -13,11 +13,11 @@ public class PageController {
         return "index";
     }
 
-    @GetMapping("/clothing")
-    public String clothing(Model model) {
-        model.addAttribute("menu", "clothing");
-        return "clothing";
-    }
+//    @GetMapping("/clothing")
+//    public String clothing(Model model) {
+//        model.addAttribute("menu", "clothing");
+//        return "clothing";
+//    }
 
     @GetMapping("/info")
     public String info(Model model) {
@@ -31,6 +31,5 @@ public class PageController {
     public String payTest() {
         return "payments/payTest";
     }
-
 
 }

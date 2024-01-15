@@ -30,21 +30,13 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-//    public Long order(Long userId, Long productId, int count) {
-//        User user = userRepository.findById(userId).orElse(null);
-//        Product product = productRepository.findById(productId).orElse(null);
-//
-//        // OrderProduct 생성
-//        OrderProduct orderProduct = OrderProduct.createOrderProduct(product, product.getPrice(), count);
-//
-//        // Order 생성
-//        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProduct);
-//
-//        orderRepository.save(orderInfo);
-//        return orderInfo.getId();
-//    }
-
-    // Order 생성
+    /**
+     * 1개 이상의 Product의 OrderInfo 생성
+     * @param userId: 구매한 User id
+     * @param productIdList: 구매하는 물품의 id 리스트
+     * @param countList: 구매하는 물품의 갯수 리스트
+     * @return orderInfo.getId(): 생성된 OrderInfo 의 id
+     */
     public Long order(Long userId, List<Long> productIdList, List<Integer> countList) {
         User user = userRepository.findById(userId).orElse(null);
 
@@ -58,6 +50,21 @@ public class OrderService {
         }
 
         OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProducts);
+        orderRepository.save(orderInfo);
+        return orderInfo.getId();
+    }
+
+    // 단건 Product 의 OrderInfo 생성
+    public Long order(Long userId, Long productId, int count) {
+        User user = userRepository.findById(userId).orElse(null);
+        Product product = productRepository.findById(productId).orElse(null);
+
+        // OrderProduct 생성
+        OrderProduct orderProduct = OrderProduct.createOrderProduct(product, product.getPrice(), count);
+
+        // Order 생성
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProduct);
+
         orderRepository.save(orderInfo);
         return orderInfo.getId();
     }

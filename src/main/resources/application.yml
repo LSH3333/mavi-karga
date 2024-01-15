@@ -4,8 +4,8 @@ spring:
     driver-class-name: org.postgresql.Driver
     platform: postgres
     url: ${DATASOURCE_URL}
-    username: admin_jake
-    password: admin_jake
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
 
     maxActive: 10
     maxIdle: 5
@@ -17,7 +17,7 @@ spring:
   jpa:
     hibernate:
       # !!!!!!!!!!!!!!!!! DB 초기화 수정 주의 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      ddl-auto: create
+      ddl-auto: none
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
     properties:
       hibernate:

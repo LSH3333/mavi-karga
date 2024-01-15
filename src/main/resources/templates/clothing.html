@@ -12,13 +12,19 @@
     <main>
         <div class="container-fluid">
             <div class="row product-row">
+                <!-- thymeleaf th:each -->
+                <div th:each="product: ${products}" class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder">
+                    <a href="/templates/index.html" th:href="@{/order/products?productId={productId}(productId=${product.id})}"><img class="product-placeholoder-img" th:src="@{/img/shop-details/product-big-3.png}"
+                            src="/static/img/shop-details/product-big-3.png" alt=""></a>
+                    <div th:text="${product.name}" class="product-placeholder-exp">CAPT005</div>
+                </div>
                 <!-- 1200px(xl) 이상 4개의 col -->
                 <!-- 768px(md) 이상 3개의 col -->
                 <!-- 576px(sm) 이상 2개의 col -->
                 <!-- 576px(xs) 이하 2개의 col -->
-                <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder">
-                    <img class="product-placeholoder-img" th:src="@{/img/shop-details/product-big-3.png}"
-                        src="/static/img/shop-details/product-big-3.png" alt="">
+                <!-- <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder">
+                    <a href="/templates/index.html" th:href="@{/}"><img class="product-placeholoder-img" th:src="@{/img/shop-details/product-big-3.png}"
+                            src="/static/img/shop-details/product-big-3.png" alt=""></a>
                     <div class="product-placeholder-exp">CAPT005</div>
                 </div>
                 <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder">
@@ -45,7 +51,7 @@
                     <img class="product-placeholoder-img" th:src="@{/img/shop-details/product-big-3.png}"
                         src="/static/img/shop-details/product-big-3.png" alt="">
                     <div class="product-placeholder-exp">CAPT005</div>
-                </div>
+                </div> -->
             </div>
         </div>
         <hr class="featurette-divider">
