@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
+ * (postgresql 에서 Order 는 예약어라서 OrderInfo 로함)
+ *
  * 한건의 주문당 하나의 OrderInfo
  * 대신 여러개의 상품을 주문했다면 OrderProduct 가 여러개가 된다
  * 그리고 어떤 하나의 상품의 수량이 여러개라면 그것또한 OrderProduct 의 count 에

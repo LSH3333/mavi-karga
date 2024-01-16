@@ -60,21 +60,23 @@ public class OrderController {
     }
 
 
-
     //  you can't redirect user in ajax requests!
-
+    // 장바구니 추가
     // OrderInfo 에 Product 추가
-    @GetMapping("/order/products/add")
-    public String addProductToOrder(@RequestParam("productId") String productId,
-                                    @ModelAttribute OrderProductDto orderProductDto, Principal principal) {
+    @PostMapping("/order/products/add")
+    public ResponseEntity<String> addProductToOrder(@RequestParam("productId") String productId,
+                                                    @ModelAttribute OrderProductDto orderProductDto,
+                                                    Principal principal) {
         log.info("HERE = {}", productId);
-//        User user = userService.findByUsername(principal.getName()).orElse(null);
+        User user = userService.findByUsername(principal.getName()).orElse(null);
         Product product = productService.findById(Long.parseLong(productId)).orElse(null);
-//        if(user == null || product == null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
-//        }
+        if(user == null || product == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
+        }
 
-        return "/order/products";
+//        orderService.order(user.getId(), )
+
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
 

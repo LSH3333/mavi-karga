@@ -14,9 +14,8 @@
         <p th:text="${product.description}"></p>
         <p th:text="${product.size}"></p>
 
-        <button onclick="addProduct()">장바구니 추가</button>
-        <a th:href="@{/order/products/add?productId={productId}(productId=${product.id})}">test</a>
-
+        <!-- <a th:href="@{/order/products/add?productId={productId}(productId=${product.id})}">test</a> -->
+        <button sec:authorize="isAuthenticated()" onclick="addProduct()">장바구니 추가</button>
         <a sec:authorize="isAnonymous()" th:href="@{/login}">구매하기 위해서 로그인해주세요!</a>
     </div>
 

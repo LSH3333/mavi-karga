@@ -30,7 +30,6 @@ public class SecurityConfig {
     }
 
 
-
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -46,11 +45,13 @@ public class SecurityConfig {
                         .requestMatchers("/payment/validate", "/payTest").permitAll()
                         .requestMatchers("/js/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
 
+                        // "ROLE_USER" or "ROLE_ADMIN" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
                         .requestMatchers("/bag", "/order/products/add")
-                        .hasRole("USER") // "ROLE_USER" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
+                            .hasAnyRole("USER", "ADMIN")
 
                         .requestMatchers("/admins/**")
-                        .hasRole("ADMIN") // "ROLE_ADMIN"
+                            .hasRole("ADMIN") // "ROLE_ADMIN"
+
 
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능
                 )
