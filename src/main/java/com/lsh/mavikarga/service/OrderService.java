@@ -4,19 +4,20 @@ import com.lsh.mavikarga.domain.OrderInfo;
 import com.lsh.mavikarga.domain.OrderProduct;
 import com.lsh.mavikarga.domain.Product;
 import com.lsh.mavikarga.domain.User;
+import com.lsh.mavikarga.dto.OrderProductDto;
 import com.lsh.mavikarga.repository.OrderRepository;
 import com.lsh.mavikarga.repository.ProductRepository;
 import com.lsh.mavikarga.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class OrderService {
 
     private final OrderRepository orderRepository;
@@ -67,5 +68,17 @@ public class OrderService {
 
         orderRepository.save(orderInfo);
         return orderInfo.getId();
+    }
+
+    public void createOrderInfo(OrderProductDto orderProductDto, Long userId) {
+        // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
+        Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+        if(product == null || user == null) {
+            return;
+        }
+        log.info("product.getId() = {}", product.getId());
+
+
     }
 }

@@ -25,9 +25,8 @@ public class Product {
     // Product description
     private String description;
 
-    // Product size (if applicable)
-//    private String size;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductSize> sizes = new ArrayList<>();
 
     // 재고 여부

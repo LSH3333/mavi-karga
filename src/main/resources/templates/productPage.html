@@ -10,53 +10,36 @@
 <body>
     <div>product page</div>
     <div>
-        <p th:text="${product.name}"></p>
-        <p th:text="${product.description}"></p>
-        <p th:text="${product.size}"></p>
+        <p th:text="${orderProductDto.name}"></p>
+        <p th:text="${orderProductDto.description}"></p>
 
-        <!-- <a th:href="@{/order/products/add?productId={productId}(productId=${product.id})}">test</a> -->
-        <button sec:authorize="isAuthenticated()" onclick="addProduct()">장바구니 추가</button>
-        <a sec:authorize="isAnonymous()" th:href="@{/login}">구매하기 위해서 로그인해주세요!</a>
-
-        <form  th:object="${orderProductDto}">
+        <form th:action="@{/order/products/add}" sec:authorize="isAuthenticated()" th:object="${orderProductDto}"
+            method="post">
+            <!-- 사이즈 -->
             <div class="mb-3">
                 <label for="size" class="form-label">사이즈</label>
-                <select th:field="*{size}" id="size" name="size" class="form-select">
-                    <option value="-" selected disabled hidden>사이즈</option>
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
+                <select th:field="*{selectedProductSizeId}" id="size" name="size" class="form-select">
+                    <option th:each="productSize : ${orderProductDto.productSizeList}" th:text="${productSize.size}"
+                        th:value="${productSize.id}">
+                    </option>
                 </select>
+            </div>
+            <!-- 갯수 -->
+            <div class="mb-3">
+                <label for="count">수량</label>
+                <input th:field="${orderProductDto.count}" type="number" id="count" name="count" min="1" max="100" />
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+
+        <!-- <button sec:authorize="isAuthenticated()" onclick="addProduct()">장바구니 추가</button> -->
+        <a sec:authorize="isAnonymous()" th:href="@{/login}">구매하기 위해서 로그인해주세요!</a>
+
+
     </div>
 
 
-    <script>
-        const productId = "[[${product.id}]]"
-        function addProduct() {
-            console.log('addProduct()')
 
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "/order/products/add?productId=" + productId, true);
-
-            xhr.onload = function () {
-                if (xhr.readyState == XMLHttpRequest.DONE) {
-                    if (xhr.status == 200) {
-
-                        console.log("order success");
-                    } else if (xhr.status == 302) {
-                        console.log('302')
-                    }
-                    else {
-                        console.log("order failed");
-                    }
-                }
-            }
-            xhr.send();
-        };
-    </script>
 </body>
 
 </html>
