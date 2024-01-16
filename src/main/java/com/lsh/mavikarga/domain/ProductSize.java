@@ -3,6 +3,9 @@ package com.lsh.mavikarga.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data
 public class ProductSize {
@@ -18,6 +21,9 @@ public class ProductSize {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @OneToMany(mappedBy = "productSize", cascade = CascadeType.ALL)
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
     public ProductSize() {}
 

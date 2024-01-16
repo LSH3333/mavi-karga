@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class OrderInfo {
     private User user;
 
     @OneToMany(mappedBy = "orderInfo", cascade = CascadeType.ALL)
-    private List<OrderProduct> orderProducts;
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
     // 주문 일자
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
