@@ -1,9 +1,13 @@
 package com.lsh.mavikarga.dto;
 
 import com.lsh.mavikarga.domain.Product;
+import com.lsh.mavikarga.domain.ProductSize;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 관리자 페이지에서 상품추가 폼 보내는 DTO
@@ -16,16 +20,9 @@ public class AddProductDto {
     private int price;
     @NotEmpty(message = "비어있을수 없습니다")
     private String description;
-    private String size;
     private boolean available;
 
-    public static AddProductDto createAddProductDto(Product product) {
-        AddProductDto addProductDto = new AddProductDto();
-        addProductDto.setName(product.getName());
-        addProductDto.setPrice(product.getPrice());
-        addProductDto.setDescription(product.getDescription());
-        addProductDto.setSize(product.getSize());
-        addProductDto.setAvailable(product.isAvailable());
-        return addProductDto;
-    }
+    private List<String> sizes = new ArrayList<>();
+
+
 }

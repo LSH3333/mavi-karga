@@ -21,7 +21,7 @@ public class ViewProductDto {
     private int price;
 
     // Product size (if applicable)
-    private String size;
+//    private String size;
 
     // 재고 여부
     private boolean available;
@@ -34,8 +34,6 @@ public class ViewProductDto {
             viewProductDto.setId(product.getId());
             viewProductDto.setName(product.getName());
             viewProductDto.setPrice(product.getPrice());
-            viewProductDto.setSize(product.getSize());
-            viewProductDto.setAvailable(product.isAvailable());
 
             viewProductDtoList.add(viewProductDto);
         }

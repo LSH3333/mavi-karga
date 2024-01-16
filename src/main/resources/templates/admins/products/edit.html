@@ -14,8 +14,8 @@
         </div>
 
         <!-- 상품추가 -->
-        <form action="/admins/products/edit" th:object="${addProductDto}" th:action="@{/admins/products/edit/{productId}(productId=${productId})}"
-            method="post">
+        <form action="/admins/products/edit" th:object="${addProductDto}"
+            th:action="@{/admins/products/edit/{productId}(productId=${productId})}" method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">상품명</label>
                 <input th:field="*{name}" type="text" class="form-control" id="name" name="name" placeholder="상품명">
@@ -33,24 +33,40 @@
                 <textarea th:field="*{description}" class="form-control" id="description" name="description"
                     rows="3"></textarea>
                 <!-- BindingError 에러 발생 -->
-                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" for="description" style="color:red"></span>
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" for="description"
+                    style="color:red"></span>
             </div>
             <div class="mb-3">
-                <label for="size" class="form-label">사이즈</label>
-                <select th:field="*{size}" id="size" name="size" class="form-select">
-                    <option value="-" selected disabled hidden>사이즈</option>
-                    <option value="S">S</option>
-                    <option value="M">M</option>
-                    <option value="L">L</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="available" class="form-label">재고</label>
-                <select th:field="*{available}" id="available" name="available" class="form-select">
-                    <option value="false" selected disabled hidden>재고</option>
-                    <option value="true">있음</option>
-                    <option value="false">없음</option>
-                </select>
+                <div class="form-check form-check-inline">
+                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXS"
+                        name="sizes" value="XS">
+                    <label class="form-check-label" for="inlineCheckboxXS">XS</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxS"
+                        name="sizes" value="S">
+                    <label class="form-check-label" for="inlineCheckboxS">S</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxM"
+                        name="sizes" value="M">
+                    <label class="form-check-label" for="inlineCheckboxM">M</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxL"
+                        name="sizes" value="L">
+                    <label class="form-check-label" for="inlineCheckboxL">L</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXL"
+                        name="sizes" value="XL">
+                    <label class="form-check-label" for="inlineCheckboxXL">XL</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXXL"
+                        name="sizes" value="XXL">
+                    <label class="form-check-label" for="inlineCheckboxXXL">XXL</label>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>

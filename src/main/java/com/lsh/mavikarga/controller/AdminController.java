@@ -47,7 +47,9 @@ public class AdminController {
             return "admins/products/add";
         }
 
-        Product product = new Product(addProductDto);
+        log.info("addProductDto = {}", addProductDto);
+
+        Product product = productService.createProductFromDto(addProductDto);
         productService.save(product);
 
         return "redirect:/admins/products/add";
@@ -70,12 +72,15 @@ public class AdminController {
     @GetMapping("/admins/products/edit/{productId}")
     public String editProductForm(Model model, @PathVariable Long productId) {
         Product product = productService.findById(productId).orElse(null);
-        if (product == null) {
+        AddProductDto addProductDto = productService.createAddProductDto(productId);
+
+        if (product == null || addProductDto == null) {
             return "error";
         }
-        AddProductDto addProductDto = AddProductDto.createAddProductDto(product);
+
         model.addAttribute("addProductDto", addProductDto);
         model.addAttribute("productId", productId);
+        log.info("addProductDto = {}", addProductDto);
         return "admins/products/edit";
     }
 
@@ -92,7 +97,7 @@ public class AdminController {
             // URL에 {productId} 경로 변수가 자동으로 포함.
             return "admins/products/edit";
         }
-
+        log.info("editProduct addProductDto = {}", addProductDto);
         // product 수정
         productService.updateWithAddProductDto(productId, addProductDto);
 

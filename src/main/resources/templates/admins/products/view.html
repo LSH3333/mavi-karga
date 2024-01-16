@@ -27,16 +27,16 @@
                 <tr>
                     <th scope="col">상품명</th>
                     <th scope="col">가격</th>
-                    <th scope="col">사이즈</th>
-                    <th scope="col">재고</th>
+                    <!-- <th scope="col">사이즈</th> -->
+                    <!-- <th scope="col">재고</th> -->
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="product: ${products}">
                     <td><a th:text="${product.name}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
                     <td><a th:text="${product.price}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
-                    <td><a th:text="${product.size}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
-                    <td><a th:text="${product.available} ? 'O' : 'X'" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
+                    <!-- <td><a th:text="${product.size}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td> -->
+                    <!-- <td><a th:text="${product.available} ? 'O' : 'X'" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td> -->
                 </tr>
             </tbody>
         </table>
