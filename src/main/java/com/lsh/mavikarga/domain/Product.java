@@ -33,7 +33,7 @@ public class Product {
 
     // 상품 존재 여부, Product를 제거하면 연관관계 등으로 문제 생길수 있기 때문에 제거하지는 않고 removed=true 로
     // 해서 admin, 사용자에게는 보이지 않도록 함
-    private boolean removed;
+    private boolean removed=false;
 
     public Product() {}
 

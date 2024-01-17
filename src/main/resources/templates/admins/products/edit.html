@@ -36,6 +36,7 @@
                 <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" for="description"
                     style="color:red"></span>
             </div>
+            <!-- 사이즈 -->
             <div class="mb-3">
                 <div class="form-check form-check-inline">
                     <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXS"
@@ -69,11 +70,22 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <!-- 제품 수정 버튼 -->
+            <button type="submit" class="btn btn-primary">제품 수정</button>
+            <!-- 제품 삭제 버튼 -->
+            <button onclick="sendDelete()" class="btn btn-danger">제품 삭제</button>
         </form>
 
     </main>
 
+    <script>        
+        function sendDelete() {
+            const productId = '[[${productId}]]'
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", "/admins/products/delete/"+productId);
+            xhr.send();
+        }
+    </script>
 </body>
 
 </html>

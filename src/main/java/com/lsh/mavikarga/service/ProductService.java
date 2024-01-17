@@ -34,6 +34,10 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
+    // product.removed=false 인 product 들 찾아 리턴
+    public List<Product> findNotRemovedProducts() {
+        return productRepository.findByRemovedFalse();
+    }
 
 
     ////////// 상품 추가 ////////////
@@ -86,5 +90,12 @@ public class ProductService {
         return true;
     }
 
+    ////////// 상품 제거 ////////////
+    // 객체를 제거하지는 않고, product.removed=true 로 만듦
+    public void makeProductRemovedTrue(Long productId) {
+        Product product = productRepository.findById(productId).orElse(null);
+        if(product == null) return;
+        product.setRemoved(true);
+    }
 
 }

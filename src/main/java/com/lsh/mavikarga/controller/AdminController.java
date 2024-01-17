@@ -58,8 +58,7 @@ public class AdminController {
     // 상품 목록
     @GetMapping("/admins/products/view")
     public String listProductForm(Model model) {
-
-        List<Product> allProducts = productService.findAll();
+        List<Product> allProducts = productService.findNotRemovedProducts();
         List<ViewProductDto> viewProductDtoList = ViewProductDto.createViewProductDtoList(allProducts);
         model.addAttribute("products", viewProductDtoList);
 
@@ -105,5 +104,9 @@ public class AdminController {
     }
 
     // 상품 제거
-
+    @DeleteMapping("/admins/products/delete/{productId}")
+    public String deleteProduct(@PathVariable Long productId) {
+        productService.makeProductRemovedTrue(productId);
+        return "redirect:/admins/products/view";
+    }
 }
