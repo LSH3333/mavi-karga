@@ -21,7 +21,7 @@
     <style>
         .product_detail_pic {
             text-align: center;
-            /* background: #f3f2ee; */
+            background: #f3f2ee;
             padding: 40px 0 60px;
             margin-bottom: 100px;
         }
@@ -67,7 +67,7 @@
 
 <body layout:fragment="content">
     <main>
-        <!-- custom nav-bar -->
+        <!-- 제품 이미지 시작 -->
         <section>
             <div class="product_detail_pic">
                 <div class="container">
@@ -136,36 +136,58 @@
                 </div>
             </div>
         </section>
+        <!-- 제품 이미지 끝 -->
 
-
-        <div>
-            <p th:text="${orderProductDto.name}"></p>
-            <p th:text="${orderProductDto.description}"></p>
-
-            <!-- 로그인 해야 보이는 영역 -->
-            <form id="formData" th:action="@{/order/products/add}" sec:authorize="isAuthenticated()"
-                th:object="${orderProductDto}" method="post">
-                <!-- 사이즈 -->
-                <div class="mb-3">
-                    <label for="size" class="form-label">사이즈</label>
-                    <select th:field="*{selectedProductSizeId}" id="size" name="size" class="form-select">
-                        <option th:each="productSize : ${orderProductDto.productSizeList}" th:text="${productSize.size}"
-                            th:value="${productSize.id}">
-                        </option>
-                    </select>
+        <!-- 제품 구매 시작 -->
+        <section>
+            <div class="product_detail_content">
+                <div class="container">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-lg-8">
+                            <div class="product_detail_text">
+                                <h4 th:text="${orderProductDto.name}"></h4>
+                                <!-- <h3>가격</h3> -->
+                                <p th:text="${orderProductDto.description}"></p>
+                                <!-- 로그인 해야 보이는 영역 -->
+                                <div sec:authorize="isAuthenticated()">
+                                    <form id="formData" th:action="@{/order/products/add}"
+                                        th:object="${orderProductDto}" method="post">
+                                        <!-- 사이즈 -->
+                                        <div class="mb-3">
+                                            <label for="size" class="form-label">사이즈</label>
+                                            <select th:field="*{selectedProductSizeId}" id="size" name="size"
+                                                class="form-select">
+                                                <option th:each="productSize : ${orderProductDto.productSizeList}"
+                                                    th:text="${productSize.size}" th:value="${productSize.id}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <!-- 갯수 -->
+                                        <div class="mb-3">
+                                            <label for="count">수량</label>
+                                            <input th:field="${orderProductDto.count}" type="number" id="count"
+                                                name="count" min="1" max="100" />
+                                        </div>
+                                        <!-- <button id="submitBtn" type="submit" class="btn btn-dark btn-sm">장바구니
+                                            추가</button> -->
+                                        <!-- 장바구니 추가 완료 알림 -->
+                                        <button type="submit" class="btn btn-dark btn-sm mb-5" id="submitBtn">장바구니
+                                            추가</button>
+                                        <div id="liveAlertPlaceholder"></div>
+                                    </form>
+                                </div>
+                                <!-- 로그인 없이 보이는 영역 -->
+                                <a class="btn btn-dark btn-sm" sec:authorize="isAnonymous()" th:href="@{/login}">구매하기
+                                    위해서 로그인해주세요!</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="featurette-divider">
                 </div>
-                <!-- 갯수 -->
-                <div class="mb-3">
-                    <label for="count">수량</label>
-                    <input th:field="${orderProductDto.count}" type="number" id="count" name="count" min="1"
-                        max="100" />
-                </div>
-                <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            </div>
+        </section>
+        <!-- 제품 구매 끝 -->
 
-            <!-- 로그인 없이 보이는 영역 -->
-            <a sec:authorize="isAnonymous()" th:href="@{/login}">구매하기 위해서 로그인해주세요!</a>
-        </div>
     </main>
 
     <!-- submit form ajax -->
@@ -199,6 +221,29 @@
                 }
                 xhr.send(formData);
             };
+        }
+    </script>
+
+    <!-- alert bootstrap -->
+    <script>
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        const appendAlert = (message, type) => {
+            const wrapper = document.createElement('div')
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
+
+            alertPlaceholder.append(wrapper)
+        }
+
+        const alertTrigger = document.getElementById('submitBtn')
+        if (alertTrigger) {
+            alertTrigger.addEventListener('click', () => {
+                appendAlert('상품이 장바구니에 담겼습니다.', 'success')
+            })
         }
     </script>
 </body>

@@ -17,7 +17,7 @@ public class OrderProductDto {
 
     // 사용자에게 입력 받을 데이터들
     private Long selectedProductSizeId;
-    private int count;
+    private int count = 1;
 
 
     public OrderProductDto() {}
