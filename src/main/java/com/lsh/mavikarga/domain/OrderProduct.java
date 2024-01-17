@@ -25,12 +25,13 @@ public class OrderProduct {
     @JoinColumn(name = "order_info_id")
     private OrderInfo orderInfo;
 
+    // 구매한 상품 개당 가격
     private int orderPrice;
+    // 구매한 갯수
     private int count;
 
     public static OrderProduct createOrderProduct(ProductSize productSize, int orderPrice, int count) {
         OrderProduct orderProduct = new OrderProduct();
-//        orderProduct.setProduct(product);
         orderProduct.setProductSize(productSize);
         orderProduct.setOrderPrice(orderPrice);
         orderProduct.setCount(count);
