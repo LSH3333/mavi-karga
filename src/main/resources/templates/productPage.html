@@ -1,41 +1,172 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http//www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>mavi karga</title>
+
+
+    <!-- Css Styles -->
+    <!-- <link rel="stylesheet" th:href="@{/css/fashion/}" href="css/bootstrap.min.css" type="text/css"> -->
+    <!-- <link rel="stylesheet" th:href="@{/css/fashion/font-awesome.min.css}" href="css/font-awesome.min.css"
+        type="text/css">
+    <link rel="stylesheet" th:href="@{/css/fashion/elegant-icons.css}" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/fashion/magnific-popup.css}" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/fashion/nice-select.css}" href="css/nice-select.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/fashion/owl.carousel.min.css}" href="css/owl.carousel.min.css"
+        type="text/css">
+    <link rel="stylesheet" th:href="@{/css/fashion/slicknav.min.css}" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/fashion/style.css}" href="css/style.css" type="text/css"> -->
+
+    <style>
+        .product_detail_pic {
+            text-align: center;
+            /* background: #f3f2ee; */
+            padding: 40px 0 60px;
+            margin-bottom: 100px;
+        }
+
+        .product_detail_pic .nav-tabs {
+            border-bottom: none;
+            width: 105px;
+        }
+
+        .product_detail_pic .nav-tabs .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .product_detail_pic .nav-tabs .nav-item .nav-link {
+            padding: 0;
+            display: block;
+        }
+
+        .product_detail_pic_item {
+            position: relative;
+        }
+
+        .product_detail_pic .nav-link.active {
+            border-color: transparent;
+        }
+
+        .product_detail_pic .nav-link:hover {
+            isolation: unset;
+            border-color: transparent;
+        }
+
+        /* Medium devices (tablets, 768px and up) */
+        /* width 768px 이하 시 .nav-tabs 이미지들 행 배치 */
+        @media (max-width: 768px) {
+            .product_detail_pic .nav-tabs {
+                width: auto;
+                margin-bottom: 40px;
+                flex-direction: row !important;
+            }
+        }
+    </style>
 </head>
 
-<body>
-    <div>product page</div>
-    <div>
-        <p th:text="${orderProductDto.name}"></p>
-        <p th:text="${orderProductDto.description}"></p>
-
-        <!-- 로그인 해야 보이는 영역 -->
-        <form id="formData" th:action="@{/order/products/add}" sec:authorize="isAuthenticated()"
-            th:object="${orderProductDto}" method="post">
-            <!-- 사이즈 -->
-            <div class="mb-3">
-                <label for="size" class="form-label">사이즈</label>
-                <select th:field="*{selectedProductSizeId}" id="size" name="size" class="form-select">
-                    <option th:each="productSize : ${orderProductDto.productSizeList}" th:text="${productSize.size}"
-                        th:value="${productSize.id}">
-                    </option>
-                </select>
+<body layout:fragment="content">
+    <main>
+        <!-- custom nav-bar -->
+        <section>
+            <div class="product_detail_pic">
+                <div class="container">
+                    <div class="row">
+                        <!-- 좌측 작은 이미지 목록 -->
+                        <div class="col-lg-3 col-md-3">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home-tab-pane" type="button" role="tab"
+                                        aria-controls="home-tab-pane" aria-selected="true"><img src=""
+                                            th:src="@{/img/shop-details/thumb-1.png}" alt=""></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#profile-tab-pane" type="button" role="tab"
+                                        aria-controls="profile-tab-pane" aria-selected="false"><img src=""
+                                            th:src="@{/img/shop-details/thumb-2.png}" alt=""></button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+                                        data-bs-target="#contact-tab-pane" type="button" role="tab"
+                                        aria-controls="contact-tab-pane" aria-selected="false">
+                                        <img src="" th:src="@{/img/shop-details/thumb-3.png}" alt="">
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="disabled-tab" data-bs-toggle="tab"
+                                        data-bs-target="#disabled-tab-pane" type="button" role="tab"
+                                        aria-controls="disabled-tab-pane" aria-selected="false"> <img src=""
+                                            th:src="@{/img/shop-details/thumb-4.png}" alt="">
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- 우측 큰 이미지 -->
+                        <div class="col-lg-6 col-md-9">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
+                                    aria-labelledby="home-tab" tabindex="0">
+                                    <div class="product_detail_pic_item">
+                                        <img th:src="@{/img/shop-details/product-big-2.png}" src="" alt="">
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel"
+                                    aria-labelledby="profile-tab" tabindex="0">
+                                    <div class="product_detail_pic_item">
+                                        <img th:src="@{/img/shop-details/product-big-3.png}" src="" alt="">
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel"
+                                    aria-labelledby="contact-tab" tabindex="0">
+                                    <div class="product_detail_pic_item">
+                                        <img th:src="@{/img/shop-details/product-big.png}" src="" alt="">
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel"
+                                    aria-labelledby="disabled-tab" tabindex="0">
+                                    <div class="product_detail_pic_item">
+                                        <img th:src="@{/img/shop-details/product-big-4.png}" src="" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- 갯수 -->
-            <div class="mb-3">
-                <label for="count">수량</label>
-                <input th:field="${orderProductDto.count}" type="number" id="count" name="count" min="1" max="100" />
-            </div>
-            <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </section>
 
-        <!-- 로그인 없이 보이는 영역 -->
-        <a sec:authorize="isAnonymous()" th:href="@{/login}">구매하기 위해서 로그인해주세요!</a>
-    </div>
+
+        <div>
+            <p th:text="${orderProductDto.name}"></p>
+            <p th:text="${orderProductDto.description}"></p>
+
+            <!-- 로그인 해야 보이는 영역 -->
+            <form id="formData" th:action="@{/order/products/add}" sec:authorize="isAuthenticated()"
+                th:object="${orderProductDto}" method="post">
+                <!-- 사이즈 -->
+                <div class="mb-3">
+                    <label for="size" class="form-label">사이즈</label>
+                    <select th:field="*{selectedProductSizeId}" id="size" name="size" class="form-select">
+                        <option th:each="productSize : ${orderProductDto.productSizeList}" th:text="${productSize.size}"
+                            th:value="${productSize.id}">
+                        </option>
+                    </select>
+                </div>
+                <!-- 갯수 -->
+                <div class="mb-3">
+                    <label for="count">수량</label>
+                    <input th:field="${orderProductDto.count}" type="number" id="count" name="count" min="1"
+                        max="100" />
+                </div>
+                <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            <!-- 로그인 없이 보이는 영역 -->
+            <a sec:authorize="isAnonymous()" th:href="@{/login}">구매하기 위해서 로그인해주세요!</a>
+        </div>
+    </main>
 
     <!-- submit form ajax -->
     <script>
@@ -50,7 +181,7 @@
                 console.log('submitForm()')
                 let formData = new FormData(document.getElementById('formData'))
 
-                const xhr = new XMLHttpRequest();            
+                const xhr = new XMLHttpRequest();
                 xhr.open("POST", "/order/products/add", true);
 
                 xhr.onload = function () {
@@ -69,11 +200,7 @@
                 xhr.send(formData);
             };
         }
-
-
-
     </script>
-
 </body>
 
 </html>
