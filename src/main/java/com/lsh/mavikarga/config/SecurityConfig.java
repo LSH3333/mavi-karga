@@ -50,8 +50,8 @@ public class SecurityConfig {
                             .hasAnyRole("USER", "ADMIN")
 
                         .requestMatchers("/admins/**").permitAll() // 관리자 전용인데 개발용으로 열어놓음, 나중에 닫기
-                        .requestMatchers("/admins/**")
-                            .hasRole("ADMIN") // "ROLE_ADMIN"
+//                        .requestMatchers("/admins/**")
+//                            .hasRole("ADMIN") // "ROLE_ADMIN"
 
 
                         .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능

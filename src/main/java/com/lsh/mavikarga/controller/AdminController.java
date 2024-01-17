@@ -104,4 +104,6 @@ public class AdminController {
         return "redirect:/admins/products/view";
     }
 
+    // 상품 제거
+
 }
