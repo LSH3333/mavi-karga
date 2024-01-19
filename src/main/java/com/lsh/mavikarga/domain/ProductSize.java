@@ -14,10 +14,6 @@ public class ProductSize {
     @Column(name = "product_size_id")
     private Long id;
 
-    private String size;
-
-    private boolean available = false;
-
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
@@ -28,6 +24,12 @@ public class ProductSize {
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
+
+
+    private String size;
+
+    private boolean available = false;
+
 
     public ProductSize() {}
 

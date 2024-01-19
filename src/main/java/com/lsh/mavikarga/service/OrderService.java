@@ -1,6 +1,7 @@
 package com.lsh.mavikarga.service;
 
 import com.lsh.mavikarga.domain.*;
+import com.lsh.mavikarga.dto.CartProductDto;
 import com.lsh.mavikarga.dto.OrderProductDto;
 import com.lsh.mavikarga.repository.*;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -53,6 +55,8 @@ public class OrderService {
         // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
         Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
         ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        // 사용자가 구매한 갯수
+        int count = orderProductDto.getCount();
         User user = userRepository.findById(userId).orElse(null);
 
         if (user == null || productSize == null || product == null) {
@@ -72,5 +76,17 @@ public class OrderService {
         return true;
     }
 
+    // 장바구니 조회
+    public void makeCart(User user) {
+        Cart cart = user.getCart();
+        List<ProductSize> productSizes = cart.getProductSizes();
+        for (ProductSize productSize : productSizes) {
+            Optional<Product> productOptional = productRepository.findBySizes_id(productSize.getId());
+            if (productOptional.isPresent()) {
+                Product product = productOptional.get();
+//                new CartProductDto(product.getName(), product.getPrice(), )
+            }
+        }
+    }
 
 }

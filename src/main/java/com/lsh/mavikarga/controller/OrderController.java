@@ -89,6 +89,8 @@ public class OrderController {
     // 장바구니
     @GetMapping("/order/cart")
     public String cartForm(Principal principal) {
+        User user = userService.findByUsername(principal.getName()).orElse(null);
+
         return "cart";
     }
 }
