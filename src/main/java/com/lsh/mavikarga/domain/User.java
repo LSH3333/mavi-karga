@@ -37,6 +37,10 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<OrderInfo> orderInfos;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id", unique = true) // 연관관계 주인
+    private Cart cart;
+
     public User() {}
 
     // oauth2 register
@@ -48,5 +52,10 @@ public class User {
         this.provider = provider;
         this.provider_id = providerId;
         this.createdTime = createdTime;
+    }
+
+    public void createCart(Cart cart) {
+        this.cart = cart;
+        this.cart.setUser(this);
     }
 }

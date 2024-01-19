@@ -25,6 +25,10 @@ public class ProductSize {
     @OneToMany(mappedBy = "productSize", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
     public ProductSize() {}
 
     public ProductSize(String size, Product product) {

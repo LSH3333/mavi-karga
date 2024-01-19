@@ -31,6 +31,10 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
+    @GetMapping("/payTest")
+    public String payTest() {
+        return "payments/payTest";
+    }
 
     /**
      * impUid 로 결재내역 조회

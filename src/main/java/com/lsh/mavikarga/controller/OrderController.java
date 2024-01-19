@@ -76,10 +76,19 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
         }
 
-        orderService.createOrderInfo(orderProductDto, user.getId());
+        // 여기서는 OrderInfo 를 만들고 있는데 생각해보니까 장바구니 (cart) 에 추가해야 함
+//        orderService.createOrderInfo(orderProductDto, user.getId());
+        if (!orderService.addToCart(orderProductDto, user.getId())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
+        }
 
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
 
+    // 장바구니
+    @GetMapping("/order/cart")
+    public String cartForm(Principal principal) {
+        return "cart";
+    }
 }

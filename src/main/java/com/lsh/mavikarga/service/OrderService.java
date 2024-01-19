@@ -2,10 +2,7 @@ package com.lsh.mavikarga.service;
 
 import com.lsh.mavikarga.domain.*;
 import com.lsh.mavikarga.dto.OrderProductDto;
-import com.lsh.mavikarga.repository.OrderRepository;
-import com.lsh.mavikarga.repository.ProductRepository;
-import com.lsh.mavikarga.repository.ProductSizeRepository;
-import com.lsh.mavikarga.repository.UserRepository;
+import com.lsh.mavikarga.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,53 +19,18 @@ public class OrderService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ProductSizeRepository productSizeRepository;
+    private final CartRepository cartRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository, ProductSizeRepository productSizeRepository) {
+    public OrderService(OrderRepository orderRepository, UserRepository userRepository,
+                        ProductRepository productRepository, ProductSizeRepository productSizeRepository,
+                        CartRepository cartRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
         this.productSizeRepository = productSizeRepository;
+        this.cartRepository = cartRepository;
     }
-
-    /**
-     * 1개 이상의 Product의 OrderInfo 생성
-     * @param userId: 구매한 User id
-     * @param productIdList: 구매하는 물품의 id 리스트
-     * @param countList: 구매하는 물품의 갯수 리스트
-     * @return orderInfo.getId(): 생성된 OrderInfo 의 id
-     */
-//    public Long order(Long userId, List<Long> productIdList, List<Integer> countList) {
-//        User user = userRepository.findById(userId).orElse(null);
-//
-//        // OrderProduct 생성
-//        OrderProduct[] orderProducts = new OrderProduct[productIdList.size()];
-//        for(int i = 0; i < productIdList.size(); i++) {
-//            int count = countList.get(i);
-//            Product product = productRepository.findById(productIdList.get(i)).orElse(null);
-//            OrderProduct orderProduct = OrderProduct.createOrderProduct(product, product.getPrice(), count);
-//            orderProducts[i] = orderProduct;
-//        }
-//
-//        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProducts);
-//        orderRepository.save(orderInfo);
-//        return orderInfo.getId();
-//    }
-//
-//    // 단건 Product 의 OrderInfo 생성
-//    public Long order(Long userId, Long productId, int count) {
-//        User user = userRepository.findById(userId).orElse(null);
-//        Product product = productRepository.findById(productId).orElse(null);
-//
-//        // OrderProduct 생성
-//        OrderProduct orderProduct = OrderProduct.createOrderProduct(product, product.getPrice(), count);
-//
-//        // Order 생성
-//        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProduct);
-//
-//        orderRepository.save(orderInfo);
-//        return orderInfo.getId();
-//    }
 
     public void createOrderInfo(OrderProductDto orderProductDto, Long userId) {
         // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
@@ -85,4 +47,30 @@ public class OrderService {
 
         orderRepository.save(orderInfo);
     }
+
+    // 장바구니 추가
+    public boolean addToCart(OrderProductDto orderProductDto, Long userId) {
+        // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
+        Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user == null || productSize == null || product == null) {
+            return false;
+        }
+
+        // 장바구니 없으면 새로 생성, 관계 연결
+        Cart cart = user.getCart();
+        if (cart == null) {
+            cart = new Cart();
+            cartRepository.save(cart);
+            user.createCart(cart);
+        }
+        // 장바구니에 상품 추가
+        cart.addProductSizeToCart(productSize);
+
+        return true;
+    }
+
+
 }

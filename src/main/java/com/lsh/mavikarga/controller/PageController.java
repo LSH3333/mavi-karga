@@ -27,9 +27,6 @@ public class PageController {
 
     ///////
 
-    @GetMapping("/payTest")
-    public String payTest() {
-        return "payments/payTest";
-    }
+
 
 }
