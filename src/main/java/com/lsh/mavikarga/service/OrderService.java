@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,24 +35,25 @@ public class OrderService {
         this.cartRepository = cartRepository;
     }
 
-    public void createOrderInfo(OrderProductDto orderProductDto, Long userId) {
-        // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
-        Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
-        ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
-        User user = userRepository.findById(userId).orElse(null);
-
-        log.info("product.getId() = {}", product.getId());
-
-        // OrderProduct 생성
-        OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, product.getPrice(), orderProductDto.getCount());
-        // Order 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProduct);
-
-        orderRepository.save(orderInfo);
-    }
+//    public void createOrderInfo(OrderProductDto orderProductDto, Long userId) {
+//        // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
+//        Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
+//        ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
+//        User user = userRepository.findById(userId).orElse(null);
+//
+//        log.info("product.getId() = {}", product.getId());
+//
+//        // OrderProduct 생성
+//        OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, product.getPrice(), orderProductDto.getCount());
+//        // Order 생성
+//        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProduct);
+//
+//        orderRepository.save(orderInfo);
+//    }
 
     // 장바구니 추가
-    public boolean addToCart(OrderProductDto orderProductDto, Long userId) {
+    public boolean addCart(OrderProductDto orderProductDto, Long userId) {
+
         // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
         Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
         ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
@@ -63,30 +65,28 @@ public class OrderService {
             return false;
         }
 
-        // 장바구니 없으면 새로 생성, 관계 연결
-        Cart cart = user.getCart();
-        if (cart == null) {
-            cart = new Cart();
-            cartRepository.save(cart);
-            user.createCart(cart);
-        }
-        // 장바구니에 상품 추가
-        cart.addProductSizeToCart(productSize);
+        Cart cart = new Cart(productSize, count, user);
+        cartRepository.save(cart);
 
         return true;
     }
 
-    // 장바구니 조회
-    public void makeCart(User user) {
-        Cart cart = user.getCart();
-        List<ProductSize> productSizes = cart.getProductSizes();
-        for (ProductSize productSize : productSizes) {
-            Optional<Product> productOptional = productRepository.findBySizes_id(productSize.getId());
-            if (productOptional.isPresent()) {
-                Product product = productOptional.get();
-//                new CartProductDto(product.getName(), product.getPrice(), )
-            }
+    // 장바구니 조회폼 위한 CartProductDto 리스트 생성 후 리턴
+    // 사용자가 보유중인 장바구니 조회
+    public List<CartProductDto> createCartProductDtoList(Long userId) {
+        List<CartProductDto> cartProductDtos = new ArrayList<>();
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null) {
+            return null;
         }
+        List<Cart> carts = user.getCarts();
+        for (Cart cart : carts) {
+            ProductSize productSize = cart.getProductSize();
+            Product product = productSize.getProduct();
+            CartProductDto cartProductDto = new CartProductDto(product.getName(), product.getPrice(), cart.getCount());
+            cartProductDtos.add(cartProductDto);
+        }
+        return cartProductDtos;
     }
 
 }

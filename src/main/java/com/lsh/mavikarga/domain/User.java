@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,6 +18,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
+
+    // 주문 리스트
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<OrderInfo> orderInfos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Cart> carts = new ArrayList<>();
+
+
+
 
     @NotEmpty(message = "비어있을수 없습니다")
     private String username;
@@ -33,13 +44,9 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdTime;
 
-    // 주문 리스트
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<OrderInfo> orderInfos;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id", unique = true) // 연관관계 주인
-    private Cart cart;
+
+
 
     public User() {}
 
@@ -54,8 +61,8 @@ public class User {
         this.createdTime = createdTime;
     }
 
-    public void createCart(Cart cart) {
-        this.cart = cart;
-        this.cart.setUser(this);
-    }
+//    public void createCart(Cart cart) {
+//        this.cart = cart;
+//        this.cart.setUser(this);
+//    }
 }

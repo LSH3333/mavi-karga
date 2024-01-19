@@ -15,20 +15,28 @@ public class Cart {
     @Column(name = "cart_id")
     private Long id;
 
-    @OneToOne(mappedBy = "cart", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<ProductSize> productSizes = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_size_id")
+    private ProductSize productSize;
 
-
-
+    // 제품 갯수
+    private int count;
 
 
     public Cart() {}
 
-    public void addProductSizeToCart(ProductSize productSize) {
-        this.productSizes.add(productSize);
-        productSize.setCart(this);
+    public Cart(ProductSize productSize, int count, User user) {
+        this.productSize = productSize;
+        this.productSize.getCarts().add(this);
+
+        this.user = user;
+        this.user.getCarts().add(this);
+
+        this.count = count;
     }
+
 }

@@ -4,11 +4,45 @@
 
 <head>
     <title>mavi karga</title>
-    
+
 </head>
 
 <body layout:fragment="content">
-    
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">장바구니</h1>
+        </div>
+
+        <!-- 상품추가 -->
+        <!-- <form action="/admins/products/add" th:action="@{/admins/products/add}" method="post">
+
+            <div th:each="cartProductDto: ${cartProductDtoList}">
+                <p th:text="${cartProductDto.name}"></p>
+                <p th:text="${cartProductDto.price}"></p>
+                <p th:text="${cartProductDto.count}"></p>
+
+
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form> -->
+
+        <form th:action="@{/order/cart}" method="post">
+            <table>
+                <tr th:each="cartProductDto : ${cartProductDtoList}">
+                    <td th:text="${cartProductDto.name}"></td>
+                    <td th:text="${cartProductDto.price}"></td>
+                    <td>
+                        <input type="number" name="count" th:value="${cartProductDto.count}" />
+                    </td>
+                    <!-- Add other fields as needed -->
+                </tr>
+            </table>
+            <button type="submit">Update Cart</button>
+        </form>
+
+    </main>
 </body>
 
 </html>

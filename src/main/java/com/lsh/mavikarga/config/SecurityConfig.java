@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/js/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
 
                         // "ROLE_USER" or "ROLE_ADMIN" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
-                        .requestMatchers("/bag", "/order/products/add")
+                        .requestMatchers("/bag", "/order/products/add", "/order/cart")
                             .hasAnyRole("USER", "ADMIN")
 
                         .requestMatchers("/admins/**").permitAll() // 관리자 전용인데 개발용으로 열어놓음, 나중에 닫기

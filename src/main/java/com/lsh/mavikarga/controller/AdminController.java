@@ -47,8 +47,6 @@ public class AdminController {
             return "admins/products/add";
         }
 
-        log.info("addProductDto = {}", addProductDto);
-
         Product product = productService.createProductFromDto(addProductDto);
         productService.save(product);
 

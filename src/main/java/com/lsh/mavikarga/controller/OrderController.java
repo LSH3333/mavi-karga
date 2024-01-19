@@ -2,6 +2,7 @@ package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.Product;
 import com.lsh.mavikarga.domain.User;
+import com.lsh.mavikarga.dto.CartProductDto;
 import com.lsh.mavikarga.dto.OrderProductDto;
 import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.ProductService;
@@ -62,7 +63,6 @@ public class OrderController {
 
     //  you can't redirect user in ajax requests!
     // 장바구니 추가
-    // OrderInfo 에 Product 추가
     @PostMapping("/order/products/add")
     public ResponseEntity<String> addProductToOrder(
             @ModelAttribute OrderProductDto orderProductDto,
@@ -76,21 +76,37 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
         }
 
-        // 여기서는 OrderInfo 를 만들고 있는데 생각해보니까 장바구니 (cart) 에 추가해야 함
-//        orderService.createOrderInfo(orderProductDto, user.getId());
-        if (!orderService.addToCart(orderProductDto, user.getId())) {
+        // 장바구니 추가
+        if (!orderService.addCart(orderProductDto, user.getId())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
         }
+
 
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
 
-    // 장바구니
+    // todo: CartProductDto 를 리스트로 갖는 DTO 만들어서 클라이언트에 보내기. 그리고 post 로 받기.
+    // 장바구니 폼
     @GetMapping("/order/cart")
-    public String cartForm(Principal principal) {
+    public String cartForm(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName()).orElse(null);
+
+        // 사용자 장바구니 담긴 상품들 보여주기
+        List<CartProductDto> cartProductDtoList = orderService.createCartProductDtoList(user.getId());
+        model.addAttribute("cartProductDtoList", cartProductDtoList);
+
+
+        // 사용자가 최종 결정한 내용 (장바구니 페이지에서 골랐던 제품 제거할수도 있고 갯수 변경할수도 있음)
+
 
         return "cart";
     }
+
+    @PostMapping("/order/cart")
+    public String cart(@ModelAttribute("cartProductDtoList") List<CartProductDto> cartProductDtoList) {
+
+        return "index";
+    }
+
 }
