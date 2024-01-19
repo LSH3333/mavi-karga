@@ -35,8 +35,8 @@ public class OrderController {
     // 전체 상품 페이지
     @GetMapping("/clothing")
     public String products(Model model) {
-        // 전체 상품 가져와서 뿌린다
-        List<Product> products = productService.findAll();
+        // 전체 상품(product.removed=false 인 상품) 가져와서 뿌린다
+        List<Product> products = productService.findNotRemovedProducts();
         model.addAttribute("products", products);
         model.addAttribute("menu", "clothing");
         return "clothing";

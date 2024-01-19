@@ -58,6 +58,7 @@ public class AdminController {
     // 상품 목록
     @GetMapping("/admins/products/view")
     public String listProductForm(Model model) {
+        // product.removed=false 인 상품들만 가져옴
         List<Product> allProducts = productService.findNotRemovedProducts();
         List<ViewProductDto> viewProductDtoList = ViewProductDto.createViewProductDtoList(allProducts);
         model.addAttribute("products", viewProductDtoList);
