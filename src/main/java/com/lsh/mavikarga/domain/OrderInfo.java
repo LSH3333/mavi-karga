@@ -36,7 +36,7 @@ public class OrderInfo {
 
     // 주문 일자
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    private LocalDateTime orderData;
+    private LocalDateTime orderDate;
 
     public void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
@@ -54,7 +54,7 @@ public class OrderInfo {
         for (OrderProduct orderProduct : orderProducts) {
             orderInfo.addOrderProduct(orderProduct);
         }
-        orderInfo.setOrderData(LocalDateTime.now());
+        orderInfo.setOrderDate(LocalDateTime.now());
         return orderInfo;
     }
 

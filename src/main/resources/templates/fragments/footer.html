@@ -5,7 +5,7 @@
     <!-- FOOTER -->
     <footer class="container">
         <p class="float-end"><a href="#">Back to top</a></p>
-        <p>&copy; 2017–2023 Mavi-karga. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+        <p>&copy; 2017–2023 Mavi-karga. &middot; <a sec:authorize="isAuthenticated()" th:href="@{/order/cart}">장바구니</a> &middot; <a sec:authorize="isAuthenticated()" th:href="@{/admins/products/view}">admin</a></p>
     </footer>
 </div>
 
