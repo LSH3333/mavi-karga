@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 관리자 페이지 상품 리스트 DTO
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 public class ViewProductDto {
     // Product id
-    private Long id;
+    private UUID id;
 
     // 상품명
     private String name;

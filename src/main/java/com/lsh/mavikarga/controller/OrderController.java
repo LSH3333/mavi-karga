@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -46,10 +47,10 @@ public class OrderController {
 
     // 단일 상품 페이지
     @GetMapping("/order/products")
-    public String productForm(Model model, @RequestParam String productId) {
+    public String productForm(Model model, @RequestParam UUID productId) {
         log.info("productForm");
 
-        Product product = productService.findById(Long.parseLong(productId)).orElse(null);
+        Product product = productService.findById(productId).orElse(null);
         if (product == null) {
             return "error";
         }

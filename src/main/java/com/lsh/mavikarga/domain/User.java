@@ -61,8 +61,5 @@ public class User {
         this.createdTime = createdTime;
     }
 
-//    public void createCart(Cart cart) {
-//        this.cart = cart;
-//        this.cart.setUser(this);
-//    }
+
 }

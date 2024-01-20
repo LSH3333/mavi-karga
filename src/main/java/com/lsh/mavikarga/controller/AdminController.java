@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -68,7 +69,7 @@ public class AdminController {
 
     // 상품 수정
     @GetMapping("/admins/products/edit/{productId}")
-    public String editProductForm(Model model, @PathVariable Long productId) {
+    public String editProductForm(Model model, @PathVariable UUID productId) {
         Product product = productService.findById(productId).orElse(null);
         AddProductDto addProductDto = productService.createAddProductDto(productId);
 
@@ -83,7 +84,7 @@ public class AdminController {
     }
 
     @PostMapping("/admins/products/edit/{productId}")
-    public String editProduct(@PathVariable Long productId,
+    public String editProduct(@PathVariable UUID productId,
                               @Valid @ModelAttribute("addProductDto") AddProductDto addProductDto,
                               BindingResult bindingResult) {
 
@@ -104,7 +105,7 @@ public class AdminController {
 
     // 상품 제거
     @DeleteMapping("/admins/products/delete/{productId}")
-    public String deleteProduct(@PathVariable Long productId) {
+    public String deleteProduct(@PathVariable UUID productId) {
         productService.makeProductRemovedTrue(productId);
         return "redirect:/admins/products/view";
     }

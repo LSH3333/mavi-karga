@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -30,7 +31,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Optional<Product> findById(Long id) {
+    public Optional<Product> findById(UUID id) {
         return productRepository.findById(id);
     }
 
@@ -55,7 +56,7 @@ public class ProductService {
 
     ////////// 상품 수정 ////////////
     // 상품수정으로 보내기 위한 product 로 addProductDto 만듦
-    public AddProductDto createAddProductDto(Long productId) {
+    public AddProductDto createAddProductDto(UUID productId) {
         Product product = findById(productId).orElse(null);
         if(product == null) {
             return null;
@@ -78,7 +79,7 @@ public class ProductService {
 
 
     // 상품수정폼에서 받은 addProductDto 로 상품 수정
-    public boolean updateWithAddProductDto(Long id, AddProductDto addProductDto) {
+    public boolean updateWithAddProductDto(UUID id, AddProductDto addProductDto) {
         Product product = findById(id).orElse(null);
         if(product == null) return false;
 
@@ -92,7 +93,7 @@ public class ProductService {
 
     ////////// 상품 제거 ////////////
     // 객체를 제거하지는 않고, product.removed=true 로 만듦
-    public void makeProductRemovedTrue(Long productId) {
+    public void makeProductRemovedTrue(UUID productId) {
         Product product = productRepository.findById(productId).orElse(null);
         if(product == null) return;
         product.setRemoved(true);

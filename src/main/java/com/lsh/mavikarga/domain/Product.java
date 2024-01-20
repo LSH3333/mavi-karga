@@ -3,18 +3,20 @@ package com.lsh.mavikarga.domain;
 import com.lsh.mavikarga.dto.AddProductDto;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
 public class Product {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @UuidGenerator
     @Column(name = "product_id")
-    private Long id;
+    private UUID id;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductSize> sizes = new ArrayList<>();
@@ -34,9 +36,10 @@ public class Product {
 
     // 상품 존재 여부, Product를 제거하면 연관관계 등으로 문제 생길수 있기 때문에 제거하지는 않고 removed=true 로
     // 해서 admin, 사용자에게는 보이지 않도록 함
-    private boolean removed=false;
+    private boolean removed = false;
 
-    public Product() {}
+    public Product() {
+    }
 
 
     public Product(AddProductDto addProductDto) {
