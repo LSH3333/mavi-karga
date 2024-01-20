@@ -79,14 +79,32 @@ public class OrderService {
         if(user == null) {
             return null;
         }
+
         List<Cart> carts = user.getCarts();
         for (Cart cart : carts) {
             ProductSize productSize = cart.getProductSize();
             Product product = productSize.getProduct();
-            CartProductDto cartProductDto = new CartProductDto(product.getName(), product.getPrice(), cart.getCount());
+            CartProductDto cartProductDto = new CartProductDto(cart.getId(), product.getName(), product.getPrice(), cart.getCount());
             cartProductDtos.add(cartProductDto);
         }
         return cartProductDtos;
     }
 
+    // 장바구니 폼에서 보내온 정보 토대로 장바구니 업데이트 (상품 제거, 갯수 변경)
+    public void updateCart(List<CartProductDto> cartProductDtoList) {
+
+        for (CartProductDto cartProductDto : cartProductDtoList) {
+            Cart cart = cartRepository.findById(cartProductDto.getCartId()).orElse(null);
+            if(cart == null) continue;
+
+            // 사용자가 해당 상품 장바구니에서 제외했다면
+            if (cartProductDto.isDeleted()) {
+                cartRepository.delete(cart);
+            }
+            // 변경
+            else {
+                cart.setCount(cartProductDto.getCount());
+            }
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.lsh.mavikarga.controller;
 import com.lsh.mavikarga.domain.Product;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.CartProductDto;
+import com.lsh.mavikarga.dto.CartProductDtoList;
 import com.lsh.mavikarga.dto.OrderProductDto;
 import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.ProductService;
@@ -86,27 +87,35 @@ public class OrderController {
     }
 
 
-    // todo: CartProductDto 를 리스트로 갖는 DTO 만들어서 클라이언트에 보내기. 그리고 post 로 받기.
     // 장바구니 폼
     @GetMapping("/order/cart")
     public String cartForm(Principal principal, Model model) {
         User user = userService.findByUsername(principal.getName()).orElse(null);
 
         // 사용자 장바구니 담긴 상품들 보여주기
-        List<CartProductDto> cartProductDtoList = orderService.createCartProductDtoList(user.getId());
+        CartProductDtoList cartProductDtoList = new CartProductDtoList(orderService.createCartProductDtoList(user.getId()));
         model.addAttribute("cartProductDtoList", cartProductDtoList);
-
-
-        // 사용자가 최종 결정한 내용 (장바구니 페이지에서 골랐던 제품 제거할수도 있고 갯수 변경할수도 있음)
-
 
         return "cart";
     }
 
+    // 장바구니 폼에서 최종적으로 구매 결정
     @PostMapping("/order/cart")
-    public String cart(@ModelAttribute("cartProductDtoList") List<CartProductDto> cartProductDtoList) {
+    public String createOrder(@ModelAttribute CartProductDtoList cartProductDtoList) {
+        
+        for (CartProductDto o : cartProductDtoList.getCartProductDtoList()) {
+            log.info("id = {}", o.getCartId());
+            log.info("getCount = {}", o.getCount());
+            log.info("isDeleted = {}", o.isDeleted());
+        }
 
-        return "index";
+        // 장바구니 수정 사항 업데이트
+        orderService.updateCart(cartProductDtoList.getCartProductDtoList());
+
+        // todo: 구매 로직 (Order)
+
+
+        return "redirect:/";
     }
 
 }

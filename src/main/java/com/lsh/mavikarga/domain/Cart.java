@@ -23,6 +23,7 @@ public class Cart {
     @JoinColumn(name = "product_size_id")
     private ProductSize productSize;
 
+
     // 제품 갯수
     private int count;
 

@@ -14,35 +14,87 @@
             <h1 class="h2">장바구니</h1>
         </div>
 
-        <!-- 상품추가 -->
-        <!-- <form action="/admins/products/add" th:action="@{/admins/products/add}" method="post">
 
-            <div th:each="cartProductDto: ${cartProductDtoList}">
-                <p th:text="${cartProductDto.name}"></p>
-                <p th:text="${cartProductDto.price}"></p>
-                <p th:text="${cartProductDto.count}"></p>
-
-
-            </div>
-
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form> -->
-
-        <form th:action="@{/order/cart}" method="post">
+        <form th:action="@{/order/cart}" th:object="${cartProductDtoList}" method="post">
             <table>
-                <tr th:each="cartProductDto : ${cartProductDtoList}">
-                    <td th:text="${cartProductDto.name}"></td>
-                    <td th:text="${cartProductDto.price}"></td>
+                <tr th:each="cartProductDto, rowStat : *{cartProductDtoList}">
+                    <!-- 상품ID -->
                     <td>
-                        <input type="number" name="count" th:value="${cartProductDto.count}" />
+                        <input type="number" th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}" style="display: none;">
                     </td>
-                    <!-- Add other fields as needed -->
+                    <!-- 상품 이름 -->
+                    <td class="name" th:text="${cartProductDto.name}"></td>
+                    <!-- 개당 가격 (안보이도록 처리) -->
+                    <td style="display: none;" class="price" th:text="${cartProductDto.price}"></td>
+                    <!-- 갯수 수정 input -->
+                    <td>
+                        <input class="count" th:field="*{cartProductDtoList[__${rowStat.index}__].count}"
+                            type="number" />
+                    </td>
+                    <!-- 계산된 전체 가격 -->
+                    <td class="totalPrice"></td>
+                    <!-- 상품 제외 버튼 -->
+                    <td>
+                        <button class="excludeBtn" type="button">제외</button>
+                        <!-- 상품 제거 버튼 누르면 deleted=true 로 만듦 -->
+                        <input class="deleted" th:field="*{cartProductDtoList[__${rowStat.index}__].deleted}" style="display: none;" type="checkbox">
+                    </td>
                 </tr>
             </table>
             <button type="submit">Update Cart</button>
         </form>
 
     </main>
+
+
+    <script>
+        // 사용자가 상품 갯수 변경할때마다 최종 가격 업데이트해서 보여줌
+        // 제외 버튼 누르면 해당 행 안보이도록 처리 
+        document.addEventListener('DOMContentLoaded', function () {
+            var rows = document.querySelectorAll('tr');
+
+            rows.forEach(function (row) {
+                // 개당 가격 
+                var priceCell = row.querySelector('.price');
+                // 갯수 
+                var countInput = row.querySelector('.count');
+                // 최종 가격
+                var totalPriceCell = row.querySelector('.totalPrice');
+                // 최종 가격
+                var excludeBtn = row.querySelector('.excludeBtn');
+                // deleted 값
+                var deletedCheckbox = row.querySelector('.deleted');
+
+                // 상품 가격 * 갯수 = 총 가격 
+                function updateTotalPrice() {
+                    var price = parseFloat(priceCell.textContent);
+                    var count = parseInt(countInput.value);
+
+                    var totalPrice = price * count;
+
+                    totalPriceCell.textContent = totalPrice;
+                }
+
+                // 제외 버튼 누르면 해당 row 안보이도록 처리 
+                function excludeProduct() {
+                    // 안보이도록 처리 
+                    row.style.display = 'none';
+                    // CartProductDto.deleted = true
+                    // deletedCheckbox.value = 'true';
+                    deletedCheckbox.checked = true;
+                }
+
+                // count input 이벤트 리스너 
+                countInput.addEventListener('input', updateTotalPrice);
+
+                // 제외 버튼 이벤트 리스너 
+                excludeBtn.addEventListener('click', excludeProduct);
+
+                // 가격 업데이트 
+                updateTotalPrice();
+            });
+        });
+    </script>
 </body>
 
 </html>
