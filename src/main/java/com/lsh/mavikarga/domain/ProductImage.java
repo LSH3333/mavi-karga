@@ -14,5 +14,16 @@ public class ProductImage {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    // todo: 실제 이미지 파일 db 에 직접 저장할지, aws s3 같은 곳, 서버에 저장할지 고민 중
+    // 이미지 저장 경로 (AWS S3)
+    // https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/baekjoon.png
+    private String url;
+
+
+    public ProductImage() {}
+
+    public ProductImage(String url, Product product) {
+        this.url = url;
+        this.product = product;
+        this.product.getProductImages().add(this);
+    }
 }

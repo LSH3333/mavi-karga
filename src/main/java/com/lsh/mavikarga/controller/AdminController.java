@@ -109,4 +109,9 @@ public class AdminController {
         productService.makeProductRemovedTrue(productId);
         return "redirect:/admins/products/view";
     }
+
+
+    // 상품 이미지
+
+
 }

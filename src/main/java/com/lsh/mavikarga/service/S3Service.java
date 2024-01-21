@@ -77,7 +77,16 @@ public class S3Service {
         return Optional.empty();
     }
 
+
+    /**
+     * "dirName/fileName" 의 S3 경로 리턴
+     * @param dirName: S3의 디렉토리명
+     * @param fileName: S3 bucket에 저장되어 있는 파일명
+     * @return: https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/baekjoon.png
+     */
     public String getS3url(String dirName, String fileName) {
         return amazonS3Client.getUrl(bucket, dirName+"/"+fileName).toString();
     }
+
+
 }

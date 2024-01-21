@@ -22,7 +22,7 @@ public class Product {
     private List<ProductSize> sizes = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ProductImage> images = new ArrayList<>();
+    private List<ProductImage> productImages = new ArrayList<>();
 
     // 상품명
     private String name;

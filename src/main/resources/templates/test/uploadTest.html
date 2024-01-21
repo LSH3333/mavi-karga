@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+    <!-- 단일 -->
     <form th:action method="post" enctype="multipart/form-data">
         <input type="file" name="multipartFile">
         <button type="submit"></button>
     </form>
 
+    <!-- 다수 -->
+    <form action="/s3uploadMany" method="post" enctype="multipart/form-data">
+        <input type="file" name="multipartFiles" multiple>
+        <button type="submit">Submit</button>
+    </form>
+
 </body>
+
 </html>

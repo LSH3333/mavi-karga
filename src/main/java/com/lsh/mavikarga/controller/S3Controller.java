@@ -45,7 +45,7 @@ public class S3Controller {
     @PostMapping("/s3upload")
     public ResponseEntity<String> create(
             @RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile) {
-        String fileName = "s3 test upload";
+        String fileName = "";
         if (multipartFile != null) { // 파일 업로드한 경우에만
             try {// 파일 업로드
                 fileName = s3Service.upload(multipartFile, "images"); // S3 버킷의 images 디렉토리 안에 저장됨
@@ -57,4 +57,15 @@ public class S3Controller {
         return ResponseEntity.status(HttpStatus.OK).body("file upload SUCCESS to AWS S3");
     }
 
+    @PostMapping("/s3uploadMany")
+    public ResponseEntity<String> createMany(@RequestPart(value = "multipartFiles", required = false) MultipartFile[] multipartFiles) {
+        // Process each file in the files array
+        for (MultipartFile file : multipartFiles) {
+            log.info("file = {}", file.getOriginalFilename());
+            // todo: productImageService 로 이미지 db 에 저장
+        }
+
+        // Return a response as needed
+        return ResponseEntity.ok("Files uploaded successfully");
+    }
 }
