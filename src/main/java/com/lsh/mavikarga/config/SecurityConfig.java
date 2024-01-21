@@ -49,7 +49,7 @@ public class SecurityConfig {
                         .requestMatchers("/bag", "/order/products/add", "/order/cart")
                             .hasAnyRole("USER", "ADMIN")
 
-                        .requestMatchers("/admins/**").permitAll() // 관리자 전용인데 개발용으로 열어놓음, 나중에 닫기
+                        .requestMatchers("/admins/**", "/s3upload", "/s3render").permitAll() // 관리자 전용인데 개발용으로 열어놓음, 나중에 닫기
 //                        .requestMatchers("/admins/**")
 //                            .hasRole("ADMIN") // "ROLE_ADMIN"
 

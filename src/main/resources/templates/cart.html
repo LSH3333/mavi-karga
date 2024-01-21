@@ -20,7 +20,8 @@
                 <tr th:each="cartProductDto, rowStat : *{cartProductDtoList}">
                     <!-- 상품ID -->
                     <td>
-                        <input type="number" th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}" style="display: none;">
+                        <input type="number" th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}"
+                            style="display: none;">
                     </td>
                     <!-- 상품 이름 -->
                     <td class="name" th:text="${cartProductDto.name}"></td>
@@ -37,7 +38,8 @@
                     <td>
                         <button class="excludeBtn" type="button">제외</button>
                         <!-- 상품 제거 버튼 누르면 deleted=true 로 만듦 -->
-                        <input class="deleted" th:field="*{cartProductDtoList[__${rowStat.index}__].deleted}" style="display: none;" type="checkbox">
+                        <input class="deleted" th:field="*{cartProductDtoList[__${rowStat.index}__].deleted}"
+                            style="display: none;" type="checkbox">
                     </td>
                 </tr>
             </table>
@@ -79,8 +81,7 @@
                 function excludeProduct() {
                     // 안보이도록 처리 
                     row.style.display = 'none';
-                    // CartProductDto.deleted = true
-                    // deletedCheckbox.value = 'true';
+                    // 서버에 보낼 데이터
                     deletedCheckbox.checked = true;
                 }
 
