@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -67,5 +68,16 @@ public class S3Controller {
 
         // Return a response as needed
         return ResponseEntity.ok("Files uploaded successfully");
+    }
+
+    @PostMapping("/s3uploadAjax")
+    public ResponseEntity<String> uploadAjax(@RequestPart("multipartFiles") List<MultipartFile> files) {
+        log.info("uploadAjax");
+        for (MultipartFile file : files) {
+            log.info("file = {}", file.getOriginalFilename());
+            // todo: 이미지 저장 로직 
+        }
+
+        return ResponseEntity.ok("success");
     }
 }
