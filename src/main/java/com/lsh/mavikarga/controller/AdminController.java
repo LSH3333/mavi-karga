@@ -4,6 +4,7 @@ import com.lsh.mavikarga.domain.Product;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.AddProductDto;
 import com.lsh.mavikarga.dto.ViewProductDto;
+import com.lsh.mavikarga.service.ProductImageService;
 import com.lsh.mavikarga.service.ProductService;
 import com.lsh.mavikarga.service.UserService;
 import jakarta.validation.Valid;
@@ -16,8 +17,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,33 +33,60 @@ public class AdminController {
 
     private final UserService userService;
     private final ProductService productService;
+    private final ProductImageService productImageService;
 
     @Autowired
-    public AdminController(ProductService productService, UserService userService) {
+    public AdminController(ProductService productService, UserService userService, ProductImageService productImageService) {
         this.productService = productService;
         this.userService = userService;
+        this.productImageService = productImageService;
     }
 
-    // 상품 추가
+    //////////////////// 상품 추가 ////////////////
     @GetMapping("/admins/products/add")
     public String addProductForm(@ModelAttribute("addProductDto") AddProductDto addProductDto) {
         return "admins/products/add";
     }
 
+    // 상품 formData 담긴 ajax 요청 처리
     @PostMapping("/admins/products/add")
-    public String addProduct(@Valid @ModelAttribute("addProductDto") AddProductDto addProductDto, BindingResult bindingResult) {
+    public ResponseEntity<String> addProduct(@Valid @ModelAttribute("addProductDto") AddProductDto addProductDto, BindingResult bindingResult) {
 
+        // 에러 있을시 에러메시지 body 에 포함해서 BAD_REQUEST 보냄
         if (bindingResult.hasErrors()) {
-            return "admins/products/add";
+            // Extract field errors and build a response containing error messages
+            StringBuilder errorMessageBuilder = new StringBuilder();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                errorMessageBuilder.append(fieldError.getField())
+                        .append(": ")
+                        .append(fieldError.getDefaultMessage())
+                        .append("\n");
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessageBuilder.toString());
         }
 
-        Product product = productService.createProductFromDto(addProductDto);
-        productService.save(product);
+        // 에러 없으면 저장 처리
+        Product product = productService.save(productService.createProductFromDto(addProductDto));
 
-        return "redirect:/admins/products/add";
+        // productId 바디에 담아서 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(product.getId().toString());
     }
 
-    // 상품 목록
+    // 상품 이미지 업로드 ajax
+    @PostMapping("/admins/products/images")
+    public ResponseEntity<String> uploadAjax(
+            @RequestParam UUID productId,
+            @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
+
+        // ProductImage 저장
+        if(files != null) {
+            productImageService.saveAllProductImages(files, productId);
+        }
+
+        return ResponseEntity.ok("/admins/products/view");
+    }
+
+    //////////////////// 상품 목록 ////////////////
     @GetMapping("/admins/products/view")
     public String listProductForm(Model model) {
         // product.removed=false 인 상품들만 가져옴
@@ -67,7 +99,9 @@ public class AdminController {
         return "admins/products/view";
     }
 
-    // 상품 수정
+
+
+    //////////////////// 상품 수정 ////////////////
     @GetMapping("/admins/products/edit/{productId}")
     public String editProductForm(Model model, @PathVariable UUID productId) {
         Product product = productService.findById(productId).orElse(null);
@@ -103,7 +137,8 @@ public class AdminController {
         return "redirect:/admins/products/view";
     }
 
-    // 상품 제거
+
+    //////////////////// 상품 제거 ////////////////
     @DeleteMapping("/admins/products/delete/{productId}")
     public String deleteProduct(@PathVariable UUID productId) {
         productService.makeProductRemovedTrue(productId);
@@ -111,7 +146,6 @@ public class AdminController {
     }
 
 
-    // 상품 이미지
 
 
 }

@@ -31,7 +31,7 @@ public class ProductImageService {
     }
 
     // 단일 ProductImage 생성 후 저장
-    public void saveProductImage(MultipartFile multipartFile, Product product) throws IOException {
+    private void saveProductImage(MultipartFile multipartFile, Product product) throws IOException {
         String fileUrl = s3Service.upload(multipartFile, "images"); // S3 버킷의 images 디렉토리 안에 저장됨
 
         ProductImage productImage = new ProductImage(fileUrl, product);

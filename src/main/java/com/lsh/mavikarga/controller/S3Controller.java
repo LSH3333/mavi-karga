@@ -70,14 +70,5 @@ public class S3Controller {
         return ResponseEntity.ok("Files uploaded successfully");
     }
 
-    @PostMapping("/s3uploadAjax")
-    public ResponseEntity<String> uploadAjax(@RequestPart("multipartFiles") List<MultipartFile> files) {
-        log.info("uploadAjax");
-        for (MultipartFile file : files) {
-            log.info("file = {}", file.getOriginalFilename());
-            // todo: 이미지 저장 로직 
-        }
 
-        return ResponseEntity.ok("success");
-    }
 }
