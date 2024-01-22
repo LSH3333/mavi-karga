@@ -93,10 +93,14 @@ public class ProductService {
 
     ////////// 상품 제거 ////////////
     // 객체를 제거하지는 않고, product.removed=true 로 만듦
+    // todo: 연관된 ProductImage 들은 지울지 말지 고민 중
     public void makeProductRemovedTrue(UUID productId) {
         Product product = productRepository.findById(productId).orElse(null);
         if(product == null) return;
         product.setRemoved(true);
     }
+
+
+
 
 }

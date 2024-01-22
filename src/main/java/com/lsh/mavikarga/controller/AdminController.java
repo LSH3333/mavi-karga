@@ -1,6 +1,7 @@
 package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.Product;
+import com.lsh.mavikarga.domain.ProductImage;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.AddProductDto;
 import com.lsh.mavikarga.dto.ViewProductDto;
@@ -72,14 +73,24 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(product.getId().toString());
     }
 
-    // 상품 이미지 업로드 ajax
+    //////////////////// 상품 이미지 ////////////////
+    @GetMapping("/admins/products/images/{productId}")
+    public String productImageForm(@PathVariable UUID productId, Model model) {
+        model.addAttribute("productId", productId);
+        return "admins/products/productImage";
+    }
+
+    // 상품 이미지 업로드 ajax (상품 수정에서도 쓰이는 메소드)
     @PostMapping("/admins/products/images")
     public ResponseEntity<String> uploadAjax(
             @RequestParam UUID productId,
             @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
+        log.info("UPLOAD AJAX");
 
-        // ProductImage 저장
         if(files != null) {
+            // 기존에 있는 모든 상품 이미지 삭제
+            productImageService.deleteAllProductImages(productId);
+            // ProductImage 저장
             productImageService.saveAllProductImages(files, productId);
         }
 
@@ -113,7 +124,7 @@ public class AdminController {
 
         model.addAttribute("addProductDto", addProductDto);
         model.addAttribute("productId", productId);
-        log.info("addProductDto = {}", addProductDto);
+
         return "admins/products/edit";
     }
 

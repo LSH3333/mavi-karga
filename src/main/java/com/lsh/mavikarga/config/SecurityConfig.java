@@ -36,25 +36,26 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(request -> request
-                        //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
+                                //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
-                        .requestMatchers("/", "/errors/**", "/info", "/login").permitAll() // 인증없이 접근 가능 경로
-                        // Order
-                        .requestMatchers("/clothing", "/order/products").permitAll()
-                        // 결재 시스템 테스트 중 ..
-                        .requestMatchers("/payment/validate", "/payTest").permitAll()
-                        .requestMatchers("/js/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
+                                .requestMatchers("/", "/errors/**", "/info", "/login").permitAll() // 인증없이 접근 가능 경로
+                                // Order
+                                .requestMatchers("/clothing", "/order/products").permitAll()
+                                // 결재 시스템 테스트 중 ..
+                                .requestMatchers("/payment/validate", "/payTest").permitAll()
+                                .requestMatchers("/js/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
 
-                        // "ROLE_USER" or "ROLE_ADMIN" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
-                        .requestMatchers("/bag", "/order/products/add", "/order/cart")
-                            .hasAnyRole("USER", "ADMIN")
+                                // "ROLE_USER" or "ROLE_ADMIN" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
+                                .requestMatchers("/bag", "/order/products/add", "/order/cart")
+                                .hasAnyRole("USER", "ADMIN")
 
-                        .requestMatchers("/admins/**", "/admins/products/images", "/s3upload", "/s3render", "/s3uploadMany", "s3uploadAjax").permitAll() // 관리자 전용인데 개발용으로 열어놓음, 나중에 닫기
+                                // 관리자 전용인데 개발용으로 열어놓음, 나중에 닫기
+                                .requestMatchers("/admins/**", "/s3upload", "/s3render", "/s3uploadMany", "s3uploadAjax").permitAll()
 //                        .requestMatchers("/admins/**")
 //                            .hasRole("ADMIN") // "ROLE_ADMIN"
 
 
-                        .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능
+                                .anyRequest().authenticated() // 이외에는 모두 인증만 있으면 접근 가능
                 )
                 // OAuth2 로그인 처리
                 .oauth2Login(oauth2Login -> oauth2Login

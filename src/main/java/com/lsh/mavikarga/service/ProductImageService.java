@@ -47,4 +47,32 @@ public class ProductImageService {
         }
     }
 
+    // 제품에 저장된 모든 제품 이미지 삭제
+    public void deleteAllProductImages(UUID productId) {
+        Product product = productRepository.findById(productId).orElse(null);
+
+        List<ProductImage> productImages = product.getProductImages();
+        if(productImages == null) return;
+
+        for (ProductImage productImage : productImages) {
+            productImage.setProduct(null);
+        }
+        product.getProductImages().clear();
+    }
+
+
+
+//    public List<ProductImage> getAllProductImagesInProduct(UUID productId) {
+//        log.info("getAllProductImagesInProduct");
+//        Product product = productRepository.findById(productId).orElse(null);
+//        if(product != null) {
+//            List<ProductImage> productImages = product.getProductImages();
+//            for (ProductImage productImage : productImages) {
+//                log.info("productImage.getUrl() = {}", productImage.getUrl());
+//            }
+//            return productImages;
+//        } else {
+//            return null;
+//        }
+//    }
 }

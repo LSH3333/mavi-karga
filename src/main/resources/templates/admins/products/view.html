@@ -7,11 +7,11 @@
 
     <style>
         /* make table row clickable */
-        td a {
+        /* td a {
             display: block;
             color: black;
             text-decoration: none;
-        }
+        } */
     </style>
 </head>
 
@@ -27,14 +27,18 @@
                 <tr>
                     <th scope="col">상품명</th>
                     <th scope="col">가격</th>
+                    <th scope="col">상품 수정</th>
+                    <th scope="col">상품 이미지 수정</th>
                     <!-- <th scope="col">사이즈</th> -->
                     <!-- <th scope="col">재고</th> -->
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="product: ${products}">
-                    <td><a th:text="${product.name}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
-                    <td><a th:text="${product.price}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td>
+                    <td><p th:text="${product.name}"></p></td>
+                    <td><p th:text="${product.price}"></p></td>
+                    <td><a th:href="@{/admins/products/edit/{productId}(productId=${product.id})}">클릭</a></td>
+                    <td><a th:href="@{/admins/products/images/{productId}(productId=${product.id})}">클릭</a></td>
                     <!-- <td><a th:text="${product.size}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td> -->
                     <!-- <td><a th:text="${product.available} ? 'O' : 'X'" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td> -->
                 </tr>

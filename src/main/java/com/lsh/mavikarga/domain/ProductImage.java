@@ -1,8 +1,11 @@
 package com.lsh.mavikarga.domain;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
 
 @Entity
+@Data
 public class ProductImage {
 
     @Id
