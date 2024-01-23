@@ -49,7 +49,8 @@ public class AdminController {
         return "admins/products/add";
     }
 
-    // 상품 formData 담긴 ajax 요청 처리
+    // 상품 formData 담긴 ajax 요청 처리해서 상품 db에 저장
+    // 이후에 클라이언트에서 이미지 저장 ajax 요청 서버로 보냄
     @PostMapping("/admins/products/add")
     public ResponseEntity<String> addProduct(@Valid @ModelAttribute("addProductDto") AddProductDto addProductDto, BindingResult bindingResult) {
 
@@ -80,7 +81,7 @@ public class AdminController {
         return "admins/products/productImage";
     }
 
-    // 상품 이미지 업로드 ajax (상품 수정에서도 쓰이는 메소드)
+    // 상품 이미지 업로드 ajax
     @PostMapping("/admins/products/images")
     public ResponseEntity<String> uploadAjax(
             @RequestParam UUID productId,

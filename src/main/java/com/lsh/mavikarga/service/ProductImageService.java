@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,18 +62,19 @@ public class ProductImageService {
     }
 
 
+    public List<String> getAllProductImagesUrlInProduct(UUID productId) {
+        List<String> productImagesUrlList = new ArrayList<>();
+        Product product = productRepository.findById(productId).orElse(null);
 
-//    public List<ProductImage> getAllProductImagesInProduct(UUID productId) {
-//        log.info("getAllProductImagesInProduct");
-//        Product product = productRepository.findById(productId).orElse(null);
-//        if(product != null) {
-//            List<ProductImage> productImages = product.getProductImages();
-//            for (ProductImage productImage : productImages) {
-//                log.info("productImage.getUrl() = {}", productImage.getUrl());
-//            }
-//            return productImages;
-//        } else {
-//            return null;
-//        }
-//    }
+        if(product != null) {
+            List<ProductImage> productImages = product.getProductImages();
+            for (ProductImage productImage : productImages) {
+                productImagesUrlList.add(productImage.getUrl());
+            }
+            return productImagesUrlList;
+        } else {
+            return null;
+        }
+    }
+
 }

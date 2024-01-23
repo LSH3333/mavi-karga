@@ -75,6 +75,13 @@
                         <!-- 좌측 작은 이미지 목록 -->
                         <div class="col-lg-3 col-md-3">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <!-- <li th:each="productImgUrl: ${orderProductDto.productImgUrlList}" class="nav-item"
+                                    role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home-tab-pane" type="button" role="tab"
+                                        aria-controls="home-tab-pane" aria-selected="true"><img style="width: 100px; height: 120px;" src=""
+                                            th:src="${productImgUrl}" alt=""></button>
+                                </li> -->
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
                                         data-bs-target="#home-tab-pane" type="button" role="tab"
@@ -242,7 +249,7 @@
         const alertTrigger = document.getElementById('submitBtn')
         if (alertTrigger) {
             alertTrigger.addEventListener('click', () => {
-                appendAlert('상품이 장바구니에 담겼습니다.', 'success')
+                appendAlert('상품이 장바구니에 담겼습니다. <a href="/order/cart">장바구니</a>', 'success')
             })
         }
     </script>

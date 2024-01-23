@@ -29,6 +29,7 @@
                 function (rsp) {
                     // 결재 요청 성공 -> 서버에서 검증 
                     if (rsp.success) {
+                        // paymentRequestDTO
                         const formData = new FormData();
                         formData.append("imp_uid", rsp.imp_uid);
                         formData.append("paid_amount", rsp.paid_amount);

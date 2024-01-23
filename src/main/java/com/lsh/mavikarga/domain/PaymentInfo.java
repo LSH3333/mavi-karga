@@ -43,13 +43,14 @@ public class PaymentInfo {
 
     public PaymentInfo() {}
 
-    public PaymentInfo(String payMethod, String impUid, String merchantUid, int amount, String buyerAddr, String buyerPostcode) {
+    public PaymentInfo(String payMethod, String impUid, String merchantUid, int amount, String buyerAddr, String buyerPostcode, LocalDateTime createdTime) {
         this.payMethod = payMethod;
         this.impUid = impUid;
         this.merchantUid = merchantUid;
         this.amount = amount;
         this.buyerAddr = buyerAddr;
         this.buyerPostcode = buyerPostcode;
+        this.createdTime = createdTime;
     }
 
 }

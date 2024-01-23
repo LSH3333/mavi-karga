@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
+
+<head>
+    <title>mavi karga</title>
+
+    <!-- PortOne SDK -->
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script>
+        var IMP = window.IMP;
+        IMP.init("imp18574515"); // 가맹점 식별코드 
+
+        function requestPay() {
+            IMP.request_pay(
+                {
+                    pg: "kakaopay",
+                    pay_method: "card",
+                    merchant_uid: "mavikarga_merchant_" + crypto.randomUUID(), // 제품 번호 
+                    name: "당근 10kg",
+                    amount: 1,
+                    buyer_email: "Iamport@chai.finance",
+                    buyer_name: "포트원 기술지원팀",
+                    buyer_tel: "010-1234-5678",
+                    buyer_addr: "서울특별시 강남구 삼성동",
+                    buyer_postcode: "123-456",
+                },
+                function (rsp) {
+                    // 결재 요청 성공 -> 서버에서 검증 
+                    if (rsp.success) {
+                        const formData = new FormData();
+                        formData.append("imp_uid", rsp.imp_uid);
+                        formData.append("paid_amount", rsp.paid_amount);
+                        formData.append("merchant_uid", rsp.merchant_uid);
+                        // formData.append("pay_method", rsp.pay_method);
+                        // formData.append("name", rsp.name); // 주문자명 
+                        // formData.append("pg_provider ", rsp.pg_provider); // PG사 구분코드
+                        // formData.append("buyer_email", rsp.buyer_email);
+                        // formData.append("buyer_tel", rsp.buyer_tel);
+                        // formData.append("paid_at", rsp.paid_at);
+
+                        const payReqXML = new XMLHttpRequest();
+                        payReqXML.open("POST", "/payment/validate", true);
+                        payReqXML.onload = function () {
+                            if (payReqXML.status === 200) {
+                                console.log("결재 요청 데이터 서버 전송 성공")
+                            } else {
+                                console.log("결재 요청 데이터 서버 전송 실패")
+                            }
+                        }
+                        payReqXML.send(formData);
+                    }
+                    // 결재 요청 실패 
+                    else {
+                        alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+                    }
+                }
+            );
+        }
+    </script>
+
+</head>
+
+<body layout:fragment="content">
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">결재</h1>
+        </div>
+
+
+        <div th:object="${cartProductDtoList}">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">상품명</th>
+                        <th scope="col">가격</th>
+                        <th scope="col">구매 갯수</th>
+                        <th scope="col">전체 가격</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="cartProductDto, rowStat : *{cartProductDtoList}">
+                        <!-- 상품 이름 -->
+                        <td class="name" th:text="${cartProductDto.name}"></td>
+                        <!-- 개당 가격-->
+                        <td class="price " th:text="${cartProductDto.price}"></td>
+                        <!-- 갯수  -->
+                        <td class="count " th:text="${cartProductDto.count}">
+                            <!-- <input class="count" th:field="*{cartProductDtoList[__${rowStat.index}__].count}"
+                                type="number" /> -->
+                        </td>
+                        <!-- 전체 가격 -->
+                        <td class="total" th:text="${cartProductDto.price * cartProductDto.count}"></td>
+                        <!-- 상품ID -->
+                        <td>
+                            <input type="number" th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}"
+                                style="display: none;">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button onclick="requestPay()">결제하기</button>
+        </div>
+
+       
+
+    </main>
+
+
+</body>
+
+</html>

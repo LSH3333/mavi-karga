@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 @Slf4j
@@ -49,8 +51,10 @@ public class PaymentService {
                 irsp.getResponse().getMerchantUid(),
                 irsp.getResponse().getAmount().intValue(),
                 irsp.getResponse().getBuyerAddr(),
-                irsp.getResponse().getBuyerPostcode()
+                irsp.getResponse().getBuyerPostcode(),
+                LocalDateTime.now()
         );
+
         paymentRepository.save(paymentInfo);
 
         return true;

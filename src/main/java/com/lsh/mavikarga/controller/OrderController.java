@@ -1,11 +1,13 @@
 package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.Product;
+import com.lsh.mavikarga.domain.ProductImage;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.CartProductDto;
 import com.lsh.mavikarga.dto.CartProductDtoList;
 import com.lsh.mavikarga.dto.OrderProductDto;
 import com.lsh.mavikarga.service.OrderService;
+import com.lsh.mavikarga.service.ProductImageService;
 import com.lsh.mavikarga.service.ProductService;
 import com.lsh.mavikarga.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +29,14 @@ public class OrderController {
     private final UserService userService;
     private final OrderService orderService;
     private final ProductService productService;
+    private final ProductImageService productImageService;
 
     @Autowired
-    public OrderController(UserService userService, OrderService orderService, ProductService productService) {
+    public OrderController(UserService userService, OrderService orderService, ProductService productService, ProductImageService productImageService) {
         this.userService = userService;
         this.orderService = orderService;
         this.productService = productService;
+        this.productImageService = productImageService;
     }
 
     // 전체 상품 페이지
@@ -48,12 +52,15 @@ public class OrderController {
     // 단일 상품 페이지
     @GetMapping("/order/products")
     public String productForm(Model model, @RequestParam UUID productId) {
-        log.info("productForm");
 
         Product product = productService.findById(productId).orElse(null);
         if (product == null) {
             return "error";
         }
+        // 상품 이미지
+        // todo: 나중에 단일 상품 페이지 프론트 정확히 어떻게할것인지 듣고나서 결정
+        List<String> allProductImagesUrlInProduct = productImageService.getAllProductImagesUrlInProduct(productId);
+
 
         OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getSizes());
 
@@ -116,7 +123,7 @@ public class OrderController {
         // todo: 구매 로직 (Order)
 
 
-        return "redirect:/";
+        return "redirect:/payments/payment";
     }
 
 }

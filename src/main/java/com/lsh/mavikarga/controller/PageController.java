@@ -13,19 +13,17 @@ public class PageController {
         return "index";
     }
 
-//    @GetMapping("/clothing")
-//    public String clothing(Model model) {
-//        model.addAttribute("menu", "clothing");
-//        return "clothing";
-//    }
-
     @GetMapping("/info")
     public String info(Model model) {
         model.addAttribute("menu", "info");
         return "info";
     }
 
-    ///////
+    /////// TEST
+    @GetMapping("/sliderTest")
+    public String sliderTest() {
+        return "test/sliderTest";
+    }
 
 
 
