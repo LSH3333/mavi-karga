@@ -7,6 +7,13 @@
 
     <!-- PortOne SDK -->
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
+    <script>
+        const name_req = "mavikarga_cart_" + crypto.randomUUID();
+        const amount_req = '[[${cartProductDtoList.totalAmount}]]'
+        console.log('amount = ' + amount);
+    </script>
+
     <script>
         var IMP = window.IMP;
         IMP.init("imp18574515"); // 가맹점 식별코드 
@@ -17,8 +24,8 @@
                     pg: "kakaopay",
                     pay_method: "card",
                     merchant_uid: "mavikarga_merchant_" + crypto.randomUUID(), // 제품 번호 
-                    name: "당근 10kg",
-                    amount: 1,
+                    name: name_req,
+                    amount: amount_req,
                     buyer_email: "Iamport@chai.finance",
                     buyer_name: "포트원 기술지원팀",
                     buyer_tel: "010-1234-5678",
@@ -32,6 +39,7 @@
                         formData.append("imp_uid", rsp.imp_uid);
                         formData.append("paid_amount", rsp.paid_amount);
                         formData.append("merchant_uid", rsp.merchant_uid);
+
                         // formData.append("pay_method", rsp.pay_method);
                         // formData.append("name", rsp.name); // 주문자명 
                         // formData.append("pg_provider ", rsp.pg_provider); // PG사 구분코드
@@ -58,6 +66,7 @@
             );
         }
     </script>
+
 
 </head>
 
@@ -100,14 +109,9 @@
                     </tr>
                 </tbody>
             </table>
-
             <button onclick="requestPay()">결제하기</button>
         </div>
-
-       
-
     </main>
-
 
 </body>
 

@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import retrofit2.Response;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -43,22 +44,12 @@ public class PaymentController {
         this.orderService = orderService;
     }
 
+    // 테스트용
     @GetMapping("/payTest")
     public String payTest() {
         return "payments/payTest";
     }
 
-    @GetMapping("/payments/payment")
-    public String paymentForm(Principal principal, Model model) {
-
-        User user = userService.findByUsername(principal.getName()).orElse(null);
-
-        // 사용자 장바구니 담긴 상품들 보여주기
-        CartProductDtoList cartProductDtoList = new CartProductDtoList(orderService.createCartProductDtoList(user.getId()));
-        model.addAttribute("cartProductDtoList", cartProductDtoList);
-
-        return "payments/payment";
-    }
 
     /**
      * impUid 로 결재내역 조회
@@ -71,9 +62,25 @@ public class PaymentController {
         return iamportClientApi.paymentByImpUid(impUid);
     }
 
+
+    // 결재 페이지
+    @GetMapping("/payments/payment")
+    public String paymentForm(Principal principal, Model model) {
+        log.info("PAYMENT FORM");
+        User user = userService.findByUsername(principal.getName()).orElse(null);
+
+        // 사용자 장바구니 담긴 상품들 보여주기
+
+        CartProductDtoList cartProductDtoList = CartProductDtoList.createForPaymentForm(orderService.createCartProductDtoList(user.getId()));
+//        log.info("forPaymentForm = {}", cartProductDtoList.getTotalAmount());
+        model.addAttribute("cartProductDtoList", cartProductDtoList);
+
+        return "payments/payment";
+    }
+
     // 클라이언트에서 결재요청 성공 후 받는 end point
     @PostMapping("/payment/validate")
-    private ResponseEntity<String> validatePayment(@ModelAttribute PaymentRequestDto paymentRequestDto)
+    private ResponseEntity<String> validatePayment(@ModelAttribute PaymentRequestDto paymentRequestDto, Principal principal)
             throws IamportResponseException, IOException {
         log.info("============= /payment/validate");
         log.info("paymentRequestDto = {}", paymentRequestDto);
@@ -83,9 +90,14 @@ public class PaymentController {
         String merchant_uid = paymentRequestDto.getMerchant_uid();
 
         IamportResponse<Payment> irsp = paymentLookup(impUid);
-        paymentService.validatePayment(irsp, amount);
+        if(paymentService.validatePayment(irsp, amount, principal)) {
+            return ResponseEntity.status(HttpStatus.OK).body("결재 정보 검증 완료");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
+        }
 
-        return ResponseEntity.status(HttpStatus.OK).body("결재 정보 검증");
     }
+
+
 
 }

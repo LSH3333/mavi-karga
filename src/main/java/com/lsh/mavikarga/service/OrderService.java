@@ -97,7 +97,7 @@ public class OrderService {
             Cart cart = cartRepository.findById(cartProductDto.getCartId()).orElse(null);
             if(cart == null) continue;
 
-            // 사용자가 해당 상품 장바구니에서 제외했다면
+            // 사용자가 해당 상품 장바구니에서 제외했다면 제거
             if (cartProductDto.isDeleted()) {
                 cartRepository.delete(cart);
             }

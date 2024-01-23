@@ -107,10 +107,10 @@ public class OrderController {
         return "cart";
     }
 
-    // 장바구니 폼에서 최종적으로 구매 결정
+    // 장바구니 폼에서 최종적으로 구매 결정 -> 구매 페이지로 이동
     @PostMapping("/order/cart")
     public String createOrder(@ModelAttribute CartProductDtoList cartProductDtoList) {
-        
+        log.info("CREATE ORDER");
         for (CartProductDto o : cartProductDtoList.getCartProductDtoList()) {
             log.info("id = {}", o.getCartId());
             log.info("getCount = {}", o.getCount());
@@ -120,7 +120,6 @@ public class OrderController {
         // 장바구니 수정 사항 업데이트
         orderService.updateCart(cartProductDtoList.getCartProductDtoList());
 
-        // todo: 구매 로직 (Order)
 
 
         return "redirect:/payments/payment";
