@@ -14,7 +14,7 @@ import lombok.Setter;
 public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_items_id")
+    @Column(name = "order_product_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

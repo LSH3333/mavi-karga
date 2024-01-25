@@ -1,8 +1,8 @@
 package com.lsh.mavikarga.service;
 
-import com.lsh.mavikarga.domain.Cart;
-import com.lsh.mavikarga.domain.PaymentInfo;
-import com.lsh.mavikarga.domain.User;
+import com.lsh.mavikarga.domain.*;
+import com.lsh.mavikarga.repository.CartRepository;
+import com.lsh.mavikarga.repository.OrderRepository;
 import com.lsh.mavikarga.repository.PaymentRepository;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,11 +23,13 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final UserService userService;
+    private final OrderRepository orderRepository;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, UserService userService) {
+    public PaymentService(PaymentRepository paymentRepository, UserService userService, OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;
         this.userService = userService;
+        this.orderRepository = orderRepository;
     }
 
     /**
@@ -35,6 +38,7 @@ public class PaymentService {
      * @param paid_amount: 실제 유저 결재 금액
      */
     public boolean validatePayment(IamportResponse<Payment> irsp, int paid_amount, Principal principal) {
+        User user = userService.findByUsername(principal.getName()).orElse(null);
 
         // 포트원 서버에서 조회된 결재금액과 실제 사용자 결재 금액이 다름
         // getAmount() 결과는 BigDecimal
@@ -43,7 +47,7 @@ public class PaymentService {
         }
 
         //  DB에 저장된 물품의 실제금액과 비교
-        int priceToPay = calPriceToPay(principal);
+        int priceToPay = calPriceToPay(user);
         log.info("priceToPay = {}", priceToPay);
         if(priceToPay != paid_amount) {
             return false;
@@ -63,15 +67,31 @@ public class PaymentService {
                 LocalDateTime.now()
         );
 
+
+        // 주문제품 생성
+        List<OrderProduct> orderProductList = new ArrayList<>();
+        for (Cart cart : user.getCarts()) {
+            ProductSize productSize = cart.getProductSize();
+            OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, productSize.getProduct().getPrice(), cart.getCount());
+            orderProductList.add(orderProduct);
+        }
+        // 주문 생성
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo);
+        // 주문 저장
+        orderRepository.save(orderInfo);
+
+        // PaymentInfo 저장
         paymentRepository.save(paymentInfo);
-        // todo: OrderInfo 생성
-        
+
+
+
+        // todo: 장바구니 비우기
 
         return true;
     }
 
-    private int calPriceToPay(Principal principal) {
-        User user = userService.findByUsername(principal.getName()).orElse(null);
+    private int calPriceToPay(User user) {
+//        User user = userService.findByUsername(principal.getName()).orElse(null);
         List<Cart> carts = user.getCarts();
         int priceToPay = 0;
         for (Cart cart : carts) {

@@ -23,7 +23,7 @@ import java.util.List;
 public class OrderInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderInfo_id")
+    @Column(name = "order_info_id")
     private Long id;
 
     // 주문한 사용자
@@ -33,6 +33,11 @@ public class OrderInfo {
 
     @OneToMany(mappedBy = "orderInfo", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "payment_info_id")
+    private PaymentInfo paymentInfo;
+
 
     // 주문 일자
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
@@ -46,15 +51,16 @@ public class OrderInfo {
     /**
      * 생성 메서드
      * @param user: 주문한 유저
-     * @param orderProducts: 주문한 물품들
+     * @param orderProductList: 주문한 물품들
      */
-    public static OrderInfo createOrderInfo(User user, OrderProduct... orderProducts) {
+    public static OrderInfo createOrderInfo(User user, List<OrderProduct> orderProductList, PaymentInfo paymentInfo) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setUser(user);
-        for (OrderProduct orderProduct : orderProducts) {
+        for (OrderProduct orderProduct : orderProductList) {
             orderInfo.addOrderProduct(orderProduct);
         }
         orderInfo.setOrderDate(LocalDateTime.now());
+        orderInfo.paymentInfo = paymentInfo;
         return orderInfo;
     }
 
