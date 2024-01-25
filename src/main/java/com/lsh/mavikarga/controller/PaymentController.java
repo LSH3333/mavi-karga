@@ -50,6 +50,17 @@ public class PaymentController {
         return "payments/payTest";
     }
 
+    // 결재 성공 폼
+    @GetMapping("/payments/paymentSuccess")
+    public String paymentSuccessForm() {
+        return "/payments/paymentSuccess";
+    }
+
+    // 결재 실패 폼
+    @GetMapping("/payments/paymentFail")
+    public String paymentFailForm() {
+        return "/payments/paymentFail";
+    }
 
     /**
      * impUid 로 결재내역 조회
@@ -61,7 +72,6 @@ public class PaymentController {
     private IamportResponse<Payment> paymentLookup(String impUid) throws IamportResponseException, IOException {
         return iamportClientApi.paymentByImpUid(impUid);
     }
-
 
     // 결재 페이지
     @GetMapping("/payments/payment")
@@ -95,9 +105,7 @@ public class PaymentController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
         }
-
     }
-
 
 
 }

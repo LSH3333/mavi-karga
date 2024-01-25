@@ -24,12 +24,14 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final UserService userService;
     private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, UserService userService, OrderRepository orderRepository) {
+    public PaymentService(PaymentRepository paymentRepository, UserService userService, OrderRepository orderRepository, CartRepository cartRepository) {
         this.paymentRepository = paymentRepository;
         this.userService = userService;
         this.orderRepository = orderRepository;
+        this.cartRepository = cartRepository;
     }
 
     /**
@@ -39,6 +41,9 @@ public class PaymentService {
      */
     public boolean validatePayment(IamportResponse<Payment> irsp, int paid_amount, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElse(null);
+        if(user == null) {
+            return false;
+        }
 
         // 포트원 서버에서 조회된 결재금액과 실제 사용자 결재 금액이 다름
         // getAmount() 결과는 BigDecimal
@@ -48,7 +53,6 @@ public class PaymentService {
 
         //  DB에 저장된 물품의 실제금액과 비교
         int priceToPay = calPriceToPay(user);
-        log.info("priceToPay = {}", priceToPay);
         if(priceToPay != paid_amount) {
             return false;
         }
@@ -57,6 +61,7 @@ public class PaymentService {
         log.info("irsp.getResponse().getAmount().intValue() = {}", irsp.getResponse().getAmount().intValue());
         log.info("amount = {}", paid_amount);
 
+        // 주문정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
                 irsp.getResponse().getPayMethod(),
                 irsp.getResponse().getImpUid(),
@@ -66,7 +71,6 @@ public class PaymentService {
                 irsp.getResponse().getBuyerPostcode(),
                 LocalDateTime.now()
         );
-
 
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
@@ -83,9 +87,11 @@ public class PaymentService {
         // PaymentInfo 저장
         paymentRepository.save(paymentInfo);
 
-
-
-        // todo: 장바구니 비우기
+        // 장바구니에 있는 물품들 결재 완료됐으니 장바구니 비운다
+        for (Cart cart : user.getCarts()) {
+            cartRepository.delete(cart);
+        }
+        user.getCarts().clear();
 
         return true;
     }

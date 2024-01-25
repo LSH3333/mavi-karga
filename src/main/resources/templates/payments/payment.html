@@ -11,7 +11,7 @@
     <script>
         const name_req = "mavikarga_cart_" + crypto.randomUUID();
         const amount_req = '[[${cartProductDtoList.totalAmount}]]'
-        console.log('amount = ' + amount);
+
     </script>
 
     <script>
@@ -52,8 +52,10 @@
                         payReqXML.onload = function () {
                             if (payReqXML.status === 200) {
                                 console.log("결재 요청 데이터 서버 전송 성공")
+                                window.location.href = '/payments/paymentSuccess';
                             } else {
                                 console.log("결재 요청 데이터 서버 전송 실패")
+                                window.location.href = '/payments/paymentFail';
                             }
                         }
                         payReqXML.send(formData);
@@ -110,6 +112,11 @@
                 </tbody>
             </table>
             <button onclick="requestPay()">결제하기</button>
+        </div>
+
+        <!-- divider -->
+        <div class="container">
+            <hr class="featurette-divider">
         </div>
     </main>
 
