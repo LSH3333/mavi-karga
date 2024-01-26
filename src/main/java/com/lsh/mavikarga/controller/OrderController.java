@@ -126,4 +126,10 @@ public class OrderController {
         return "redirect:/payments/payment";
     }
 
+
+
+    @GetMapping("/test/productPageTest")
+    public String productPageTest() {
+        return "test/productPageTest";
+    }
 }

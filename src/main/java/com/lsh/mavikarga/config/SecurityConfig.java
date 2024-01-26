@@ -41,8 +41,8 @@ public class SecurityConfig {
                                 .requestMatchers("/", "/errors/**", "/info", "/login").permitAll() // 인증없이 접근 가능 경로
                                 // Order
                                 .requestMatchers("/clothing", "/order/products").permitAll()
-                                // 결재 시스템 테스트 중 ..
-                                .requestMatchers("/payment/validate", "/payTest", "/sliderTest", "/payments/**").permitAll()
+                                // 테스트 중 ..
+                                .requestMatchers("/payment/validate", "/payTest", "/sliderTest", "/payments/**", "/test/**").permitAll()
                                 .requestMatchers("/js/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
 
                                 // "ROLE_USER" or "ROLE_ADMIN" role 이 있어야 접근 가능한 경로 (자동 prefix: ROLE_)
