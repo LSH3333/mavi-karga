@@ -14,7 +14,7 @@
             <div class="container-fluid p-0">
                 <div class="row">
                     <!-- LEFT SIDE -->
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <h3 class="pb-4 mb-4 fst-italic border-bottom">
                             From the Firehose
                         </h3>
@@ -38,12 +38,66 @@
                         </div>
                     </div>
                     <!-- RIGHT SIDE STICKY -->
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="position-sticky" style="top: 5rem">
                             <div class="p-4 mb-3 bg-body-tertiary rounded">
-                                <h4 class="fst-italic">About</h4>
+                                <!-- 제품 구매 시작 -->
+                                <section>
+                                    <div class="product_detail_content">
+                                        <div class="container">
+                                            <div class="row d-flex justify-content-center">
+                                                <div class="col-lg-8">
+                                                    <div class="product_detail_text">
+                                                        <h4 th:text="${orderProductDto.name}"></h4>
+                                                        <!-- <h3>가격</h3> -->
+                                                        <p th:text="${orderProductDto.description}"></p>
+                                                        <!-- 로그인 해야 보이는 영역 -->
+                                                        <div sec:authorize="isAuthenticated()">
+                                                            <form id="formData" th:action="@{/order/products/add}"
+                                                                th:object="${orderProductDto}" method="post">
+                                                                <!-- 사이즈 -->
+                                                                <div class="mb-3">
+                                                                    <label for="size" class="form-label">사이즈</label>
+                                                                    <select th:field="*{selectedProductSizeId}"
+                                                                        id="size" name="size" class="form-select">
+                                                                        <option
+                                                                            th:each="productSize : ${orderProductDto.productSizeList}"
+                                                                            th:text="${productSize.size}"
+                                                                            th:value="${productSize.id}">
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                                <!-- 갯수 -->
+                                                                <div class="mb-3">
+                                                                    <label for="count">수량</label>
+                                                                    <input th:field="${orderProductDto.count}"
+                                                                        type="number" id="count" name="count" min="1"
+                                                                        max="100" />
+                                                                </div>
+                                                                <!-- <button id="submitBtn" type="submit" class="btn btn-dark btn-sm">장바구니
+                                            추가</button> -->
+                                                                <!-- 장바구니 추가 완료 알림 -->
+                                                                <button type="submit" class="btn btn-dark btn-sm mb-5"
+                                                                    id="submitBtn">장바구니
+                                                                    추가</button>
+                                                                <div id="liveAlertPlaceholder"></div>
+                                                            </form>
+                                                        </div>
+                                                        <!-- 로그인 없이 보이는 영역 -->
+                                                        <a class="btn btn-dark btn-sm" sec:authorize="isAnonymous()"
+                                                            th:href="@{/login}">구매하기
+                                                            위해서 로그인해주세요!</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr class="featurette-divider">
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- 제품 구매 끝 -->
+                                <!-- <h4 class="fst-italic">About</h4>
                                 <p class="mb-0">Customize this section to tell your visitors a little bit about your
-                                    publication, writers, content, or something else entirely. Totally up to you.</p>
+                                    publication, writers, content, or something else entirely. Totally up to you.</p> -->
                             </div>
                         </div>
                     </div>
@@ -81,34 +135,6 @@
                             <img class="d-block w-100" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}" alt="">
                         </div>
                     </div>
-
-                    <!-- Carousel -->
-                    <!-- <div id="carouselExample" class="carousel slide">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img style="width: 100%;" class="d-block w-100"  src="/static/image/-6.jpg"
-                                    th:src="@{/image/-6.jpg}" alt=""> 
-                            </div>
-                            <div class="carousel-item">
-                                <img style="width: 100%;" class="d-block w-100"  src="/static/image/-6.jpg"
-                                    th:src="@{/image/-6.jpg}" alt="">
-                            </div>
-                            <div class="carousel-item">
-                                <img style="width: 100%;" class="d-block w-100" src="/static/image/-6.jpg"
-                                    th:src="@{/image/-6.jpg}" alt="">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div> -->
                 </div>
                 <!-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
