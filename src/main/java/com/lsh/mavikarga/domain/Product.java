@@ -33,6 +33,9 @@ public class Product {
     // Product description
     private String description;
 
+    // 상품 관리 방법 (세탁 방법 등)
+    private String detailsAndCare;
+
     // 상품 존재 여부, Product를 제거하면 연관관계 등으로 문제 생길수 있기 때문에 제거하지는 않고 removed=true 로
     // 해서 admin, 사용자에게는 보이지 않도록 함
     private boolean removed = false;
@@ -45,6 +48,7 @@ public class Product {
         this.name = addProductDto.getName();
         this.price = addProductDto.getPrice();
         this.description = addProductDto.getDescription();
+        this.detailsAndCare = addProductDto.getDetailsAndCare();
         initSizes();
     }
 

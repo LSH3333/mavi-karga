@@ -21,6 +21,8 @@ public class AddProductDto {
     @NotEmpty(message = "비어있을수 없습니다")
     private String description;
     private boolean available;
+    // 상품 관리 방법 (세탁 방법 등)
+    private String detailsAndCare;
 
     private List<String> sizes = new ArrayList<>();
 

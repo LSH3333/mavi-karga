@@ -6,6 +6,8 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+// 실제 상품 entity
+
 @Entity
 @Data
 public class ProductSize {

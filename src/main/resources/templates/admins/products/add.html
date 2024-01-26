@@ -24,7 +24,7 @@
             <!-- 가격 -->
             <div class="mb-3">
                 <label for="price" class="form-label">가격</label>
-                <input th:field="*{price}" type="number" class="form-control" id="price" name="price" placeholder="가격">                
+                <input th:field="*{price}" type="number" class="form-control" id="price" name="price" placeholder="가격">
             </div>
             <!-- 상품 상세 -->
             <div class="mb-3">
@@ -66,6 +66,12 @@
                     <label class="form-check-label" for="inlineCheckboxXXL">XXL</label>
                 </div>
             </div>
+            <!-- DETAILS & CARE -->
+            <div class="mb-3">
+                <label for="detailsAndCare" class="form-label">DETAILS & CARE</label>
+                <textarea th:field="*{detailsAndCare}" class="form-control" id="detailsAndCare" name="detailsAndCare"
+                    rows="3"></textarea>
+            </div>
             <!-- 상품 이미지 -->
             <div class="mb-3">
                 <p>상품 이미지</p>
@@ -84,18 +90,18 @@
     </main>
 
 
-    <script>        
+    <script>
         // submit 버튼 이벤트
         document.getElementById('submitBtn').addEventListener('click', function (event) {
-            // 버튼 submit 이벤트 방지 
+            // 버튼 form submit 이벤트 방지 
             event.preventDefault();
-            // ajax 전송
+            // form ajax 전송 -> 이미지 ajax 전송 
             submitForm();
         })
     </script>
 
     <script src="/static/js/AdminproductFormHandler.js" th:src="@{/js/AdminproductFormHandler.js}"></script>
-    
+
 </body>
 
 </html>

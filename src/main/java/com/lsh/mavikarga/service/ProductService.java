@@ -64,8 +64,10 @@ public class ProductService {
         AddProductDto addProductDto = new AddProductDto();
         addProductDto.setName(product.getName());
         addProductDto.setPrice(product.getPrice());
+        addProductDto.setDetailsAndCare(product.getDetailsAndCare());
         addProductDto.setDescription(product.getDescription());
         updateSize(product.getSizes(), addProductDto);
+
         return addProductDto;
     }
 
@@ -85,7 +87,8 @@ public class ProductService {
 
         product.setName(addProductDto.getName());
         product.setPrice(addProductDto.getPrice());
-        product.setDescription(product.getDescription());
+        product.setDescription(addProductDto.getDescription());
+        product.setDetailsAndCare(addProductDto.getDetailsAndCare());
         product.updateAvailableSizes(addProductDto.getSizes());
 
         return true;
