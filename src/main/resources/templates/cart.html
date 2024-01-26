@@ -44,7 +44,7 @@
                     </td>
                 </tr>
             </table>
-            <button type="submit">구매</button>
+            <button id="submitBtn" type="submit">구매</button>
         </form>
 
         <!-- divider -->
@@ -58,7 +58,10 @@
         // 사용자가 상품 갯수 변경할때마다 최종 가격 업데이트해서 보여줌
         // 제외 버튼 누르면 해당 행 안보이도록 처리 
         document.addEventListener('DOMContentLoaded', function () {
+            const submitBtn = document.getElementById('submitBtn')
             var rows = document.querySelectorAll('tr');
+            // 장바구니 상품 갯수 
+            var numberOfCartProduct = rows.length;
 
             rows.forEach(function (row) {
                 // 개당 가격 
@@ -88,6 +91,12 @@
                     row.style.display = 'none';
                     // 서버에 보낼 데이터
                     deletedCheckbox.checked = true;
+                    // 장바구니 상품 갯수 -1
+                    numberOfCartProduct--;
+                    // 장바구니 상품 갯수가 0이되면 구매 버튼 클릭 불가능하도록 
+                    if(numberOfCartProduct === 0) {
+                        submitBtn.disabled = true;
+                    }
                 }
 
                 // count input 이벤트 리스너 
@@ -100,6 +109,8 @@
                 updateTotalPrice();
             });
         });
+
+        
     </script>
 </body>
 
