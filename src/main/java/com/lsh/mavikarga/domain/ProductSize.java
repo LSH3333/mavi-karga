@@ -2,6 +2,7 @@ package com.lsh.mavikarga.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class ProductSize {
+public class ProductSize implements Comparable<ProductSize> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_size_id")
@@ -38,5 +39,16 @@ public class ProductSize {
         this.size = size;
         this.product = product;
         this.available = false; // 최초에는 재고 없음 처리
+    }
+
+    // size 에 따라 S,M,L ... 순으로 정렬
+    @Override
+    public int compareTo(@NotNull ProductSize productSize) {
+        List<String> customOrder = List.of("XS", "S", "M", "L", "XL", "XXL");
+
+        int index1 = customOrder.indexOf(this.getSize());
+        int index2 = customOrder.indexOf(productSize.getSize());
+
+        return Integer.compare(index1, index2);
     }
 }

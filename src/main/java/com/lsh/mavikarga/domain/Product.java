@@ -55,7 +55,7 @@ public class Product {
             this.sizes.add(productSize);
             productSize.setAvailable(true);
         }
-        
+
     }
 
 

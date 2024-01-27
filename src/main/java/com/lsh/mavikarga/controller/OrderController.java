@@ -1,7 +1,6 @@
 package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.Product;
-import com.lsh.mavikarga.domain.ProductImage;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.CartProductDto;
 import com.lsh.mavikarga.dto.CartProductDtoList;
@@ -19,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,7 +32,8 @@ public class OrderController {
     private final ProductImageService productImageService;
 
     @Autowired
-    public OrderController(UserService userService, OrderService orderService, ProductService productService, ProductImageService productImageService) {
+    public OrderController(UserService userService, OrderService orderService, ProductService productService,
+                           ProductImageService productImageService) {
         this.userService = userService;
         this.orderService = orderService;
         this.productService = productService;
@@ -63,6 +64,7 @@ public class OrderController {
 
 
         OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getSizes());
+        Collections.sort(orderProductDto.getProductSizeList());
 
         model.addAttribute("orderProductDto", orderProductDto);
 

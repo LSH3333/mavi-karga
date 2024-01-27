@@ -2,18 +2,20 @@ package com.lsh.mavikarga.dto;
 
 import com.lsh.mavikarga.domain.ProductSize;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // 사용자가 제품 페이지 들어가서 제품 장바구니 추가 시 서버로 보내올 DTO
 @Data
-public class OrderProductDto {
+public class OrderProductDto  {
 
     // 사용자에게 보여줄 데이터들
     private String name;
     private String description;
     private List<ProductSize> productSizeList = new ArrayList<>();
+
     // todo: 나중에 단일 상품 페이지 프론트 정확히 어떻게할것인지 듣고나서 결정
 //    private List<String> productImgUrlList = new ArrayList<>();
 
@@ -34,4 +36,5 @@ public class OrderProductDto {
             }
         }
     }
+
 }
