@@ -8,6 +8,7 @@ import com.lsh.mavikarga.service.PaymentService;
 import com.lsh.mavikarga.service.UserService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.extern.slf4j.Slf4j;
@@ -107,5 +108,30 @@ public class PaymentController {
         }
     }
 
+
+//    /**
+//     * 결제한 금액을 취소요청이 들어오면 실행되는 메서드
+//     * 환불될 금액과 아임포트 서버에서 조회한 결제 금액이 다르면 환불 or 취소 안됨.
+//     * @param map
+//     * @param principal
+//     * @return
+//     * @throws IamportResponseException
+//     * @throws IOException
+//     */
+//    @PostMapping("cancelPayments")
+//    public IamportResponse<Payment> cancelPayments(@RequestBody Map<String,String> map,
+//                                                   Principal principal) throws IamportResponseException, IOException{
+//
+//        //조회
+//        IamportResponse<Payment> lookUp = null;
+//        if(map.containsKey("impUid")) lookUp = paymentLookup(map.get("impUid"));//들어온 정보에 imp_uid가 있을때
+//        else if(map.containsKey("paymentsNo")) lookUp = paymentLookup(map.get("paymentsNo"));//imp_uid가 없을때
+//
+//        String code = paymentService.code(principal.getBankName());//은행코드
+//        CancelData data = paymentService.cancelData(map,lookUp,principal,code);//취소데이터 셋업
+//        IamportResponse<Payment> cancel = iamportClientApi.cancelPaymentByImpUid(data);//취소
+//
+//        return cancel;
+//    }
 
 }

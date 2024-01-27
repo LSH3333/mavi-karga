@@ -35,7 +35,7 @@ public class PaymentService {
     }
 
     /**
-     *
+     * 결재 검증
      * @param irsp: 포트원쪽에서 결재 정보
      * @param paid_amount: 실제 유저 결재 금액
      */
@@ -107,4 +107,32 @@ public class PaymentService {
         }
         return priceToPay;
     }
+
+
+//    /**
+//     * 결제 취소할때 필요한 파라미터들을
+//     * CancelData에 셋업해주고 반환함.
+//     * @param map
+//     * @param impUid
+//     * @param bankAccount
+//     * @param code
+//     * @return
+//     * @throws RefundAmountIsDifferent
+//     */
+//    @Transactional
+//    public CancelData cancelData(Map<String,String> map,
+//                                 IamportResponse<Payment> lookUp,
+//                                 PrincipalDetail principal, String code) throws RefundAmountIsDifferent {
+//        //아임포트 서버에서 조회된 결제금액 != 환불(취소)될 금액 이면 예외발생
+//        if(lookUp.getResponse().getAmount()!=new BigDecimal(map.get("checksum")))
+//            throw new RefundAmountIsDifferent();
+//
+//        CancelData data = new CancelData(lookUp.getResponse().getImpUid(),true);
+//        data.setReason(map.get("reason"));
+//        data.setChecksum(new BigDecimal(map.get("checksum")));
+//        data.setRefund_holder(map.get("refundHolder"));
+//        data.setRefund_bank(code);
+//        data.setRefund_account(principal.getBankName());
+//        return data;
+//    }
 }

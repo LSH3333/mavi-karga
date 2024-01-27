@@ -8,6 +8,11 @@
     <!-- PortOne SDK -->
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+
     <script>
         const name_req = "mavikarga_cart_" + crypto.randomUUID();
         const amount_req = '[[${cartProductDtoList.totalAmount}]]'
@@ -21,14 +26,15 @@
         function requestPay() {
             IMP.request_pay(
                 {
-                    pg: "kakaopay",
+                    // pg: "kakaopay",
+                    pg: 'html5_inicis', // KG이니시스
                     pay_method: "card",
                     merchant_uid: "mavikarga_merchant_" + crypto.randomUUID(), // 제품 번호 
                     name: name_req,
                     amount: amount_req,
-                    buyer_email: "Iamport@chai.finance",
-                    buyer_name: "포트원 기술지원팀",
-                    buyer_tel: "010-1234-5678",
+                    buyer_email: "dltpgustpgus@gmail.com",
+                    buyer_name: "SE HYUN LEE",
+                    buyer_tel: "010-7682-4646",
                     buyer_addr: "서울특별시 강남구 삼성동",
                     buyer_postcode: "123-456",
                 },
@@ -63,9 +69,49 @@
                     // 결재 요청 실패 
                     else {
                         alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+                        // 결재 실패 시 결재 환불 
+                        cancelPayment(rsp);
                     }
                 }
             );
+        }
+
+        // 환불
+        function cancelPayments(temp) {
+            let data = null;
+
+            if (temp != null) {
+                // 결제 금액이 달라졌을 때 결제 취소
+                data = {
+                    impUid: temp.imp_uid,
+                    reason: "결제 금액 위/변조. 결제 금액이 일치 안 함",
+                    checksum: temp.paid_amount,
+                    refundHolder: temp.buyer_name
+                };
+            } else {
+                // todo: 유저가 환불을 요청했을 때 데이터
+
+            }
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "cancelPayments", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    alert("결제 금액 환불 완료");
+                    // self.close(); // 팝업 창 닫기
+                    // 결제 취소 화면으로 이동해주기.
+                } else {
+                    alert("결제 금액 환불 못함. 이유: " + xhr.responseText);
+                }
+            };
+
+            xhr.onerror = function () {
+                alert("Error occurred during the request.");
+            };
+
+            xhr.send(JSON.stringify(data));
         }
     </script>
 
