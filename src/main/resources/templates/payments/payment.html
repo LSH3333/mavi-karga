@@ -61,7 +61,8 @@
                                 window.location.href = '/payments/paymentSuccess';
                             } else {
                                 console.log("결재 요청 데이터 서버 전송 실패")
-                                window.location.href = '/payments/paymentFail';
+                                // window.location.href = '/payments/paymentFail';
+                                cancelPayments(rsp);
                             }
                         }
                         payReqXML.send(formData);
@@ -70,7 +71,7 @@
                     else {
                         alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
                         // 결재 실패 시 결재 환불 
-                        cancelPayment(rsp);
+                        cancelPayments(rsp);
                     }
                 }
             );
@@ -78,23 +79,27 @@
 
         // 환불
         function cancelPayments(temp) {
+            console.log('cancelPayments()')
+
             let data = null;
 
             if (temp != null) {
+                console.log('결재 금액이 달라졌을 때 취소 ' + temp.paid_amount)
                 // 결제 금액이 달라졌을 때 결제 취소
                 data = {
                     impUid: temp.imp_uid,
                     reason: "결제 금액 위/변조. 결제 금액이 일치 안 함",
                     checksum: temp.paid_amount,
-                    refundHolder: temp.buyer_name
+                    refundHolder: temp.buyer_name,
+                    refund_bank: "우리은행"
                 };
             } else {
                 // todo: 유저가 환불을 요청했을 때 데이터
-
+              
             }
 
             const xhr = new XMLHttpRequest();
-            xhr.open("POST", "cancelPayments", true);
+            xhr.open("POST", "/payments/cancel", true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
             xhr.onload = function () {
@@ -158,6 +163,8 @@
                 </tbody>
             </table>
             <button onclick="requestPay()">결제하기</button>
+            <!-- 환불 테스트 -->
+            <!-- <button onclick="cancelPayments()">환불하기</button> -->
         </div>
 
         <!-- divider -->

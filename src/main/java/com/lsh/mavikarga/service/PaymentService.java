@@ -4,6 +4,7 @@ import com.lsh.mavikarga.domain.*;
 import com.lsh.mavikarga.repository.CartRepository;
 import com.lsh.mavikarga.repository.OrderRepository;
 import com.lsh.mavikarga.repository.PaymentRepository;
+import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
 import lombok.extern.slf4j.Slf4j;
@@ -11,10 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -35,13 +39,51 @@ public class PaymentService {
     }
 
     /**
+     * 은행이름에 따른 코드들을 반환해줌
+     * KG이니시스 기준.
+     *
+     * @param bankName
+     * @return
+     */
+    public String code(String bankName) {
+        String code = switch (bankName) {
+            case "국민은행", "국민" -> "04";
+            case "제일은행", "제일" -> "23";
+            case "경남은행", "경남" -> "39";
+            case "광주은행", "광주" -> "34";
+            case "기업은행", "기업" -> "03";
+            case "농협은행", "농협" -> "11";
+            case "대구은행", "대구" -> "31";
+            case "부산은행", "부산" -> "32";
+            case "산업은행", "산업" -> "02";
+            case "새마을금고", "새마을" -> "45";
+            case "수협은행", "수협" -> "07";
+            case "신한은행", "신한" -> "88";
+            case "신협은행", "신협" -> "48";
+            case "하나은행", "하나", "외한은행" -> "81";
+            case "우리은행", "우리" -> "20";
+            case "우채국" -> "71";
+            case "전북은행", "전북" -> "37";
+            case "축협은행", "축협" -> "12";
+            case "카카오뱅크", "카카오" -> "90";
+            case "케이뱅크", "케이" -> "89";
+            case "한국씨티은행", "한국씨티" -> "27";
+            case "토스뱅크", "토스" -> "92";
+            default -> "";
+        };
+
+        return code;
+    }
+
+    /**
      * 결재 검증
-     * @param irsp: 포트원쪽에서 결재 정보
+     *
+     * @param irsp:        포트원쪽에서 결재 정보
      * @param paid_amount: 실제 유저 결재 금액
      */
     public boolean validatePayment(IamportResponse<Payment> irsp, int paid_amount, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElse(null);
-        if(user == null) {
+        if (user == null) {
             return false;
         }
 
@@ -53,7 +95,7 @@ public class PaymentService {
 
         //  DB에 저장된 물품의 실제금액과 비교
         int priceToPay = calPriceToPay(user);
-        if(priceToPay != paid_amount) {
+        if (priceToPay != paid_amount) {
             return false;
         }
 
@@ -109,30 +151,34 @@ public class PaymentService {
     }
 
 
-//    /**
-//     * 결제 취소할때 필요한 파라미터들을
-//     * CancelData에 셋업해주고 반환함.
-//     * @param map
-//     * @param impUid
-//     * @param bankAccount
-//     * @param code
-//     * @return
-//     * @throws RefundAmountIsDifferent
-//     */
-//    @Transactional
-//    public CancelData cancelData(Map<String,String> map,
-//                                 IamportResponse<Payment> lookUp,
-//                                 PrincipalDetail principal, String code) throws RefundAmountIsDifferent {
-//        //아임포트 서버에서 조회된 결제금액 != 환불(취소)될 금액 이면 예외발생
-//        if(lookUp.getResponse().getAmount()!=new BigDecimal(map.get("checksum")))
-//            throw new RefundAmountIsDifferent();
-//
-//        CancelData data = new CancelData(lookUp.getResponse().getImpUid(),true);
-//        data.setReason(map.get("reason"));
-//        data.setChecksum(new BigDecimal(map.get("checksum")));
-//        data.setRefund_holder(map.get("refundHolder"));
-//        data.setRefund_bank(code);
-//        data.setRefund_account(principal.getBankName());
-//        return data;
-//    }
+    /**
+     * 결제 취소할때 필요한 파라미터들을
+     * CancelData에 셋업해주고 반환함.
+     */
+    @Transactional
+    public CancelData cancelData(Map<String,String> map,
+                                 IamportResponse<Payment> lookUp, String code) throws IOException {
+
+        //아임포트 서버에서 조회된 결제금액 != 환불(취소)될 금액 이면 예외발생
+        log.info("CANCELDATA");
+        log.info("lookUp.getResponse().getAmount() = {}", lookUp.getResponse().getAmount());
+        log.info("checksum = {}", map.get("checksum"));
+        log.info("Big Integer = {}", new BigDecimal(map.get("checksum")));
+//        if(lookUp.getResponse().getAmount() != new BigDecimal(map.get("checksum"))) {
+//            log.info("NOT SAME");
+//            throw new IOException();
+//        }
+        if (new BigDecimal(map.get("checksum")).compareTo(lookUp.getResponse().getAmount()) != 0) {
+            log.info("NOT SAME");
+            throw new IOException();
+        }
+
+        CancelData data = new CancelData(lookUp.getResponse().getImpUid(),true);
+        data.setReason(map.get("reason"));
+        data.setChecksum(new BigDecimal(map.get("checksum")));
+        data.setRefund_holder(map.get("refundHolder"));
+        data.setRefund_bank(code);
+        data.setRefund_account(map.get("refund_bank"));
+        return data;
+    }
 }

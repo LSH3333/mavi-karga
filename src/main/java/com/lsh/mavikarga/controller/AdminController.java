@@ -95,6 +95,7 @@ public class AdminController {
             productImageService.saveAllProductImages(files, productId);
         }
 
+        // 클라이언트에서 응답 받고 이동할 경로
         return ResponseEntity.ok("/admins/products/view");
     }
 
