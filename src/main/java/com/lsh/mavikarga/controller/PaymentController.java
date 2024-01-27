@@ -92,7 +92,7 @@ public class PaymentController {
     }
 
     // 클라이언트에서 결재요청 성공 후 받는 end point
-    @PostMapping("/payment/validate")
+    @PostMapping("/payments/validate")
     private ResponseEntity<String> validatePayment(@ModelAttribute PaymentRequestDto paymentRequestDto, Principal principal)
             throws IamportResponseException, IOException {
         log.info("============= /payment/validate");

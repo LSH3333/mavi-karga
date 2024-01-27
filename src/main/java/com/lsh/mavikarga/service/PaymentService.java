@@ -164,10 +164,7 @@ public class PaymentService {
         log.info("lookUp.getResponse().getAmount() = {}", lookUp.getResponse().getAmount());
         log.info("checksum = {}", map.get("checksum"));
         log.info("Big Integer = {}", new BigDecimal(map.get("checksum")));
-//        if(lookUp.getResponse().getAmount() != new BigDecimal(map.get("checksum"))) {
-//            log.info("NOT SAME");
-//            throw new IOException();
-//        }
+
         if (new BigDecimal(map.get("checksum")).compareTo(lookUp.getResponse().getAmount()) != 0) {
             log.info("NOT SAME");
             throw new IOException();
