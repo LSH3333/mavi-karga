@@ -45,17 +45,17 @@ public class ProductService {
     // 클라이언트에서 보낸 addProductDto 로 Product 를 만듦
     public Product createProductFromDto(AddProductDto addProductDto) {
         Product product = new Product(addProductDto);
-
-        List<String> selectedSizes = addProductDto.getSizes();
-        for (String selectedSize : selectedSizes) {
-            product.setSizeAvailable(selectedSize);
-        }
+//        List<String> selectedSizes = addProductDto.getSizes();
+//        for (String selectedSize : selectedSizes) {
+//            product.setSizeAvailable(selectedSize);
+//        }
         return product;
     }
 
 
+
     ////////// 상품 수정 ////////////
-    // 상품수정으로 보내기 위한 product 로 addProductDto 만듦
+    // 상품수정 폼 으로 보내기 위해 product 로 addProductDto 만듦
     public AddProductDto createAddProductDto(UUID productId) {
         Product product = findById(productId).orElse(null);
         if(product == null) {
@@ -70,7 +70,7 @@ public class ProductService {
 
         return addProductDto;
     }
-
+    // addProductDto.sizes 리스트에 재고 있는 사이즈 추가
     private void updateSize(List<ProductSize> sizes, AddProductDto addProductDto) {
         for (ProductSize size : sizes) {
             if (size.isAvailable()) {

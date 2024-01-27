@@ -49,27 +49,26 @@ public class Product {
         this.price = addProductDto.getPrice();
         this.description = addProductDto.getDescription();
         this.detailsAndCare = addProductDto.getDetailsAndCare();
-        initSizes();
+        // ProductSize 생성, 재고 있음 처리
+        for (String selectedSize : addProductDto.getSizes()) {
+            ProductSize productSize = new ProductSize(selectedSize, this);
+            this.sizes.add(productSize);
+            productSize.setAvailable(true);
+        }
+        
     }
 
-    // 존재해야 하는 모든 사이즈 초기에 만들어 놓음
-    private void initSizes() {
-        this.sizes.add(new ProductSize("XS", this));
-        this.sizes.add(new ProductSize("S", this));
-        this.sizes.add(new ProductSize("M", this));
-        this.sizes.add(new ProductSize("L", this));
-        this.sizes.add(new ProductSize("XL", this));
-        this.sizes.add(new ProductSize("XXL", this));
-    }
 
     // Product 가 보유하는 ProductSize 중 selectedSize available 처리
-    public void setSizeAvailable(String selectedSize) {
+    // Product 가 selectedSize 의 ProductSize 보유중이면 return true, else false
+    public boolean setSizeAvailable(String selectedSize) {
         for (ProductSize size : sizes) {
             if (size.getSize().equals(selectedSize)) {
                 size.setAvailable(true);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     // 선택된 사이즈들은 available=true 처리, 나머지는 false 처리
@@ -79,9 +78,15 @@ public class Product {
             productSize.setAvailable(false);
         }
 
-        // 선택된 사이즈들 available=true 처리
+        // productSize 존재하는데 재고없음 처리 된 것 : 재고없음 처리
+        // productSize 없는데 재고있음 처리 된 것 : 새로운 ProductSize 만듦
         for (String selectedSize : selectedSizes) {
-            setSizeAvailable(selectedSize);
+            // selectedSize 인 productSize 재고 있음 처리 그런데 productSize 가 없다면 새롭게 만듦
+            if (!setSizeAvailable(selectedSize)) {
+                ProductSize productSize = new ProductSize(selectedSize, this);
+                this.sizes.add(productSize);
+                productSize.setAvailable(true);
+            }
         }
     }
 }

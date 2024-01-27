@@ -24,6 +24,7 @@ public class AddProductDto {
     // 상품 관리 방법 (세탁 방법 등)
     private String detailsAndCare;
 
+    // "S", "M", "L" ...
     private List<String> sizes = new ArrayList<>();
 
 
