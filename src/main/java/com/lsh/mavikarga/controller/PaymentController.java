@@ -111,6 +111,7 @@ public class PaymentController {
     }
 
 
+    //// 결재 취소
     /**
      * 결제한 금액을 취소요청이 들어오면 실행되는 메서드
      * 환불될 금액과 아임포트 서버에서 조회한 결제 금액이 다르면 환불 or 취소 안됨.
@@ -136,5 +137,6 @@ public class PaymentController {
 
         return cancel;
     }
+
 
 }

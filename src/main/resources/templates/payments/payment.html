@@ -23,6 +23,7 @@
         var IMP = window.IMP;
         IMP.init("imp18574515"); // 가맹점 식별코드 
 
+        // 원포트에 결재 요청 api 
         function requestPay() {
             IMP.request_pay(
                 {
@@ -38,7 +39,7 @@
                     buyer_addr: "서울특별시 강남구 삼성동",
                     buyer_postcode: "123-456",
                 },
-                function (rsp) {
+                function (rsp) { // 결과 
                     // 결재 요청 성공 -> 서버에서 검증 
                     if (rsp.success) {
                         const formData = new FormData();
@@ -107,6 +108,7 @@
                     alert("결제 금액 환불 완료");
                     // self.close(); // 팝업 창 닫기
                     // 결제 취소 화면으로 이동해주기.
+                    window.location.href = '/payments/paymentFail';
                 } else {
                     alert("결제 금액 환불 못함. 이유: " + xhr.responseText);
                 }

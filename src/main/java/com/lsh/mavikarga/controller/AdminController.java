@@ -4,7 +4,9 @@ import com.lsh.mavikarga.domain.Product;
 import com.lsh.mavikarga.domain.ProductImage;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.AddProductDto;
+import com.lsh.mavikarga.dto.ShowUserToAdminDtoList;
 import com.lsh.mavikarga.dto.ViewProductDto;
+import com.lsh.mavikarga.repository.UserRepository;
 import com.lsh.mavikarga.service.ProductImageService;
 import com.lsh.mavikarga.service.ProductService;
 import com.lsh.mavikarga.service.UserService;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -159,6 +162,29 @@ public class AdminController {
     }
 
 
+    // 사용자 목록 뷰
+    @GetMapping("/admins/users")
+    public String viewUser(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+        int pageSize = 10;
 
+        ShowUserToAdminDtoList showUserToAdminDtoList = userService.createShowUserToAdminDtoList(page, pageSize);
+
+        model.addAttribute("showUserToAdminDtoList", showUserToAdminDtoList);
+        // current page
+        model.addAttribute("page", page+1);
+
+        return "admins/users/users";
+    }
+
+//    @GetMapping("/admins/testCreateUsers")
+//    public String testCreateUsers() {
+//
+//        for(int i = 0; i < 50; i++) {
+//            User user = new User("temp", "1234", "temp@email.com", "ROLE_USER", "GOOGLE", "asdf", LocalDateTime.now());
+//            userService.save(user);
+//        }
+//
+//        return "admins/users/users";
+//    }
 
 }
