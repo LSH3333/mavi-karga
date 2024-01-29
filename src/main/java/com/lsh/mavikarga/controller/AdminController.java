@@ -1,6 +1,7 @@
 package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.Product;
+import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.AddProductDto;
 import com.lsh.mavikarga.dto.ShowUserToAdminDtoList;
 import com.lsh.mavikarga.dto.ViewProductDto;
@@ -176,12 +177,16 @@ public class AdminController {
     }
 
     // 사용자의 주문 목록 뷰
-    @GetMapping("/admins/users/order")
+    @GetMapping("/admins/users/orders")
     public String viewUserOrder(Model model, @RequestParam Long userId) {
+        User user = userService.findById(userId).orElse(null);
         ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = orderService.createShowUserOrderToAdminDtoList(userId);
+        if(user == null) { return "error"; }
+
         model.addAttribute("orderList", showUserOrderToAdminDtoList);
-        model.addAttribute("userId", userId);
-        return "admins/users/order";
+        model.addAttribute("userEmail", user.getEmail());
+
+        return "admins/users/orders";
     }
 
 

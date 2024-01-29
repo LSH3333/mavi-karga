@@ -32,6 +32,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
+    }
+
     // 회원이름으로 User 찾음
     public Optional<User> findByUsername(String username) {
         return Optional.ofNullable(userRepository.findByUsername(username));
@@ -52,7 +56,7 @@ public class UserService {
 
         // ShowUserToAdminDto 생성
         for (User user : allUsers) {
-            log.info("user = {}, {}, {}", user.getId(), user.getUsername(), user.getEmail());
+//            log.info("user = {}, {}, {}", user.getId(), user.getUsername(), user.getEmail());
             ShowUserToAdminDto showUserToAdminDto = new ShowUserToAdminDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedTime());
             showUserToAdminDtoList.getShowUserToAdminDtoList().add(showUserToAdminDto);
         }

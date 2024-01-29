@@ -56,10 +56,12 @@
                                                             <form id="formData" th:action="@{/order/products/add}"
                                                                 th:object="${orderProductDto}" method="post">
                                                                 <!-- 사이즈 -->
-                                                                <div class="mb-3">
+                                                                <div class="mb-3"
+                                                                    th:if="${not #lists.isEmpty(orderProductDto.productSizeList)}">
                                                                     <label for="size" class="form-label">사이즈</label>
                                                                     <select th:field="*{selectedProductSizeId}"
-                                                                        id="size" name="size" class="form-select">
+                                                                        id="size" name="size" class="form-select" onchange="checkSelectedSize()">
+                                                                        <option value="-1" selected>SELECT SIZE</option>
                                                                         <option
                                                                             th:each="productSize : ${orderProductDto.productSizeList}"
                                                                             th:text="${productSize.size}"
@@ -78,7 +80,7 @@
                                             추가</button> -->
                                                                 <!-- 장바구니 추가 완료 알림 -->
                                                                 <button type="submit" class="btn btn-dark btn-sm mb-5"
-                                                                    id="submitBtn">장바구니
+                                                                    id="submitBtn" disabled>장바구니
                                                                     추가</button>
                                                                 <div id="liveAlertPlaceholder"></div>
                                                             </form>
@@ -198,6 +200,16 @@
             alertTrigger.addEventListener('click', () => {
                 appendAlert('상품이 장바구니에 담겼습니다. <a href="/order/cart">장바구니</a>', 'success')
             })
+        }
+    </script>
+
+    <!-- "SELECT SIZE" 선택시 submit 버튼 못 누르도록 -->
+    <script>
+        function checkSelectedSize() {
+            var selectedSize = document.getElementById("size").value;
+            var submitBtn = document.getElementById("submitBtn");
+            
+            submitBtn.disabled = (selectedSize === "-1");
         }
     </script>
 </body>

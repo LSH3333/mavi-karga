@@ -12,7 +12,7 @@
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">주문 목록</h1>
-            <h2 th:text="${userId}"></h2>
+            <h2 th:text="${userEmail}"></h2>
         </div>
 
         <!-- ${orderList} = ShowUserOrderToAdminDtoList.class -->
@@ -20,7 +20,8 @@
 
             <!-- 사용자의 주문 정보 -->
             <!-- *{showUserOrderToAdminDtoList} = ShowUserOrderToAdminDto.showUserOrderToAdminOrderProductDtoList -->
-            <div class="container border border-primary-subtle rounded mb-3" th:each="order : *{showUserOrderToAdminDtoList}">
+            <div class="container border border-primary-subtle rounded mb-3 py-3"
+                th:each="order : *{showUserOrderToAdminDtoList}">
 
                 <p th:text="'주문ID: ' + ${order.orderInfoId}"></p>
                 <p th:text="'주문시간: ' + ${order.orderDate}"></p>
@@ -40,17 +41,17 @@
                             </svg>
                             <div class="card-body">
                                 <!-- 상품 내용 -->
-                                <p class="card-text" th:text="'상품ID: ' + ${product.productId}"></p>                            
+                                <p class="card-text" th:text="'상품ID: ' + ${product.productId}"></p>
                                 <p class="card-text" th:text="'상품명: ' + ${product.name}"></p>
                                 <p class="card-text" th:text="'상품가격: ' + ${product.orderPrice}"></p>
                                 <p class="card-text" th:text="'구매갯수: ' + ${product.count}"></p>
-                                <p class="card-text" th:text="'사이즈: ' + ${product.size}"></p>                                
+                                <p class="card-text" th:text="'사이즈: ' + ${product.size}"></p>
                                 <!-- 버튼 -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a class="btn btn-sm btn-outline-secondary" th:href="@{/order/products?productId={productId}(productId=${product.productId})}">View</a>
+                                        <a class="btn btn-sm btn-outline-secondary"
+                                            th:href="@{/order/products?productId={productId}(productId=${product.productId})}">View</a>
                                     </div>
-                                    <small class="text-body-secondary">9 mins</small>
                                 </div>
                             </div>
                         </div>

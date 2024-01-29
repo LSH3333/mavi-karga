@@ -84,7 +84,8 @@ public class OrderController {
         log.info("orderProductDto.count() = {}", orderProductDto.getCount());
 
         User user = userService.findByUsername(principal.getName()).orElse(null);
-        if (user == null) {
+        // user 세션에 문제 있거나, 사이즈 선택 안했을 경우 BAD_REQUEST 
+        if (user == null || orderProductDto.getSelectedProductSizeId() == -1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
         }
 
