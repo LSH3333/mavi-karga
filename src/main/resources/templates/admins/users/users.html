@@ -21,6 +21,7 @@
                         <th scope="col">유저명</th>
                         <th scope="col">이메일</th>
                         <th scope="col">가입시간</th>
+                        <th scope="col">주문목록</th>
                     </tr>
                 </thead>
                 <tbody th:object="${showUserToAdminDtoList}">
@@ -33,6 +34,9 @@
                         </td>
                         <td>
                             <p th:text="${showUserToAdminDto.createdTime}"></p>
+                        </td>
+                        <td>
+                            <a href="" th:href="@{/admins/users/order?userId={userId}(userId=${showUserToAdminDto.userId})}">클릭</a>                            
                         </td>
                     </tr>
                 </tbody>

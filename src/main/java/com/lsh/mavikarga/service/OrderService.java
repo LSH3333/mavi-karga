@@ -3,6 +3,9 @@ package com.lsh.mavikarga.service;
 import com.lsh.mavikarga.domain.*;
 import com.lsh.mavikarga.dto.CartProductDto;
 import com.lsh.mavikarga.dto.OrderProductDto;
+import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDto;
+import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDtoList;
+import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminOrderProductDto;
 import com.lsh.mavikarga.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -106,5 +108,48 @@ public class OrderService {
                 cart.setCount(cartProductDto.getCount());
             }
         }
+    }
+
+    ///////// 관리자 콘솔에서 사용자의 주문 목록 보는 뷰
+
+    // 사용자의 주문 목록 찾음
+    public List<OrderInfo> findByUser(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        return orderRepository.findByUser(user);
+    }
+
+    public ShowUserOrderToAdminDtoList createShowUserOrderToAdminDtoList(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        List<OrderInfo> orderList = orderRepository.findByUser(user);
+
+        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = new ShowUserOrderToAdminDtoList();
+
+
+        for (OrderInfo order : orderList) {
+            // ShowUserOrderToAdminDto
+            ShowUserOrderToAdminDto showUserOrderToAdminDto = new ShowUserOrderToAdminDto();
+
+            //
+            showUserOrderToAdminDto.setOrderInfoId(order.getId());
+            showUserOrderToAdminDto.setOrderDate(order.getOrderDate());
+
+            // showUserOrderToAdminOrderProductDtoList
+            List<OrderProduct> orderProducts = order.getOrderProducts();
+            for (OrderProduct orderProduct : orderProducts) {
+                ShowUserOrderToAdminOrderProductDto showUserOrderToAdminOrderProductDto = new ShowUserOrderToAdminOrderProductDto();
+
+                showUserOrderToAdminOrderProductDto.setOrderPrice(orderProduct.getOrderPrice());
+                showUserOrderToAdminOrderProductDto.setCount(orderProduct.getCount());
+                showUserOrderToAdminOrderProductDto.setSize(orderProduct.getProductSize().getSize());
+                showUserOrderToAdminOrderProductDto.setProductId(orderProduct.getProductSize().getProduct().getId());
+                showUserOrderToAdminOrderProductDto.setName(orderProduct.getProductSize().getProduct().getName());
+
+                showUserOrderToAdminDto.getShowUserOrderToAdminOrderProductDtoList().add(showUserOrderToAdminOrderProductDto);
+            }
+
+            showUserOrderToAdminDtoList.getShowUserOrderToAdminDtoList().add(showUserOrderToAdminDto);
+        }
+
+        return showUserOrderToAdminDtoList;
     }
 }

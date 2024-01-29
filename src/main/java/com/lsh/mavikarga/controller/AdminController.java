@@ -1,12 +1,11 @@
 package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.Product;
-import com.lsh.mavikarga.domain.ProductImage;
-import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.AddProductDto;
 import com.lsh.mavikarga.dto.ShowUserToAdminDtoList;
 import com.lsh.mavikarga.dto.ViewProductDto;
-import com.lsh.mavikarga.repository.UserRepository;
+import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDtoList;
+import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.ProductImageService;
 import com.lsh.mavikarga.service.ProductService;
 import com.lsh.mavikarga.service.UserService;
@@ -16,17 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,12 +34,14 @@ public class AdminController {
     private final UserService userService;
     private final ProductService productService;
     private final ProductImageService productImageService;
+    private final OrderService orderService;
 
     @Autowired
-    public AdminController(ProductService productService, UserService userService, ProductImageService productImageService) {
+    public AdminController(ProductService productService, UserService userService, ProductImageService productImageService, OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.productImageService = productImageService;
+        this.orderService = orderService;
     }
 
     //////////////////// 상품 추가 ////////////////
@@ -162,6 +160,7 @@ public class AdminController {
     }
 
 
+    //////////////////// 사용자 ////////////////
     // 사용자 목록 뷰
     @GetMapping("/admins/users")
     public String viewUser(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
@@ -175,6 +174,16 @@ public class AdminController {
 
         return "admins/users/users";
     }
+
+    // 사용자의 주문 목록 뷰
+    @GetMapping("/admins/users/order")
+    public String viewUserOrder(Model model, @RequestParam Long userId) {
+        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = orderService.createShowUserOrderToAdminDtoList(userId);
+        model.addAttribute("orderList", showUserOrderToAdminDtoList);
+        model.addAttribute("userId", userId);
+        return "admins/users/order";
+    }
+
 
 //    @GetMapping("/admins/testCreateUsers")
 //    public String testCreateUsers() {
