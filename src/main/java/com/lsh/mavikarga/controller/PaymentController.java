@@ -83,7 +83,6 @@ public class PaymentController {
         User user = userService.findByUsername(principal.getName()).orElse(null);
 
         // 사용자 장바구니 담긴 상품들 보여주기
-
         CartProductDtoList cartProductDtoList = CartProductDtoList.createForPaymentForm(orderService.createCartProductDtoList(user.getId()));
 //        log.info("forPaymentForm = {}", cartProductDtoList.getTotalAmount());
         model.addAttribute("cartProductDtoList", cartProductDtoList);
