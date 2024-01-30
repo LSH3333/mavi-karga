@@ -34,11 +34,11 @@ public class OrderInfo {
     @OneToMany(mappedBy = "orderInfo", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_info_id")
     private PaymentInfo paymentInfo;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
@@ -57,14 +57,17 @@ public class OrderInfo {
      * @param user: 주문한 유저
      * @param orderProductList: 주문한 물품들
      */
-    public static OrderInfo createOrderInfo(User user, List<OrderProduct> orderProductList, PaymentInfo paymentInfo) {
+    public static OrderInfo createOrderInfo(User user, List<OrderProduct> orderProductList, PaymentInfo paymentInfo, Delivery delivery) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setUser(user);
         for (OrderProduct orderProduct : orderProductList) {
             orderInfo.addOrderProduct(orderProduct);
         }
         orderInfo.setOrderDate(LocalDateTime.now());
+        // OrderInfo - PaymentInfo 연관관계
         orderInfo.paymentInfo = paymentInfo;
+        // OrderInfo - Delivery 연관관계
+        orderInfo.delivery = delivery;
         return orderInfo;
     }
 

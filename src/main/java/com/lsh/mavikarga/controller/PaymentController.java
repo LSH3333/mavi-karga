@@ -11,12 +11,14 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -87,8 +89,13 @@ public class PaymentController {
 
     // 클라이언트에서 결재요청 성공 후 받는 end point
     @PostMapping("/payments/validate")
-    private ResponseEntity<String> validatePayment(@ModelAttribute PaymentRequestDto paymentRequestDto, Principal principal)
+    private ResponseEntity<String> validatePayment(@ModelAttribute @Valid PaymentRequestDto paymentRequestDto, Principal principal, BindingResult bindingResult)
             throws IamportResponseException, IOException {
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
+        }
+
         log.info("============= /payment/validate");
         log.info("paymentRequestDto = {}", paymentRequestDto);
 
@@ -97,7 +104,7 @@ public class PaymentController {
         String merchant_uid = paymentRequestDto.getMerchant_uid();
 
         IamportResponse<Payment> irsp = paymentLookup(impUid);
-        if(paymentService.validatePayment(irsp, amount, principal)) {
+        if(paymentService.validatePayment(irsp, paymentRequestDto, principal)) {
             return ResponseEntity.status(HttpStatus.OK).body("결재 정보 검증 완료");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");

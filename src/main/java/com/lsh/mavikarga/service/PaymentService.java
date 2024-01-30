@@ -1,6 +1,7 @@
 package com.lsh.mavikarga.service;
 
 import com.lsh.mavikarga.domain.*;
+import com.lsh.mavikarga.dto.PaymentRequestDto;
 import com.lsh.mavikarga.repository.CartRepository;
 import com.lsh.mavikarga.repository.OrderRepository;
 import com.lsh.mavikarga.repository.PaymentRepository;
@@ -76,17 +77,18 @@ public class PaymentService {
     }
 
     /**
-     * 결재 검증
+     * 결재 검증 후 성공적이라면 주문정보, 결제정보, 배송정보 생성
      *
      * @param irsp:        포트원쪽에서 결재 정보
-     * @param paid_amount: 실제 유저 결재 금액
+     * @param paymentRequestDto: 결재 페이지에서 사용자에게 입력 받은 정보들 (이름,이메일,배송정보 등)
      */
-    public boolean validatePayment(IamportResponse<Payment> irsp, int paid_amount, Principal principal) {
+    public boolean validatePayment(IamportResponse<Payment> irsp, PaymentRequestDto paymentRequestDto, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElse(null);
         if (user == null) {
             return false;
         }
 
+        int paid_amount = Integer.parseInt(paymentRequestDto.getPaid_amount());
         // 포트원 서버에서 조회된 결재금액과 실제 사용자 결재 금액이 다름
         // getAmount() 결과는 BigDecimal
         if (irsp.getResponse().getAmount().intValue() != paid_amount) {
@@ -103,7 +105,7 @@ public class PaymentService {
         log.info("irsp.getResponse().getAmount().intValue() = {}", irsp.getResponse().getAmount().intValue());
         log.info("amount = {}", paid_amount);
 
-        // 주문정보 생성
+        // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
                 irsp.getResponse().getPayMethod(),
                 irsp.getResponse().getImpUid(),
@@ -114,6 +116,11 @@ public class PaymentService {
                 LocalDateTime.now()
         );
 
+        // 배송정보 생성
+        Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
+                paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
+                paymentRequestDto.getExtraAddress());
+
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
         for (Cart cart : user.getCarts()) {
@@ -121,21 +128,24 @@ public class PaymentService {
             OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, productSize.getProduct().getPrice(), cart.getCount());
             orderProductList.add(orderProduct);
         }
-        // 주문 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo);
-        // 주문 저장
+        // 주문정보 생성
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery);
+
+        // 주문정보 저장
         orderRepository.save(orderInfo);
 
-        // PaymentInfo 저장
-        paymentRepository.save(paymentInfo);
-
         // 장바구니에 있는 물품들 결재 완료됐으니 장바구니 비운다
+        clearCart(user);
+
+        return true;
+    }
+
+    // 사용자의 장바구니 비움
+    private void clearCart(User user) {
         for (Cart cart : user.getCarts()) {
             cartRepository.delete(cart);
         }
         user.getCarts().clear();
-
-        return true;
     }
 
     private int calPriceToPay(User user) {

@@ -30,4 +30,17 @@ public class Delivery {
     // 참고항목
     private String extraAddress;
 
+    protected Delivery() {}
+
+    public Delivery(String name, String email, String phone, String postcode, String roadAddress, String jibunAddress,
+                       String detailAddress, String extraAddress) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.postcode = postcode;
+        this.roadAddress = roadAddress;
+        this.jibunAddress = jibunAddress;
+        this.detailAddress = detailAddress;
+        this.extraAddress = extraAddress;
+    }
 }
