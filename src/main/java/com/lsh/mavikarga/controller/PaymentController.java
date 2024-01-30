@@ -11,7 +11,6 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import retrofit2.HttpException;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -79,12 +76,10 @@ public class PaymentController {
     // 결재 페이지
     @GetMapping("/payments/payment")
     public String paymentForm(Principal principal, Model model) {
-        log.info("PAYMENT FORM");
         User user = userService.findByUsername(principal.getName()).orElse(null);
 
         // 사용자 장바구니 담긴 상품들 보여주기
         CartProductDtoList cartProductDtoList = CartProductDtoList.createForPaymentForm(orderService.createCartProductDtoList(user.getId()));
-//        log.info("forPaymentForm = {}", cartProductDtoList.getTotalAmount());
         model.addAttribute("cartProductDtoList", cartProductDtoList);
 
         return "payments/payment";

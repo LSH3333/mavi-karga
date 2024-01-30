@@ -11,6 +11,7 @@ public class Delivery {
     @Column(name = "delivery_id")
     private Long id;
 
+
     // 이름
     private String name;
     // 이메일
@@ -19,10 +20,14 @@ public class Delivery {
     private String phone;
 
     // 우편번호
-    private String address1;
-    // 주소
-    private String address2;
+    private String postcode;
+    // 도로명주소
+    private String roadAddress;
+    // 지번
+    private String jibunAddress;
     // 상세주소
-    private String address3;
+    private String detailAddress;
+    // 참고항목
+    private String extraAddress;
 
 }

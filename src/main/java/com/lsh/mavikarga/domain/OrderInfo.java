@@ -38,6 +38,10 @@ public class OrderInfo {
     @JoinColumn(name = "payment_info_id")
     private PaymentInfo paymentInfo;
 
+    @OneToOne
+    @JoinColumn(name = "delivery_id")
+    private Delivery delivery;
+
 
     // 주문 일자
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
