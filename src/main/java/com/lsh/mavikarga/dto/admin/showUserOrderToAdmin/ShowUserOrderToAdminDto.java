@@ -1,5 +1,6 @@
 package com.lsh.mavikarga.dto.admin.showUserOrderToAdmin;
 
+import com.lsh.mavikarga.domain.Delivery;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,10 +17,12 @@ public class ShowUserOrderToAdminDto {
     // 주문 일자
     private LocalDateTime orderDate;
 
+    // 배송 정보
+    private Delivery delivery;
+
     // 구매한 상품들 정보
     private List<ShowUserOrderToAdminOrderProductDto> showUserOrderToAdminOrderProductDtoList = new ArrayList<>();
 
-    //
-//    private PaymentInfo paymentInfo;
+
 
 }

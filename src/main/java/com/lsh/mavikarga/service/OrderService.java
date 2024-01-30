@@ -119,19 +119,25 @@ public class OrderService {
     }
 
     public ShowUserOrderToAdminDtoList createShowUserOrderToAdminDtoList(Long userId) {
+        // 사용자
         User user = userRepository.findById(userId).orElse(null);
+        // 사용자의 주문 목록
         List<OrderInfo> orderList = orderRepository.findByUser(user);
 
+        // 클라이언트로 보낼 DTO
         ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = new ShowUserOrderToAdminDtoList();
 
-
+        // 사용자의 주문 목록 순회하면서 ShowUserOrderToAdminDto, ShowUserOrderToAdminOrderProductDto 생성
         for (OrderInfo order : orderList) {
             // ShowUserOrderToAdminDto
             ShowUserOrderToAdminDto showUserOrderToAdminDto = new ShowUserOrderToAdminDto();
 
-            //
+            // 주문정보 ID, 주문일자
             showUserOrderToAdminDto.setOrderInfoId(order.getId());
             showUserOrderToAdminDto.setOrderDate(order.getOrderDate());
+            // 배송 정보
+            Delivery delivery = order.getDelivery();
+            showUserOrderToAdminDto.setDelivery(delivery);
 
             // showUserOrderToAdminOrderProductDtoList
             List<OrderProduct> orderProducts = order.getOrderProducts();

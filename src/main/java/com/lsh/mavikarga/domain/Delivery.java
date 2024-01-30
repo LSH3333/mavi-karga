@@ -1,9 +1,11 @@
 package com.lsh.mavikarga.domain;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 
 @Entity
+@Data
 public class Delivery {
 
     @Id
@@ -30,7 +32,9 @@ public class Delivery {
     // 참고항목
     private String extraAddress;
 
-    protected Delivery() {}
+
+
+    public Delivery() {}
 
     public Delivery(String name, String email, String phone, String postcode, String roadAddress, String jibunAddress,
                        String detailAddress, String extraAddress) {
