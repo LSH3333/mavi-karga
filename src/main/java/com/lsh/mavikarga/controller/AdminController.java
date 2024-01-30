@@ -161,7 +161,7 @@ public class AdminController {
     }
 
 
-    //////////////////// 사용자 ////////////////
+    //////////////////// 유저 목록 ////////////////
     // 사용자 목록 뷰
     @GetMapping("/admins/users")
     public String viewUser(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
@@ -187,6 +187,14 @@ public class AdminController {
         model.addAttribute("userEmail", user.getEmail());
 
         return "admins/users/orders";
+    }
+
+    //////////////////// 주문 목록 ////////////////
+    @GetMapping("/admins/orders")
+    public String viewOrders(Model model) {
+        // todo
+        orderService.createOrdersDto(0, 10);
+        return "admins/orders/orders";
     }
 
 

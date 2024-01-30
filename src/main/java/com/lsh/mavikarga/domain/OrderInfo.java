@@ -1,5 +1,6 @@
 package com.lsh.mavikarga.domain;
 
+import com.lsh.mavikarga.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,11 @@ public class OrderInfo {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime orderDate;
 
+    // 처리 상태
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus = OrderStatus.NOT_DONE;
+
+
     public void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
         orderProduct.setOrderInfo(this); // OrderInfo와 OrderProduct 연관관계
@@ -68,6 +74,8 @@ public class OrderInfo {
         orderInfo.paymentInfo = paymentInfo;
         // OrderInfo - Delivery 연관관계
         orderInfo.delivery = delivery;
+        // 처리 상태 초기에 NOT_DONE
+        orderInfo.orderStatus = OrderStatus.NOT_DONE;
         return orderInfo;
     }
 

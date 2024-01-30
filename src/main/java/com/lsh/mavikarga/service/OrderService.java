@@ -6,9 +6,13 @@ import com.lsh.mavikarga.dto.OrderProductDto;
 import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDto;
 import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDtoList;
 import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminOrderProductDto;
+import com.lsh.mavikarga.enums.OrderStatus;
 import com.lsh.mavikarga.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -111,13 +115,13 @@ public class OrderService {
     }
 
     ///////// 관리자 콘솔에서 사용자의 주문 목록 보는 뷰
-
     // 사용자의 주문 목록 찾음
     public List<OrderInfo> findByUser(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         return orderRepository.findByUser(user);
     }
 
+    // 사용자의 주문 목록 가져와서 클라이언트로 보내기 위한 ShowUserOrderToAdminDtoList 만듦
     public ShowUserOrderToAdminDtoList createShowUserOrderToAdminDtoList(Long userId) {
         // 사용자
         User user = userRepository.findById(userId).orElse(null);
@@ -158,4 +162,21 @@ public class OrderService {
 
         return showUserOrderToAdminDtoList;
     }
+
+
+    ///////// 주문 목록
+    // todo
+    public void createOrdersDto(int page, int size) {
+        Page<OrderInfo> orderInfoList = orderRepository.findAllByOrderStatus(OrderStatus.NOT_DONE, PageRequest.of(page, size, Sort.by("orderDate").ascending()));
+
+        for (OrderInfo orderInfo : orderInfoList) {
+            log.info("orderInfo = {}, {}, {}", orderInfo.getUser(), orderInfo.getOrderStatus(), orderInfo.getOrderDate());
+
+
+        }
+
+
+    }
+
+
 }

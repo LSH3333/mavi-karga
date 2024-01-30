@@ -1,6 +1,7 @@
 package com.lsh.mavikarga.domain;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +10,7 @@ import lombok.Setter;
  */
 
 @Entity
-@Getter
-@Setter
+@Data
 public class OrderProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +29,7 @@ public class OrderProduct {
     private int orderPrice;
     // 구매한 갯수
     private int count;
+
 
     public static OrderProduct createOrderProduct(ProductSize productSize, int orderPrice, int count) {
         OrderProduct orderProduct = new OrderProduct();
