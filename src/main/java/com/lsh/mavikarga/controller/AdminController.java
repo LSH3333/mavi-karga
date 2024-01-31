@@ -162,7 +162,7 @@ public class AdminController {
 
 
     //////////////////// 유저 목록 ////////////////
-    // 사용자 목록 뷰
+    // 모든 사용자 목록 뷰
     @GetMapping("/admins/users")
     public String viewUser(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
         int pageSize = 10;
@@ -176,7 +176,7 @@ public class AdminController {
         return "admins/users/users";
     }
 
-    // 사용자의 주문 목록 뷰
+    // 단일 사용자의 주문 목록 뷰
     @GetMapping("/admins/users/orders")
     public String viewUserOrder(Model model, @RequestParam Long userId) {
         User user = userService.findById(userId).orElse(null);
@@ -190,12 +190,22 @@ public class AdminController {
     }
 
     //////////////////// 주문 목록 ////////////////
+
+    // 모든 주문들 보기 뷰
+    // 쿼리 파라미터 orderStatus 에 따라서 모두보기, 배송 미완료, 배송 완료 상태의 주문 정보 클라이언트로 보냄
     @GetMapping("/admins/orders")
-    public String viewOrders(Model model) {
-        // todo
-        orderService.createOrdersDto(0, 10);
+    public String viewOrders(Model model, @RequestParam(defaultValue = "ALL") String orderStatus,
+                             @RequestParam(name = "page", defaultValue = "0") int page) {
+
+        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = orderService.createDtoForAdminOrdersView(page, 10, orderStatus);
+
+        model.addAttribute("orderList", showUserOrderToAdminDtoList);
+        // current page
+        model.addAttribute("page", page+1);
+
         return "admins/orders/orders";
     }
+
 
 
 //    @GetMapping("/admins/testCreateUsers")

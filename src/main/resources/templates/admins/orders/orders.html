@@ -14,12 +14,174 @@
             <h1 class="h2">주문 목록</h1>
         </div>
 
-        
+        <div class="container my-3">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <a th:href="@{/admins/orders?orderStatus=ALL}" class="btn btn-primary">모두보기</a>
+                <a th:href="@{/admins/orders?orderStatus=NOT_DONE}" class="btn btn-danger">배송
+                    미완료</a>
+                <a th:href="@{/admins/orders?orderStatus=DONE}" class="btn btn-success">배송
+                    완료</a>
+            </div>
+        </div>
+
+
+        <!-- ${orderList} = ShowUserOrderToAdminDtoList.class -->
+        <section th:object="${orderList}">
+
+            <!-- 사용자의 주문 정보 -->
+            <!-- *{showUserOrderToAdminDtoList} = ShowUserOrderToAdminDto.showUserOrderToAdminOrderProductDtoList -->
+            <div th:class="${order.orderStatus == 'DONE'} ? 'container border border-primary-subtle rounded mb-3 py-3' : 'container border border-danger-subtle rounded mb-3 py-3'"
+                th:each="order : *{showUserOrderToAdminDtoList}">
+
+                <p th:text="'주문ID: ' + ${order.orderInfoId}"></p>
+                <p th:text="'주문시간: ' + ${order.orderDate}"></p>
+                <p th:text="'배송정보: ' + ${order.delivery}"></p>
+                <p th:text="'처리상태: ' + ${order.orderStatus}"></p>
+
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+                    <!-- 각 주문에 포함된 상품 정보  -->
+                    <div th:each="product : ${order.showUserOrderToAdminOrderProductDtoList}" class="col">
+                        <div class="card shadow-sm">
+                            <!-- 상품 이미지 -->
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
+                                preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Placeholder</title>
+                                <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%"
+                                    fill="#eceeef" dy=".3em">Thumbnail</text>
+                            </svg>
+                            <div class="card-body">
+                                <!-- 상품 내용 -->
+                                <p class="card-text" th:text="'상품ID: ' + ${product.productId}"></p>
+                                <p class="card-text" th:text="'상품명: ' + ${product.name}"></p>
+                                <p class="card-text" th:text="'상품가격: ' + ${product.orderPrice}"></p>
+                                <p class="card-text" th:text="'구매갯수: ' + ${product.count}"></p>
+                                <p class="card-text" th:text="'사이즈: ' + ${product.size}"></p>
+                                <!-- 버튼 -->
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a class="btn btn-sm btn-outline-secondary"
+                                            th:href="@{/order/products?productId={productId}(productId=${product.productId})}">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- pagination -->
+        <nav aria-label="..." class="d-flex justify-content-center mt-5">
+            <ul class="pagination">
+                <li id="pagination-prev" class="page-item">
+                    <a id="pagination-prev-a" class="page-link">Previous</a>
+                </li>
+                <li id="pagination-li-1" class="page-item">
+                    <a id="pagination-a-1" class="page-link" href="?page=0">1</a>
+                </li>
+                <li id="pagination-li-2" class="page-item">
+                    <a id="pagination-a-2" class="page-link" href="?page=1">2</a>
+                </li>
+                <li id="pagination-li-3" class="page-item">
+                    <a id="pagination-a-3" class="page-link" href="?page=2">3</a>
+                </li>
+                <li id="pagination-next" class="page-item">
+                    <a id="pagination-next-a" class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
 
     </main>
 
 
+    <script>
+        const pagination_li_1 = document.getElementById('pagination-li-1');
+        const pagination_li_2 = document.getElementById('pagination-li-2');
+        const pagination_li_3 = document.getElementById('pagination-li-3');
+        const pagination_a_1 = document.getElementById('pagination-a-1')
+        const pagination_a_2 = document.getElementById('pagination-a-2')
+        const pagination_a_3 = document.getElementById('pagination-a-3')
+        const pagination_prev = document.getElementById('pagination-prev');
+        const pagination_next = document.getElementById('pagination-next')
+        const pagination_prev_a = document.getElementById('pagination-prev-a')
+        const pagination_next_a = document.getElementById('pagination-next-a')
+        const liList = [null, pagination_li_1, pagination_li_2, pagination_li_3]
+        const aList = [null, pagination_a_1, pagination_a_2, pagination_a_3]
+        // 현재 페이지 
+        let pageNum = Number("[[${page}]]")
+        // 전체 페이지 
+        let totalpages = Number("[[${orderList.totalPages}]]")
 
+        // console.log('pageNum, totalPages = ' + pageNum, totalpages);
+
+        // prev, next 버튼 href 설정 
+        pagination_prev_a.href = '?page=' + (Math.max(pageNum - 4, 0)).toString();
+        pagination_next_a.href = '?page=' + (Math.min(pageNum + 2, totalpages - 1)).toString();
+
+        // totalPages 3개 이하일 경우 그만큼만 랜더링 
+        if (totalpages <= 3) {
+            // 1~totalPages 숫자 할당 
+            for (let i = 1; i <= totalpages; i++) {
+                aList[i].text = (i).toString();
+                aList[i].href = '?page=' + (i - 1).toString();
+            }
+            // 이외에는 안보이도록 display:none 처리 
+            for (let i = totalpages + 1; i <= 3; i++) {
+                liList[i].style.display = 'none';
+            }
+            // 현재 페이지 표시 
+            liList[pageNum].classList.add('active')
+            pagination_prev.classList.add('disabled')
+            pagination_next.classList.add('disabled')
+        }
+        // totalPages 4개 이상일 경우 
+        else {
+
+            if (pageNum < 2) {
+                pagination_a_1.text = '1';
+                pagination_a_2.text = '2';
+                pagination_a_3.text = '3';
+
+                pagination_a_1.href = '?page=0';
+                pagination_a_2.href = '?page=1';
+                pagination_a_3.href = '?page=2';
+
+                pagination_li_1.classList.add('active') // 현재 페이지 표시
+                pagination_prev.classList.add('disabled') // 이전 버튼 disabled
+            }
+            else if (pageNum === totalpages) {
+                pagination_a_1.text = (pageNum - 2).toString();
+                pagination_a_2.text = (pageNum - 1).toString();
+                pagination_a_3.text = (pageNum).toString();
+
+                pagination_a_1.href = '?page=' + (pageNum - 2 - 1).toString();
+                pagination_a_2.href = '?page=' + (pageNum - 1 - 1).toString();
+                pagination_a_3.href = '?page=' + (pageNum - 1).toString();
+
+                pagination_li_3.classList.add('active')
+                pagination_next.classList.add('disabled')
+            }
+            else {
+                pagination_a_1.text = (pageNum - 1).toString();
+                pagination_a_2.text = (pageNum).toString();
+                pagination_a_3.text = (pageNum + 1).toString();
+
+                pagination_a_1.href = '?page=' + (pageNum - 1 - 1).toString();
+                pagination_a_2.href = '?page=' + (pageNum - 1).toString();
+                pagination_a_3.href = '?page=' + (pageNum + 1 - 1).toString();
+
+                pagination_li_2.classList.add('active')
+            }
+        }
+
+
+
+    </script>
 </body>
 
 </html>

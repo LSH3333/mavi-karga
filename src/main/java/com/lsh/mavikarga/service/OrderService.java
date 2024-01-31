@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -165,18 +166,68 @@ public class OrderService {
 
 
     ///////// 주문 목록
-    // todo
-    public void createOrdersDto(int page, int size) {
-        Page<OrderInfo> orderInfoList = orderRepository.findAllByOrderStatus(OrderStatus.NOT_DONE, PageRequest.of(page, size, Sort.by("orderDate").ascending()));
 
-        for (OrderInfo orderInfo : orderInfoList) {
-            log.info("orderInfo = {}, {}, {}", orderInfo.getUser(), orderInfo.getOrderStatus(), orderInfo.getOrderDate());
+    // 관리자 콘솔, 주문목록을 위한 DTO 생성 
+    public ShowUserOrderToAdminDtoList createDtoForAdminOrdersView(int page, int size, String orderStatus) {
 
+        Page<OrderInfo> orderInfoList;
+        // 주문일자 기준 오름차순으로 가져옴
+        Pageable pageable = PageRequest.of(page, size, Sort.by("orderDate").ascending());
 
+        if (orderStatus.equals("ALL")) {
+            // 모두 가져옴
+            orderInfoList = orderRepository.findAll(pageable);
+        } else if (orderStatus.equals(OrderStatus.NOT_DONE.toString())) {
+            // 배송 완료 되지 않은 주문만 가져옴 (orderStatus==OrderStatus.NOT_DONE)
+            orderInfoList = orderRepository.findAllByOrderStatus(OrderStatus.NOT_DONE, pageable);
+        } else {
+            // 배송 완료 된 주문만 가져옴 (orderStatus==OrderStatus.DONE)
+            orderInfoList = orderRepository.findAllByOrderStatus(OrderStatus.DONE, pageable);
         }
 
+        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = createShowUserOrderToAdminDtoList(orderInfoList);
+        showUserOrderToAdminDtoList.setTotalPages(orderInfoList.getTotalPages());
 
+        return showUserOrderToAdminDtoList;
     }
 
+    // ShowUserOrderToAdminDtoList 생성
+    private ShowUserOrderToAdminDtoList createShowUserOrderToAdminDtoList(Page<OrderInfo> orderInfoList) {
+        // 클라이언트로 보낼 DTO
+        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = new ShowUserOrderToAdminDtoList();
+
+        // 사용자의 주문 목록 순회하면서 ShowUserOrderToAdminDto, ShowUserOrderToAdminOrderProductDto 생성
+        for (OrderInfo order : orderInfoList) {
+            // ShowUserOrderToAdminDto
+            ShowUserOrderToAdminDto showUserOrderToAdminDto = new ShowUserOrderToAdminDto();
+
+            // 주문정보 ID, 주문일자
+            showUserOrderToAdminDto.setOrderInfoId(order.getId());
+            showUserOrderToAdminDto.setOrderDate(order.getOrderDate());
+            // 배송 정보
+            Delivery delivery = order.getDelivery();
+            showUserOrderToAdminDto.setDelivery(delivery);
+            // 처리 상태
+            showUserOrderToAdminDto.setOrderStatus(order.getOrderStatus());
+
+            // showUserOrderToAdminOrderProductDtoList
+            List<OrderProduct> orderProducts = order.getOrderProducts();
+            for (OrderProduct orderProduct : orderProducts) {
+                ShowUserOrderToAdminOrderProductDto showUserOrderToAdminOrderProductDto = new ShowUserOrderToAdminOrderProductDto();
+
+                showUserOrderToAdminOrderProductDto.setOrderPrice(orderProduct.getOrderPrice());
+                showUserOrderToAdminOrderProductDto.setCount(orderProduct.getCount());
+                showUserOrderToAdminOrderProductDto.setSize(orderProduct.getProductSize().getSize());
+                showUserOrderToAdminOrderProductDto.setProductId(orderProduct.getProductSize().getProduct().getId());
+                showUserOrderToAdminOrderProductDto.setName(orderProduct.getProductSize().getProduct().getName());
+
+                showUserOrderToAdminDto.getShowUserOrderToAdminOrderProductDtoList().add(showUserOrderToAdminOrderProductDto);
+            }
+
+            showUserOrderToAdminDtoList.getShowUserOrderToAdminDtoList().add(showUserOrderToAdminDto);
+        }
+
+        return showUserOrderToAdminDtoList;
+    }
 
 }

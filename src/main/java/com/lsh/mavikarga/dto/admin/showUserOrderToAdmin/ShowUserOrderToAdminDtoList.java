@@ -14,4 +14,6 @@ public class ShowUserOrderToAdminDtoList {
 
     // 제품 하나 당 하나
     private List<ShowUserOrderToAdminDto> showUserOrderToAdminDtoList = new ArrayList<>();
+    // pagination 위한 전체 페이지
+    private int totalPages;
 }
