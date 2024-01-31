@@ -36,7 +36,8 @@
                             <p th:text="${showUserToAdminDto.createdTime}"></p>
                         </td>
                         <td>
-                            <a href="" th:href="@{/admins/users/orders?userId={userId}(userId=${showUserToAdminDto.userId})}">클릭</a>                            
+                            <a href=""
+                                th:href="@{/admins/users/orders?userId={userId}(userId=${showUserToAdminDto.userId})}">클릭</a>
                         </td>
                     </tr>
                 </tbody>
@@ -67,6 +68,11 @@
 
 
     <script>
+        // 현재 페이지 
+        let pageNum = Number("[[${page}]]")
+        // 전체 페이지 
+        let totalpages = Number("[[${showUserToAdminDtoList.totalPages}]]")
+
         const pagination_li_1 = document.getElementById('pagination-li-1');
         const pagination_li_2 = document.getElementById('pagination-li-2');
         const pagination_li_3 = document.getElementById('pagination-li-3');
@@ -79,10 +85,6 @@
         const pagination_next_a = document.getElementById('pagination-next-a')
         const liList = [null, pagination_li_1, pagination_li_2, pagination_li_3]
         const aList = [null, pagination_a_1, pagination_a_2, pagination_a_3]
-        // 현재 페이지 
-        let pageNum = Number("[[${page}]]")
-        // 전체 페이지 
-        let totalpages = Number("[[${showUserToAdminDtoList.totalPages}]]")
 
         // console.log('pageNum, totalPages = ' + pageNum, totalpages);
 

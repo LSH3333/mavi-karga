@@ -178,13 +178,15 @@ public class AdminController {
 
     // 단일 사용자의 주문 목록 뷰
     @GetMapping("/admins/users/orders")
-    public String viewUserOrder(Model model, @RequestParam Long userId) {
+    public String viewUserOrder(Model model, @RequestParam Long userId, @RequestParam(defaultValue = "0") int page) {
         User user = userService.findById(userId).orElse(null);
-        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = orderService.createShowUserOrderToAdminDtoList(userId);
+        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = orderService.createShowUserOrderToAdminDtoList(userId, page, 10);
         if(user == null) { return "error"; }
 
         model.addAttribute("orderList", showUserOrderToAdminDtoList);
         model.addAttribute("userEmail", user.getEmail());
+        // current page
+        model.addAttribute("page", page+1);
 
         return "admins/users/orders";
     }
