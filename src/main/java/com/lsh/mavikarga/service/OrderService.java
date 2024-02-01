@@ -202,4 +202,20 @@ public class OrderService {
         return showUserOrderToAdminDtoList;
     }
 
+    // 주문정보의 처리상태 변경
+    public void changeOrderStatus(Long orderInfoId, String status) {
+        OrderInfo orderInfo = orderRepository.findById(orderInfoId).orElse(null);
+        if(orderInfo == null) return;
+        OrderStatus orderStatus;
+
+        if (status.equals(OrderStatus.NOT_DONE.toString())) {
+            orderStatus = OrderStatus.NOT_DONE;
+        } else {
+            orderStatus = OrderStatus.DONE;
+        }
+
+        orderInfo.setOrderStatus(orderStatus);
+        log.info("getOrderStatus() = {}",orderInfo.getOrderStatus());
+    }
+
 }

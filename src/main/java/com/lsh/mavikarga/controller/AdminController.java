@@ -204,8 +204,21 @@ public class AdminController {
         model.addAttribute("orderList", showUserOrderToAdminDtoList);
         // current page
         model.addAttribute("page", page+1);
+        // orderStatus
+        model.addAttribute("orderStatus", orderStatus);
 
         return "admins/orders/orders";
+    }
+
+    /**
+     * 주문정보의 처리 상태 변경
+     * @param orderInfoId: 변경할 주문정보의 id
+     * @param status: 'DONE', 'NOT_DONE'
+     */
+    @PostMapping("/admins/orders/orderStatus")
+    public String changeOrderStatus(@RequestParam Long orderInfoId, @RequestParam String status) {
+        orderService.changeOrderStatus(orderInfoId, status);
+        return "redirect:/admins/orders";
     }
 
 
