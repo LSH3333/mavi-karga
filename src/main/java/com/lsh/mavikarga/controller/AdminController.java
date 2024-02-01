@@ -178,17 +178,31 @@ public class AdminController {
 
     // 단일 사용자의 주문 목록 뷰
     @GetMapping("/admins/users/orders")
-    public String viewUserOrder(Model model, @RequestParam Long userId, @RequestParam(defaultValue = "0") int page) {
+    public String viewUserOrder(Model model, @RequestParam Long userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "ALL") String orderStatus) {
         User user = userService.findById(userId).orElse(null);
-        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = orderService.createShowUserOrderToAdminDtoList(userId, page, 10);
+        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = orderService.createShowUserOrderToAdminDtoList(userId, page, 10, orderStatus);
         if(user == null) { return "error"; }
 
         model.addAttribute("orderList", showUserOrderToAdminDtoList);
+        model.addAttribute("userId", userId);
         model.addAttribute("userEmail", user.getEmail());
         // current page
         model.addAttribute("page", page+1);
+        // 처리 상태 필터
+        model.addAttribute("orderStatus", orderStatus);
 
         return "admins/users/orders";
+    }
+
+    /**
+     * 주문정보의 처리 상태 변경
+     * @param orderInfoId: 변경할 주문정보의 id
+     * @param status: 'DONE', 'NOT_DONE'
+     */
+    @PostMapping("/admins/users/orders/orderStatus")
+    public String changeUsersOrdersOrderStatus(@RequestParam Long orderInfoId, @RequestParam String status, @RequestParam Long userId) {
+        orderService.changeOrderStatus(orderInfoId, status);
+        return "redirect:/admins/users/orders?userId=" + userId;
     }
 
     //////////////////// 주문 목록 ////////////////
@@ -204,7 +218,7 @@ public class AdminController {
         model.addAttribute("orderList", showUserOrderToAdminDtoList);
         // current page
         model.addAttribute("page", page+1);
-        // orderStatus
+        // 처리 상태 필터
         model.addAttribute("orderStatus", orderStatus);
 
         return "admins/orders/orders";

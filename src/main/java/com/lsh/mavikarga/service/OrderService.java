@@ -123,14 +123,26 @@ public class OrderService {
     }
 
     // 사용자의 주문 목록 가져와서 클라이언트로 보내기 위한 ShowUserOrderToAdminDtoList 만듦
-    public ShowUserOrderToAdminDtoList createShowUserOrderToAdminDtoList(Long userId, int page, int size) {
+    public ShowUserOrderToAdminDtoList createShowUserOrderToAdminDtoList(Long userId, int page, int size, String orderStatus) {
         // 사용자
         User user = userRepository.findById(userId).orElse(null);
-        // 사용자의 주문 목록
-        Page<OrderInfo> orderList = orderRepository.findByUser(user, PageRequest.of(page, size, Sort.by("orderDate").ascending()));
+
+        // 사용자의 주문 목록.
+        Page<OrderInfo> orderInfoList;
+        // 주문일자 기준 오름차순으로 가져옴
+        Pageable pageable = PageRequest.of(page, size, Sort.by("orderDate").ascending());
+        // 모든, 배송 미완료, 배송 완료
+        if (orderStatus.equals("ALL")) {
+            orderInfoList = orderRepository.findByUser(user, pageable);
+        } else if (orderStatus.equals(OrderStatus.NOT_DONE.toString())) {
+            orderInfoList = orderRepository.findByUserAndOrderStatus(user, OrderStatus.NOT_DONE, pageable);
+        } else {
+            orderInfoList = orderRepository.findByUserAndOrderStatus(user, OrderStatus.DONE, pageable);
+        }
+
         // DTO
-        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = createShowUserOrderToAdminDtoList(orderList);
-        showUserOrderToAdminDtoList.setTotalPages(orderList.getTotalPages());
+        ShowUserOrderToAdminDtoList showUserOrderToAdminDtoList = createShowUserOrderToAdminDtoList(orderInfoList);
+        showUserOrderToAdminDtoList.setTotalPages(orderInfoList.getTotalPages());
 
         return showUserOrderToAdminDtoList;
     }

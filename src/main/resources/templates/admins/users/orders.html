@@ -11,8 +11,22 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">주문 목록</h1>
+            <h1 class="h2">유저 주문 목록</h1>
             <h2 th:text="${userEmail}"></h2>
+        </div>
+
+        <!-- 모두보기, 배송미완료, 배송완료 버튼 -->
+        <div class="container my-3">
+            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <a id="all-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='ALL')}"
+                    class="btn btn-primary">모두보기</a>
+                <a id="not-done-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='NOT_DONE')}"
+                    class="btn btn-danger">배송
+                    미완료</a>
+                <a id="done-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='DONE')}"
+                    class="btn btn-success">배송
+                    완료</a>
+            </div>
         </div>
 
         <!-- ${orderList} = ShowUserOrderToAdminDtoList.class -->
@@ -20,12 +34,24 @@
 
             <!-- 사용자의 주문 정보 -->
             <!-- *{showUserOrderToAdminDtoList} = ShowUserOrderToAdminDto.showUserOrderToAdminOrderProductDtoList -->
-            <div class="container border border-primary-subtle rounded mb-3 py-3"
+            <div th:class="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DONE} ? 'container border border-3 border-success rounded mb-3 py-3' : 'container border border-3 border-danger rounded mb-3 py-3'"
                 th:each="order : *{showUserOrderToAdminDtoList}">
 
-                <p th:text="'주문ID: ' + ${order.orderInfoId}"></p>
-                <p th:text="'주문시간: ' + ${order.orderDate}"></p>
-                <p th:text="'배송정보: ' + ${order.delivery}"></p>
+                <div class="container mb-3">
+                    <p th:text="'주문ID: ' + ${order.orderInfoId}"></p>
+                    <p th:text="'주문시간: ' + ${order.orderDate}"></p>
+                    <p th:text="'배송정보: ' + ${order.delivery}"></p>
+                    <p th:text="'처리상태: ' + ${order.orderStatus}"></p>
+                    <!-- 완료, 미완료 처리 버튼 -->
+                    <form method="post"
+                        th:action="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DONE} ? @{/admins/users/orders/orderStatus(orderInfoId=${order.orderInfoId},status='NOT_DONE',userId=${userId})} : 
+                    @{/admins/users/orders/orderStatus(orderInfoId=${order.orderInfoId},status='DONE',userId=${userId})}">
+                        <button type="submit"
+                            th:class="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DONE} ? 'btn btn-danger' : 'btn btn-primary'"
+                            th:text="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DONE} ? '미완료 처리' : '완료 처리'"></button>
+                    </form>
+                </div>
+
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
@@ -47,7 +73,7 @@
                                 <p class="card-text" th:text="'상품가격: ' + ${product.orderPrice}"></p>
                                 <p class="card-text" th:text="'구매갯수: ' + ${product.count}"></p>
                                 <p class="card-text" th:text="'사이즈: ' + ${product.size}"></p>
-                                <!-- 버튼 -->
+                                <!-- 상품 보기 버튼 -->
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <a class="btn btn-sm btn-outline-secondary"
@@ -60,9 +86,6 @@
 
                 </div>
             </div>
-
-
-
         </section>
 
         <!-- pagination -->
@@ -87,8 +110,8 @@
         </nav>
     </main>
 
+    <!-- Pagination javascript -->
     <script>
-        // Pagination javascript 
         // 현재 페이지 
         let pageNum = Number("[[${page}]]")
         // 전체 페이지 
@@ -168,6 +191,30 @@
                 pagination_li_2.classList.add('active')
             }
         }
+    </script>
+
+    <!-- 모두보기, 배송미완료, 배송완료 버튼 -->
+    <script>
+        let orderStatus = '[[${orderStatus}]]';
+        let allBtn = document.getElementById('all-btn');
+        let notDoneBtn = document.getElementById('not-done-btn');
+        let doneBtn = document.getElementById('done-btn');
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (orderStatus === 'ALL') {
+                allBtn.setAttribute('data-bs-toggle', 'button');
+                allBtn.setAttribute('aria-pressed', 'true');
+                allBtn.classList.add('active');
+            } else if (orderStatus == 'NOT_DONE') {
+                notDoneBtn.setAttribute('data-bs-toggle', 'button');
+                notDoneBtn.setAttribute('aria-pressed', 'true');
+                notDoneBtn.classList.add('active');
+            } else {
+                doneBtn.setAttribute('data-bs-toggle', 'button');
+                doneBtn.setAttribute('aria-pressed', 'true');
+                doneBtn.classList.add('active');
+            }
+        });
     </script>
 </body>
 

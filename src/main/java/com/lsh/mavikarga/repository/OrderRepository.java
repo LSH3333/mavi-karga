@@ -18,4 +18,7 @@ public interface OrderRepository extends JpaRepository<OrderInfo, Long> {
     Page<OrderInfo> findAllByOrderStatus(OrderStatus orderStatus, Pageable pageable);
 
     Page<OrderInfo> findAll(Pageable pageable);
+
+    // User 와 OrderStatus 로 찾음
+    Page<OrderInfo> findByUserAndOrderStatus(User user, OrderStatus orderStatus, Pageable pageable);
 }
