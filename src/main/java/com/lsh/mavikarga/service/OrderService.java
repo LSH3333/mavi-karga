@@ -2,6 +2,8 @@ package com.lsh.mavikarga.service;
 
 import com.lsh.mavikarga.domain.*;
 import com.lsh.mavikarga.dto.CartProductDto;
+import com.lsh.mavikarga.dto.MyPageDto;
+import com.lsh.mavikarga.dto.MyPageDtoList;
 import com.lsh.mavikarga.dto.OrderProductDto;
 import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDto;
 import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDtoList;
@@ -83,7 +85,7 @@ public class OrderService {
     public List<CartProductDto> createCartProductDtoList(Long userId) {
         List<CartProductDto> cartProductDtos = new ArrayList<>();
         User user = userRepository.findById(userId).orElse(null);
-        if(user == null) {
+        if (user == null) {
             return null;
         }
 
@@ -102,7 +104,7 @@ public class OrderService {
 
         for (CartProductDto cartProductDto : cartProductDtoList) {
             Cart cart = cartRepository.findById(cartProductDto.getCartId()).orElse(null);
-            if(cart == null) continue;
+            if (cart == null) continue;
 
             // 사용자가 해당 상품 장바구니에서 제외했다면 제거
             if (cartProductDto.isDeleted()) {
@@ -217,7 +219,7 @@ public class OrderService {
     // 주문정보의 처리상태 변경
     public void changeOrderStatus(Long orderInfoId, String status) {
         OrderInfo orderInfo = orderRepository.findById(orderInfoId).orElse(null);
-        if(orderInfo == null) return;
+        if (orderInfo == null) return;
         OrderStatus orderStatus;
 
         if (status.equals(OrderStatus.NOT_DONE.toString())) {
@@ -227,7 +229,43 @@ public class OrderService {
         }
 
         orderInfo.setOrderStatus(orderStatus);
-        log.info("getOrderStatus() = {}",orderInfo.getOrderStatus());
     }
 
+
+    /////////// 마이페이지
+    // 마이페이지에서 보여줄 사용자의 주문 목록 렌더링 위한 MyPageDtoList 생성 
+    public MyPageDtoList createMyPageDtoList(Long userId, int page, int size) {
+        // List Dto
+        MyPageDtoList myPageDtoList = new MyPageDtoList();
+        // 사용자
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return myPageDtoList;
+
+        Page<OrderInfo> orderList = orderRepository.findByUser(user, PageRequest.of(page, size, Sort.by("orderDate").ascending()));
+        // 주문정보 순회
+        for (OrderInfo orderInfo : orderList) {
+            // 주문정보에 속한 주문제품 순회
+            for (OrderProduct orderProduct : orderInfo.getOrderProducts()) {
+                // Dto
+                MyPageDto myPageDto = new MyPageDto();
+
+                // 상품명
+                myPageDto.setName(orderProduct.getProductSize().getProduct().getName());
+                // 주문 일자
+                myPageDto.setOrderDate(orderInfo.getOrderDate());
+                // 구매한 상품 개당 가격
+                myPageDto.setOrderPrice(orderProduct.getOrderPrice());
+                // 구매한 갯수
+                myPageDto.setCount(orderProduct.getCount());
+                // 처리 상태
+                myPageDto.setOrderStatus(orderInfo.getOrderStatus());
+
+                // 리스트에 추가
+                myPageDtoList.getMyPageDtoList().add(myPageDto);
+            }
+        }
+
+        myPageDtoList.setTotalPages(orderList.getTotalPages());
+        return myPageDtoList;
+    }
 }

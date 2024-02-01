@@ -11,12 +11,12 @@
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">주문 목록</h1>
+            <h1 class="h2">전체 주문 목록</h1>
         </div>
 
         <!-- 모두보기, 배송미완료, 배송완료 버튼 -->
-        <div class="container my-3">
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <div class="container my-3 p-0">
+            <div class="btn-group" role="group" >
                 <a id="all-btn" th:href="@{/admins/orders?orderStatus=ALL}" class="btn btn-primary">모두보기</a>
                 <a id="not-done-btn" th:href="@{/admins/orders?orderStatus=NOT_DONE}" class="btn btn-danger">배송
                     미완료</a>

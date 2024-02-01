@@ -16,8 +16,8 @@
         </div>
 
         <!-- 모두보기, 배송미완료, 배송완료 버튼 -->
-        <div class="container my-3">
-            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <div class="container my-3 p-0">
+            <div class="btn-group" role="group" >
                 <a id="all-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='ALL')}"
                     class="btn btn-primary">모두보기</a>
                 <a id="not-done-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='NOT_DONE')}"
