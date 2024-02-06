@@ -17,10 +17,11 @@
                     <div class="col-md-6">
                         <!-- 상품 이미지 -->
                         <div class="">
-                            <div class="d-flex justify-content-center" th:each="productImageUrl: ${orderProductDto.productImgUrlList}">
-                                <a style="width: 100%;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
-                                        style="width: 100%;" src="/static/image/-6.jpg" th:src="${productImageUrl}"
-                                        alt=""></a>
+                            <div class="d-flex justify-content-center"
+                                th:each="productImageUrl: ${orderProductDto.productImgUrlList}">
+                                <a style="width: 100%;" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal"><img style="width: 100%;" src="/static/image/-6.jpg"
+                                        th:src="${productImageUrl}" alt=""></a>
                             </div>
                             <!-- <div>
                                 <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
@@ -81,17 +82,20 @@
                                                                 </div>
                                                                 <!-- <button id="submitBtn" type="submit" class="btn btn-dark btn-sm">장바구니
                                             추가</button> -->
-                                                                <!-- 장바구니 추가 완료 알림 -->
+                                                                <!-- 장바구니 추가 버튼 -->
                                                                 <button type="submit" class="btn btn-dark btn-sm mb-5"
                                                                     id="submitBtn" disabled>장바구니
                                                                     추가</button>
+                                                                <!-- 장바구니 추가 완료 알림 -->
                                                                 <div id="liveAlertPlaceholder"></div>
                                                             </form>
                                                         </div>
                                                         <!-- 로그인 없이 보이는 영역 -->
-                                                        <a class="btn btn-dark btn-sm" sec:authorize="isAnonymous()"
-                                                            th:href="@{/login}">구매하기
-                                                            위해서 로그인해주세요!</a>
+                                                        <div sec:authorize="isAnonymous()">
+                                                            <a class="btn btn-dark btn-sm" th:href="@{/login}">구매하기
+                                                                위해서 로그인해주세요!</a>
+                                                            <a class="btn btn-dark btn-sm" href="">비회원으로 장바구니에 추가</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -183,7 +187,7 @@
         }
     </script>
 
-    <!-- alert bootstrap -->
+    <!-- alert bootstrap, 장바구니 추가 성공 알림 -->
     <script>
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
         const appendAlert = (message, type) => {

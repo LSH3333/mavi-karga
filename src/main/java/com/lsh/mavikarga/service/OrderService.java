@@ -60,6 +60,7 @@ public class OrderService {
 //        orderRepository.save(orderInfo);
 //    }
 
+    //////////////////////////// 회원 장바구니 ////////////////////////////
     // 장바구니 추가
     public boolean addCart(OrderProductDto orderProductDto, Long userId) {
 
@@ -117,7 +118,29 @@ public class OrderService {
         }
     }
 
-    ///////// 관리자 콘솔에서 사용자의 주문 목록 보는 뷰
+    //////////////////////////// 비회원 장바구니 ////////////////////////////
+    // 비회원 장바구니 추가
+    public boolean addCartForNonUser(OrderProductDto orderProductDto, CartForNonUser cart) {
+
+        // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
+        Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        // 사용자가 구매한 갯수
+        int count = orderProductDto.getCount();
+
+        if (productSize == null || product == null) {
+            return false;
+        }
+
+        // 비회원 장바구니에 추가
+        cart.getProductSizeList().add(productSize);
+        cart.getCountList().add(count);
+
+        return true;
+    }
+
+
+    //////////////////////////// 관리자 콘솔에서 사용자의 주문 목록 보는 뷰
     // 사용자의 주문 목록 찾음
     public List<OrderInfo> findByUser(Long userId) {
         User user = userRepository.findById(userId).orElse(null);

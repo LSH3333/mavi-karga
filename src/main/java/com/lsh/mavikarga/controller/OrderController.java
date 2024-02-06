@@ -1,5 +1,6 @@
 package com.lsh.mavikarga.controller;
 
+import com.lsh.mavikarga.domain.CartForNonUser;
 import com.lsh.mavikarga.domain.Product;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.CartProductDto;
@@ -9,6 +10,7 @@ import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.ProductImageService;
 import com.lsh.mavikarga.service.ProductService;
 import com.lsh.mavikarga.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,7 +76,7 @@ public class OrderController {
 
 
     //  you can't redirect user in ajax requests!
-    // 장바구니 추가
+    // 회원 장바구니 추가 ajax
     @PostMapping("/order/products/add")
     public ResponseEntity<String> addProductToOrder(
             @ModelAttribute OrderProductDto orderProductDto,
@@ -98,6 +100,29 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
+    // 비회원 장바구니 추가 ajax
+    @PostMapping("/order/products/add/nonuser")
+    public ResponseEntity<String> addProductToOrderNonUser(HttpSession session, @ModelAttribute OrderProductDto orderProductDto) {
+        // 사이즈 선택 안했을 경우 BAD_REQUEST
+        if (orderProductDto.getSelectedProductSizeId() == -1) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
+        }
+
+        // 세션에서 장바구니 가져옴
+        CartForNonUser cart = (CartForNonUser) session.getAttribute("cart");
+        // 세션에 장바구니 없으면 새로 만듦
+        if (cart == null) {
+            cart = new CartForNonUser();
+            session.setAttribute("cart", cart);
+        }
+
+        // 장바구니에 상품, 갯수 추가
+        if (!orderService.addCartForNonUser(orderProductDto, cart)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
 
     // 장바구니 폼
     @GetMapping("/order/cart")
