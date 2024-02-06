@@ -16,7 +16,7 @@ public class OrderProductDto  {
     private String description;
     private List<ProductSize> productSizeList = new ArrayList<>();
 
-    // todo: 나중에 단일 상품 페이지 프론트 정확히 어떻게할것인지 듣고나서 결정
+    // 상품 이미지 url (aws s3 버킷)
     private List<String> productImgUrlList = new ArrayList<>();
 
     // 사용자에게 입력 받을 데이터들

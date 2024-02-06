@@ -77,6 +77,7 @@ public class AdminController {
     }
 
     //////////////////// 상품 이미지 ////////////////
+    // 상품 이미지 수정 폼
     @GetMapping("/admins/products/images/{productId}")
     public String productImageForm(@PathVariable UUID productId, Model model) {
         model.addAttribute("productId", productId);
