@@ -15,12 +15,14 @@
                 <div class="row">
                     <!-- LEFT SIDE -->
                     <div class="col-7">
-                        <!-- <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                            From the Firehose
-                        </h3> -->
                         <!-- 상품 이미지 -->
-                        <div>
-                            <div>
+                        <div class="">
+                            <div class="d-flex justify-content-center" th:each="productImageUrl: ${orderProductDto.productImgUrlList}">
+                                <a style="width: 100%;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
+                                        style="width: 100%;" src="/static/image/-6.jpg" th:src="${productImageUrl}"
+                                        alt=""></a>
+                            </div>
+                            <!-- <div>
                                 <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
                                         style="width: 100%;" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}"
                                         alt=""></a>
@@ -34,7 +36,7 @@
                                 <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
                                         style="width: 100%;" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}"
                                         alt=""></a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <!-- RIGHT SIDE STICKY -->
@@ -60,7 +62,8 @@
                                                                     th:if="${not #lists.isEmpty(orderProductDto.productSizeList)}">
                                                                     <label for="size" class="form-label">사이즈</label>
                                                                     <select th:field="*{selectedProductSizeId}"
-                                                                        id="size" name="size" class="form-select" onchange="checkSelectedSize()">
+                                                                        id="size" name="size" class="form-select"
+                                                                        onchange="checkSelectedSize()">
                                                                         <option value="-1" selected>SELECT SIZE</option>
                                                                         <option
                                                                             th:each="productSize : ${orderProductDto.productSizeList}"
@@ -208,7 +211,7 @@
         function checkSelectedSize() {
             var selectedSize = document.getElementById("size").value;
             var submitBtn = document.getElementById("submitBtn");
-            
+
             submitBtn.disabled = (selectedSize === "-1");
         }
     </script>

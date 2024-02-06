@@ -62,9 +62,13 @@ public class OrderController {
         // todo: 나중에 단일 상품 페이지 프론트 정확히 어떻게할것인지 듣고나서 결정
         List<String> allProductImagesUrlInProduct = productImageService.getAllProductImagesUrlInProduct(productId);
 
-
-        OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getSizes());
+        // 클라이언트로 보낼 DTO
+        OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getSizes(), allProductImagesUrlInProduct);
         Collections.sort(orderProductDto.getProductSizeList());
+
+        for (String s : allProductImagesUrlInProduct) {
+            log.info("imgUrl = {}", s);
+        }
 
         model.addAttribute("orderProductDto", orderProductDto);
 

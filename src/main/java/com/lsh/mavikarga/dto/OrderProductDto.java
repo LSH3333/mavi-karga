@@ -17,7 +17,7 @@ public class OrderProductDto  {
     private List<ProductSize> productSizeList = new ArrayList<>();
 
     // todo: 나중에 단일 상품 페이지 프론트 정확히 어떻게할것인지 듣고나서 결정
-//    private List<String> productImgUrlList = new ArrayList<>();
+    private List<String> productImgUrlList = new ArrayList<>();
 
     // 사용자에게 입력 받을 데이터들
     private Long selectedProductSizeId;
@@ -26,8 +26,10 @@ public class OrderProductDto  {
 
     public OrderProductDto() {}
 
-    public OrderProductDto(String name, String description, List<ProductSize> productSizeList) {
+    public OrderProductDto(String name, String description, List<ProductSize> productSizeList, List<String> productImgUrlList) {
+        // 상품명
         this.name = name;
+        // 상품 상세
         this.description = description;
         // available 한 ProductSize 만 담는다
         for (ProductSize productSize : productSizeList) {
@@ -35,6 +37,8 @@ public class OrderProductDto  {
                 this.productSizeList.add(productSize);
             }
         }
+        // 상품 이미지
+        this.productImgUrlList = productImgUrlList;
     }
 
 }

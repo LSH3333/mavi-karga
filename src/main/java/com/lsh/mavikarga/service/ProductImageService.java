@@ -61,7 +61,7 @@ public class ProductImageService {
         product.getProductImages().clear();
     }
 
-
+    // 상품의 모든 이미지들의 url 을 리스트로 만들어서 리턴
     public List<String> getAllProductImagesUrlInProduct(UUID productId) {
         List<String> productImagesUrlList = new ArrayList<>();
         Product product = productRepository.findById(productId).orElse(null);
