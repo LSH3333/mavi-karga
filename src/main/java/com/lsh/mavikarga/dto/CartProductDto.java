@@ -16,8 +16,15 @@ public class CartProductDto {
 
     public CartProductDto() {}
 
+    // 회원용 생성자
     public CartProductDto(Long cartId, String name, int price, int count) {
         this.cartId = cartId;
+        this.name = name;
+        this.price = price;
+        this.count = count;
+    }
+    // 비회원용 생성자
+    public CartProductDto(String name, int price, int count) {
         this.name = name;
         this.price = price;
         this.count = count;

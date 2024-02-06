@@ -9,10 +9,19 @@ import java.util.List;
 @Data
 public class CartForNonUser {
 
-    List<ProductSize> productSizeList = new ArrayList<>();
-    List<Integer> countList = new ArrayList<>();
+//    List<ProductSize> productSizeList = new ArrayList<>();
+//    List<Integer> countList = new ArrayList<>();
 
-//    private ProductSize productSize;
+    // id
+    private int id;
+    // 제품
+    private ProductSize productSize;
     // 제품 갯수
-//    private int count;
+    private int count;
+
+    public CartForNonUser(int id, ProductSize productSize, int count) {
+        this.id = id;
+        this.productSize = productSize;
+        this.count = count;
+    }
 }

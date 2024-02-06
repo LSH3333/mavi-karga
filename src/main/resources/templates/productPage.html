@@ -54,8 +54,8 @@
                                                         <h4 th:text="${orderProductDto.name}"></h4>
                                                         <!-- <h3>가격</h3> -->
                                                         <p th:text="${orderProductDto.description}"></p>
-                                                        <!-- 로그인 해야 보이는 영역 -->
-                                                        <div sec:authorize="isAuthenticated()">
+                                                        <!-- 상품 상세 -->
+                                                        <div>
                                                             <form id="formData" th:action="@{/order/products/add}"
                                                                 th:object="${orderProductDto}" method="post">
                                                                 <!-- 사이즈 -->
@@ -83,8 +83,9 @@
                                                                 <!-- <button id="submitBtn" type="submit" class="btn btn-dark btn-sm">장바구니
                                             추가</button> -->
                                                                 <!-- 장바구니 추가 버튼 -->
-                                                                <button type="submit" class="btn btn-dark btn-sm mb-5"
-                                                                    id="submitBtn" disabled>장바구니
+                                                                <button sec:authorize="isAuthenticated()" type="submit"
+                                                                    class="btn btn-dark btn-sm mb-5" id="submitBtn"
+                                                                    disabled>장바구니
                                                                     추가</button>
                                                                 <!-- 장바구니 추가 완료 알림 -->
                                                                 <div id="liveAlertPlaceholder"></div>
@@ -92,9 +93,10 @@
                                                         </div>
                                                         <!-- 로그인 없이 보이는 영역 -->
                                                         <div sec:authorize="isAnonymous()">
-                                                            <a class="btn btn-dark btn-sm" th:href="@{/login}">구매하기
+                                                            <a class="btn btn-dark btn-sm mb-3" th:href="@{/login}">구매하기
                                                                 위해서 로그인해주세요!</a>
-                                                            <a class="btn btn-dark btn-sm" href="">비회원으로 장바구니에 추가</a>
+                                                            <button id="nonUserSubmitBtn" class="btn btn-dark btn-sm"
+                                                                href="" disabled>비회원으로 장바구니에 추가</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -153,7 +155,7 @@
     </div>
     <!-- End of Modal -->
 
-    <!-- submit form ajax -->
+    <!-- 회원 장바구니 추가 ajax -->
     <script>
         let submitBtn = document.getElementById('submitBtn');
         if (submitBtn != null) {
@@ -163,7 +165,6 @@
             })
 
             function submitForm() {
-                console.log('submitForm()')
                 let formData = new FormData(document.getElementById('formData'))
 
                 const xhr = new XMLHttpRequest();
@@ -187,6 +188,40 @@
         }
     </script>
 
+    <!-- 비회원 장바구니 추가 ajax -->
+    <script>
+        let nonUserSubmitBtn = document.getElementById('nonUserSubmitBtn');
+
+        nonUserSubmitBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+            submitNonUserForm();
+        })
+
+        function submitNonUserForm() {
+            console.log('submitNonUserForm')
+            let formData = new FormData(document.getElementById('formData'))
+
+            const xhrNonUser = new XMLHttpRequest();
+            xhrNonUser.open("POST", "/order/products/add/nonuser", true);
+
+            xhrNonUser.onload = function () {
+                if (xhrNonUser.readyState == XMLHttpRequest.DONE) {
+                    if (xhrNonUser.status == 200) {
+                        console.log("order success");
+                    } else if (xhrNonUser.status == 302) {
+                        console.log('302')
+                    }
+                    else {
+                        console.log("order failed");
+                    }
+                }
+            }
+            xhrNonUser.send(formData);
+        };
+
+
+    </script>
+
     <!-- alert bootstrap, 장바구니 추가 성공 알림 -->
     <script>
         const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
@@ -201,11 +236,18 @@
 
             alertPlaceholder.append(wrapper)
         }
-
+        // 회원
         const alertTrigger = document.getElementById('submitBtn')
         if (alertTrigger) {
             alertTrigger.addEventListener('click', () => {
                 appendAlert('상품이 장바구니에 담겼습니다. <a href="/order/cart">장바구니</a>', 'success')
+            })
+        }
+        // 비회원
+        const alertTriggerNonUser = document.getElementById('nonUserSubmitBtn')
+        if (alertTriggerNonUser) {
+            alertTriggerNonUser.addEventListener('click', () => {
+                appendAlert('상품이 장바구니에 담겼습니다. <a href="/order/cart/nonuser">장바구니</a>', 'success')
             })
         }
     </script>
@@ -214,9 +256,16 @@
     <script>
         function checkSelectedSize() {
             var selectedSize = document.getElementById("size").value;
+            // 회원 장바구니 추가 버튼 
             var submitBtn = document.getElementById("submitBtn");
-
-            submitBtn.disabled = (selectedSize === "-1");
+            if (submitBtn != null) {
+                submitBtn.disabled = (selectedSize === "-1");
+            }
+            // 비회원 장바구니 추가 버튼 
+            var submitBtnNonUser = document.getElementById('nonUserSubmitBtn');
+            if (submitBtnNonUser != null) {
+                submitBtnNonUser.disabled = (selectedSize === "-1");
+            }
         }
     </script>
 </body>

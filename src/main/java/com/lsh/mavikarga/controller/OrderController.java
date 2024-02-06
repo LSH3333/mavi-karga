@@ -2,6 +2,7 @@ package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.CartForNonUser;
 import com.lsh.mavikarga.domain.Product;
+import com.lsh.mavikarga.domain.ProductSize;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.CartProductDto;
 import com.lsh.mavikarga.dto.CartProductDtoList;
@@ -20,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -103,57 +105,81 @@ public class OrderController {
     // 비회원 장바구니 추가 ajax
     @PostMapping("/order/products/add/nonuser")
     public ResponseEntity<String> addProductToOrderNonUser(HttpSession session, @ModelAttribute OrderProductDto orderProductDto) {
+        log.info("addProductToOrderNonUser");
         // 사이즈 선택 안했을 경우 BAD_REQUEST
         if (orderProductDto.getSelectedProductSizeId() == -1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");
         }
 
         // 세션에서 장바구니 가져옴
-        CartForNonUser cart = (CartForNonUser) session.getAttribute("cart");
+        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
         // 세션에 장바구니 없으면 새로 만듦
-        if (cart == null) {
-            cart = new CartForNonUser();
-            session.setAttribute("cart", cart);
+        if (cartList == null) {
+            cartList = new ArrayList<CartForNonUser>();
+            session.setAttribute("cart", cartList);
         }
 
+
         // 장바구니에 상품, 갯수 추가
-        if (!orderService.addCartForNonUser(orderProductDto, cart)) {
+        if (!orderService.addCartForNonUser(orderProductDto, cartList, session)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
         }
 
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
-    // 장바구니 폼
+    // 회원 장바구니 폼
     @GetMapping("/order/cart")
-    public String cartForm(Principal principal, Model model) {
-        User user = userService.findByUsername(principal.getName()).orElse(null);
+    public String cartForm(Principal principal, HttpSession session, Model model) {
 
         // 사용자 장바구니 담긴 상품들 보여주기
-        CartProductDtoList cartProductDtoList = new CartProductDtoList(orderService.createCartProductDtoList(user.getId()));
+        CartProductDtoList cartProductDtoList;
+
+        User user = userService.findByUsername(principal.getName()).orElse(null);
+        cartProductDtoList = new CartProductDtoList(orderService.createCartProductDtoList(user.getId()));
+
         model.addAttribute("cartProductDtoList", cartProductDtoList);
 
         return "cart";
     }
 
+    // 비회원 장바구니 폼
+    @GetMapping("/order/cart/nonuser")
+    public String cartFormNonUser(HttpSession session, Model model) {
+
+        // 사용자 장바구니 담긴 상품들 보여주기
+        CartProductDtoList cartProductDtoList;
+
+        cartProductDtoList = new CartProductDtoList(orderService.createCartProductDtoListForNonUser(session));
+        model.addAttribute("cartProductDtoList", cartProductDtoList);
+
+        return "cartNonUser";
+    }
+
     // 장바구니 폼에서 최종적으로 구매 결정 -> 구매 페이지로 이동
     @PostMapping("/order/cart")
-    public String createOrder(@ModelAttribute CartProductDtoList cartProductDtoList) {
+    public String createOrder(@ModelAttribute CartProductDtoList cartProductDtoList, Principal principal, HttpSession session) {
 
-        log.info("CREATE ORDER");
-        for (CartProductDto o : cartProductDtoList.getCartProductDtoList()) {
-            log.info("id = {}", o.getCartId());
-            log.info("getCount = {}", o.getCount());
-            log.info("isDeleted = {}", o.isDeleted());
-        }
+//        log.info("CREATE ORDER");
+//        for (CartProductDto o : cartProductDtoList.getCartProductDtoList()) {
+//            log.info("id = {}", o.getCartId());
+//            log.info("getCount = {}", o.getCount());
+//            log.info("isDeleted = {}", o.isDeleted());
+//        }
 
         // 장바구니 수정 사항 업데이트
         orderService.updateCart(cartProductDtoList.getCartProductDtoList());
 
-
-
         return "redirect:/payments/payment";
     }
+
+    // 비회원 장바구니 폼에서 최종적으로 구매 결정 -> 구매 페이지로 이동
+    @PostMapping("/order/cart/nonuser")
+    public String createOrderNonUser(@ModelAttribute CartProductDtoList cartProductDtoList, HttpSession session) {
+        orderService.updateCartNonUser(cartProductDtoList.getCartProductDtoList(), session);
+        return "redirect:/payments/payment/nonuser";
+    }
+
 
 
 

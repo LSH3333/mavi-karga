@@ -10,6 +10,7 @@ import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDtoL
 import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminOrderProductDto;
 import com.lsh.mavikarga.enums.OrderStatus;
 import com.lsh.mavikarga.repository.*;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -120,7 +121,7 @@ public class OrderService {
 
     //////////////////////////// 비회원 장바구니 ////////////////////////////
     // 비회원 장바구니 추가
-    public boolean addCartForNonUser(OrderProductDto orderProductDto, CartForNonUser cart) {
+    public boolean addCartForNonUser(OrderProductDto orderProductDto, List<CartForNonUser> cartList, HttpSession session) {
 
         // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
         Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
@@ -133,12 +134,53 @@ public class OrderService {
         }
 
         // 비회원 장바구니에 추가
-        cart.getProductSizeList().add(productSize);
-        cart.getCountList().add(count);
+        CartForNonUser cartForNonUser = new CartForNonUser(cartList.size(), productSize, count);
+        cartList.add(cartForNonUser);
 
         return true;
     }
 
+    // 장바구니 조회폼 위한 CartProductDto 리스트 생성 후 리턴
+    // 비회원이 세션에 보유중인 장바구니 조회
+    public List<CartProductDto> createCartProductDtoListForNonUser(HttpSession session) {
+        List<CartProductDto> cartProductDtos = new ArrayList<>();
+
+        // 세션에서 장바구니 가져옴
+        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+        // 세션에 장바구니 없으면 새로 만듦
+        if (cartList == null) {
+            cartList = new ArrayList<CartForNonUser>();
+            session.setAttribute("cart", cartList);
+        }
+
+        for (CartForNonUser cartForNonUser : cartList) {
+            ProductSize productSize = cartForNonUser.getProductSize();
+            Product product = productSize.getProduct();
+            CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getName(), product.getPrice(), cartForNonUser.getCount());
+            cartProductDtos.add(cartProductDto);
+        }
+
+        return cartProductDtos;
+    }
+
+    // 장바구니 폼에서 보내온 정보 토대로 장바구니 업데이트 (상품 제거, 갯수 변경)
+    public void updateCartNonUser(List<CartProductDto> cartProductDtoList, HttpSession session) {
+
+        // 세션에서 장바구니 가져옴
+        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+
+        for (CartProductDto cartProductDto : cartProductDtoList) {
+            int cartId = cartProductDto.getCartId().intValue();
+            CartForNonUser cartForNonUser = cartList.get(cartId);
+            if(cartForNonUser == null) continue;
+
+            if (cartProductDto.isDeleted()) {
+                cartList.remove(cartId);
+            } else {
+                cartForNonUser.setCount(cartProductDto.getCount());
+            }
+        }
+    }
 
     //////////////////////////// 관리자 콘솔에서 사용자의 주문 목록 보는 뷰
     // 사용자의 주문 목록 찾음

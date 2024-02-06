@@ -40,7 +40,10 @@ public class SecurityConfig {
 
                                 .requestMatchers("/", "/errors/**", "/info", "/login").permitAll() // 인증없이 접근 가능 경로
                                 // Order
-                                .requestMatchers("/clothing", "/order/products").permitAll()
+                                .requestMatchers("/clothing", "/order/products", "/order/products/add/nonuser").permitAll()
+                                // 비회원 장바구니
+                                .requestMatchers("/order/products/add/nonuser", "/order/cart", "/order/cart/nonuser", "/payments/payment/nonuser", "/payments/validate/nonuser").permitAll()
+
                                 // 테스트 중 ..
                                 .requestMatchers("/payment/validate", "/payTest", "/sliderTest", "/payments/**", "/test/**").permitAll()
                                 // static files

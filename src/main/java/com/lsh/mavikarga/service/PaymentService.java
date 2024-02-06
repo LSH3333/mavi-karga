@@ -8,6 +8,7 @@ import com.lsh.mavikarga.repository.PaymentRepository;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -188,4 +189,75 @@ public class PaymentService {
         data.setRefund_account(map.get("refund_bank"));
         return data;
     }
+
+
+    ////////////////////////// 비회원 //////////////////////////
+    public boolean validatePaymentNonUser(IamportResponse<Payment> irsp, PaymentRequestDto paymentRequestDto, HttpSession session) {
+
+        // 세션에서 장바구니 가져옴
+        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+
+        int paid_amount = Integer.parseInt(paymentRequestDto.getPaid_amount());
+        // 포트원 서버에서 조회된 결재금액과 실제 사용자 결재 금액이 다름
+        // getAmount() 결과는 BigDecimal
+        if (irsp.getResponse().getAmount().intValue() != paid_amount) {
+            return false;
+        }
+
+        //  DB에 저장된 물품의 실제금액과 비교
+        int priceToPay = calPriceToPayNonUser(cartList);
+        if (priceToPay != paid_amount) {
+            return false;
+        }
+
+        // 검증 완료 -> DB에 저장
+        log.info("irsp.getResponse().getAmount().intValue() = {}", irsp.getResponse().getAmount().intValue());
+        log.info("amount = {}", paid_amount);
+
+        // 결제정보 생성
+        PaymentInfo paymentInfo = new PaymentInfo(
+                irsp.getResponse().getPayMethod(),
+                irsp.getResponse().getImpUid(),
+                irsp.getResponse().getMerchantUid(),
+                irsp.getResponse().getAmount().intValue(),
+                irsp.getResponse().getBuyerAddr(),
+                irsp.getResponse().getBuyerPostcode(),
+                LocalDateTime.now()
+        );
+
+        // 배송정보 생성
+        Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
+                paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
+                paymentRequestDto.getExtraAddress());
+
+        // 주문제품 생성
+        List<OrderProduct> orderProductList = new ArrayList<>();
+        for (CartForNonUser cartForNonUser : cartList) {
+            ProductSize productSize = cartForNonUser.getProductSize();
+            OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, productSize.getProduct().getPrice(), cartForNonUser.getCount());
+            orderProductList.add(orderProduct);
+        }
+
+        // 주문정보 생성
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery);
+
+        // 주문정보 저장
+        orderRepository.save(orderInfo);
+
+        // 장바구니에 있는 물품들 결재 완료됐으니 장바구니 비운다
+        session.removeAttribute("cart");
+
+        return true;
+    }
+
+    private int calPriceToPayNonUser(List<CartForNonUser> cartList) {
+        int priceToPay = 0;
+        for (CartForNonUser cartForNonUser : cartList) {
+            int price = cartForNonUser.getProductSize().getProduct().getPrice();
+            int count = cartForNonUser.getCount();
+            priceToPay += (price * count);
+        }
+        return priceToPay;
+    }
+
 }
