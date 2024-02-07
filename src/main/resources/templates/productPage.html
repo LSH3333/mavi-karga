@@ -5,18 +5,34 @@
 <head>
     <title>mavi karga</title>
 
+    <!-- 커스텀 스크롤 디자인 -->
     <style>
-        /* 버튼 스타일 제거 */
-        /* #nonUserSubmitBtn {
-            border: none;
-            background: none;
-            padding: 0;
-            margin: 0;
-            font: inherit;
-            cursor: pointer;
-            color: inherit;
-            text-align: inherit;
-        } */
+        .scroll {
+            /* width: 200px; */
+            height: 250px;
+            overflow: auto;
+            float: left;
+            margin: 0 10px;
+        }
+
+        .content {
+            height: 250px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        .scroll2::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .scroll2::-webkit-scrollbar-thumb {
+            background: #666;
+        }
     </style>
 </head>
 
@@ -77,7 +93,17 @@
                                                                 <!-- 사이즈 -->
                                                                 <div class="mb-3"
                                                                     th:if="${not #lists.isEmpty(orderProductDto.productSizeList)}">
-                                                                    <label for="size" class="form-label">SIZE</label>
+                                                                    <div class="row justify-content-between">
+                                                                        <div class="col-4">
+                                                                            <label for="size"
+                                                                                class="form-label">SIZE</label>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <button style="border-radius: 0;"
+                                                                                class="btn btn-outline-secondary btn-sm">SIZE
+                                                                                GUIDE</button>
+                                                                        </div>
+                                                                    </div>
                                                                     <select th:field="*{selectedProductSizeId}"
                                                                         id="size" name="size" class="form-select"
                                                                         onchange="checkSelectedSize()">
@@ -96,35 +122,43 @@
                                                                         type="number" id="count" name="count" min="1"
                                                                         max="100" />
                                                                 </div>
-                                                                <!-- <button id="submitBtn" type="submit" class="btn btn-dark btn-sm">장바구니
-                                            추가</button> -->
-                                                                <!-- 장바구니 추가 버튼 -->
-                                                                <button sec:authorize="isAuthenticated()" type="submit"
-                                                                    class="btn btn-dark btn-sm mb-5" id="submitBtn"
-                                                                    disabled>ADD TO CART</button>
-                                                                <!-- 장바구니 추가 완료 알림 -->
-                                                                <div id="liveAlertPlaceholder"></div>
+                                                                <!-- 회원 장바구니 추가 버튼 -->
+                                                                <div sec:authorize="isAuthenticated()"
+                                                                    class="d-grid gap-2 mb-1">
+                                                                    <button
+                                                                        style="border-radius: 0; font-weight: bolder; color: black;"
+                                                                        id="submitBtn"
+                                                                        class="btn btn-outline-secondary btn-sm" href=""
+                                                                        disabled>ADD TO
+                                                                        CART</button>
+                                                                </div>
                                                             </form>
                                                         </div>
                                                         <!-- 로그인 없이 보이는 영역 -->
                                                         <div sec:authorize="isAnonymous()">
-
                                                             <!-- 비회원 장바구니 추가 버튼 -->
                                                             <div class="d-grid gap-2 mb-1">
-                                                                <button style="border-radius: 0; font-weight: bolder; color: black;" id="nonUserSubmitBtn"
+                                                                <button
+                                                                    style="border-radius: 0; font-weight: bolder; color: black;"
+                                                                    id="nonUserSubmitBtn"
                                                                     class="btn btn-outline-secondary btn-sm" href=""
                                                                     disabled>ADD TO
                                                                     CART</button>
                                                             </div>
-
+                                                            <!-- 로그인 버튼 -->
                                                             <div class="d-grid gap-2">
                                                                 <a style="border-radius: 0; font-weight: bolder; color: black;"
-                                                                    class="btn btn-outline-secondary btn-sm"
-                                                                    href="" th:href="@{/login}">SIGN IN</a>
+                                                                    class="btn btn-outline-secondary btn-sm" href=""
+                                                                    th:href="@{/login}">SIGN IN</a>
                                                             </div>
                                                         </div>
+                                                        <!-- 장바구니 추가 완료 알림 -->
+                                                        <div class="mt-3" id="liveAlertPlaceholder"></div>
                                                         <!-- 상품 설명 -->
-                                                        <p th:text="${orderProductDto.description}"></p>
+                                                        <div class="scroll scroll2">
+                                                            <div class="content"
+                                                                th:text="${orderProductDto.description}"></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -132,9 +166,6 @@
                                     </div>
                                 </section>
                                 <!-- 제품 구매 끝 -->
-                                <!-- <h4 class="fst-italic">About</h4>
-                                <p class="mb-0">Customize this section to tell your visitors a little bit about your
-                                    publication, writers, content, or something else entirely. Totally up to you.</p> -->
                             </div>
                         </div>
                     </div>
@@ -295,6 +326,7 @@
             }
         }
     </script>
+
 </body>
 
 </html>

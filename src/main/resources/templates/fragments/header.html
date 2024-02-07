@@ -26,9 +26,8 @@
 </div>
 
 <!-- navbar -->
-<nav th:fragment="header-navBar" class="navbar navbar-expand-sm bg-body-tertiary sticky-top">
+<nav th:fragment="header-navBar" class="navbar navbar-expand-sm bg-body-tertiary sticky-top" style="padding-top: 0; padding-bottom: 0;">
     <div class="container-fluid">
-        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
         <!-- 화면 축소시 리스트 버튼 -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +35,7 @@
         </button>
         <!-- navBar -->
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div style="font-size: 1.5em" class="navbar-nav">
+            <div style="font-size: 1.2em" class="navbar-nav">
                 <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가 -->
                 <a class="nav-link px-5" th:classappend="${menu} == 'home' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">Home</a>
                 <a class="nav-link px-5" th:classappend="${menu} == 'info' ? 'fw-bold active'" href="/templates/info.html" th:href="@{/info}" >Info</a>

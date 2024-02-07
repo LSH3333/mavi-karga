@@ -1,6 +1,7 @@
 package com.lsh.mavikarga.dto;
 
 import com.lsh.mavikarga.domain.ProductSize;
+import com.lsh.mavikarga.enums.ProductColor;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +25,7 @@ public class OrderProductDto  {
     // 사용자에게 입력 받을 데이터들
     private Long selectedProductSizeId;
     private int count = 1;
+
 
 
     public OrderProductDto() {}
