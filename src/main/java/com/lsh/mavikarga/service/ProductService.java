@@ -58,6 +58,7 @@ public class ProductService {
         AddProductDto addProductDto = new AddProductDto();
         addProductDto.setName(product.getName());
         addProductDto.setPrice(product.getPrice());
+        addProductDto.setPrice_USD(product.getPrice_USD());
         addProductDto.setDetailsAndCare(product.getDetailsAndCare());
         addProductDto.setDescription(product.getDescription());
         addProductDto.setClothingCategory(product.getClothingCategory());
@@ -91,6 +92,7 @@ public class ProductService {
 
         product.setName(addProductDto.getName());
         product.setPrice(addProductDto.getPrice());
+        product.setPrice_USD(addProductDto.getPrice_USD());
         product.setDescription(addProductDto.getDescription());
         product.setDetailsAndCare(addProductDto.getDetailsAndCare());
         product.setClothingCategory(addProductDto.getClothingCategory());

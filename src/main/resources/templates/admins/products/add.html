@@ -27,10 +27,15 @@
                 <label for="name" class="form-label">상품명</label>
                 <input th:field="*{name}" type="text" class="form-control" id="name" name="name" placeholder="상품명">
             </div>
-            <!-- 가격 -->
+            <!-- 가격 KOR -->
             <div class="mb-3">
-                <label for="price" class="form-label">가격</label>
-                <input th:field="*{price}" type="number" class="form-control" id="price" name="price" placeholder="가격">
+                <label for="price" class="form-label">가격 KOR (₩)</label>
+                <input th:field="*{price}" type="number" class="form-control" id="price" name="price" placeholder="₩">
+            </div>
+            <!-- 가격 USD -->
+            <div class="mb-3">
+                <label for="price_USD" class="form-label">가격 USD ($)</label>
+                <input th:field="*{price_USD}" type="number" class="form-control" id="price_USD" name="price_USD" placeholder="$">
             </div>
             <!-- 상품 상세 -->
             <div class="mb-3">

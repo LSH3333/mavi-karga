@@ -23,6 +23,9 @@ public class AddProductDto {
     @Min(value = 0, message = "가격은 0 이상이어야 합니다")
     private int price;
 
+    @Min(value = 0, message = "가격은 0 이상이어야 합니다")
+    private int price_USD;
+
     @NotEmpty(message = "비어있을수 없습니다")
     private String description;
 

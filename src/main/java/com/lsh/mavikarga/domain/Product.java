@@ -33,8 +33,11 @@ public class Product {
 
     // 금액
     private int price;
+    // USD 금액
+    private int price_USD;
 
     // Product description
+    @Lob
     private String description;
 
     // 상품 관리 방법 (세탁 방법 등)
@@ -57,6 +60,7 @@ public class Product {
     public Product(AddProductDto addProductDto) {
         this.name = addProductDto.getName();
         this.price = addProductDto.getPrice();
+        this.price_USD = addProductDto.getPrice_USD();
         this.description = addProductDto.getDescription();
         this.detailsAndCare = addProductDto.getDetailsAndCare();
         this.clothingCategory = addProductDto.getClothingCategory();
