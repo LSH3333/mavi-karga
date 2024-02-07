@@ -5,6 +5,19 @@
 <head>
     <title>mavi karga</title>
 
+    <style>
+        /* 버튼 스타일 제거 */
+        /* #nonUserSubmitBtn {
+            border: none;
+            background: none;
+            padding: 0;
+            margin: 0;
+            font: inherit;
+            cursor: pointer;
+            color: inherit;
+            text-align: inherit;
+        } */
+    </style>
 </head>
 
 <body layout:fragment="content">
@@ -51,9 +64,12 @@
                                             <div class="row d-flex justify-content-center">
                                                 <div class="col-lg-8">
                                                     <div class="product_detail_text">
+                                                        <!-- 상품명 -->
                                                         <h4 th:text="${orderProductDto.name}"></h4>
-                                                        <!-- <h3>가격</h3> -->
-                                                        <p th:text="${orderProductDto.description}"></p>
+                                                        <!-- 가격 -->
+                                                        <h5 th:text="${orderProductDto.price} + '원'"></h5>
+                                                        <h6>Tax included</h6>
+                                                        <hr>
                                                         <!-- 상품 상세 -->
                                                         <div>
                                                             <form id="formData" th:action="@{/order/products/add}"
@@ -61,7 +77,7 @@
                                                                 <!-- 사이즈 -->
                                                                 <div class="mb-3"
                                                                     th:if="${not #lists.isEmpty(orderProductDto.productSizeList)}">
-                                                                    <label for="size" class="form-label">사이즈</label>
+                                                                    <label for="size" class="form-label">SIZE</label>
                                                                     <select th:field="*{selectedProductSizeId}"
                                                                         id="size" name="size" class="form-select"
                                                                         onchange="checkSelectedSize()">
@@ -75,7 +91,7 @@
                                                                 </div>
                                                                 <!-- 갯수 -->
                                                                 <div class="mb-3">
-                                                                    <label for="count">수량</label>
+                                                                    <label for="count">COUNT</label>
                                                                     <input th:field="${orderProductDto.count}"
                                                                         type="number" id="count" name="count" min="1"
                                                                         max="100" />
@@ -85,19 +101,30 @@
                                                                 <!-- 장바구니 추가 버튼 -->
                                                                 <button sec:authorize="isAuthenticated()" type="submit"
                                                                     class="btn btn-dark btn-sm mb-5" id="submitBtn"
-                                                                    disabled>장바구니
-                                                                    추가</button>
+                                                                    disabled>ADD TO CART</button>
                                                                 <!-- 장바구니 추가 완료 알림 -->
                                                                 <div id="liveAlertPlaceholder"></div>
                                                             </form>
                                                         </div>
                                                         <!-- 로그인 없이 보이는 영역 -->
                                                         <div sec:authorize="isAnonymous()">
-                                                            <a class="btn btn-dark btn-sm mb-3" th:href="@{/login}">구매하기
-                                                                위해서 로그인해주세요!</a>
-                                                            <button id="nonUserSubmitBtn" class="btn btn-dark btn-sm"
-                                                                href="" disabled>비회원으로 장바구니에 추가</button>
+
+                                                            <!-- 비회원 장바구니 추가 버튼 -->
+                                                            <div class="d-grid gap-2 mb-1">
+                                                                <button style="border-radius: 0; font-weight: bolder; color: black;" id="nonUserSubmitBtn"
+                                                                    class="btn btn-outline-secondary btn-sm" href=""
+                                                                    disabled>ADD TO
+                                                                    CART</button>
+                                                            </div>
+
+                                                            <div class="d-grid gap-2">
+                                                                <a style="border-radius: 0; font-weight: bolder; color: black;"
+                                                                    class="btn btn-outline-secondary btn-sm"
+                                                                    href="" th:href="@{/login}">SIGN IN</a>
+                                                            </div>
                                                         </div>
+                                                        <!-- 상품 설명 -->
+                                                        <p th:text="${orderProductDto.description}"></p>
                                                     </div>
                                                 </div>
                                             </div>

@@ -67,7 +67,9 @@ public class OrderController {
         List<String> allProductImagesUrlInProduct = productImageService.getAllProductImagesUrlInProduct(productId);
 
         // 클라이언트로 보낼 DTO
-        OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getSizes(), allProductImagesUrlInProduct);
+        OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getSizes(),
+                allProductImagesUrlInProduct, product.getPrice(), product.getPrice_USD());
+        // 사이즈 정렬 (S,M,L ... )
         Collections.sort(orderProductDto.getProductSizeList());
 
         model.addAttribute("orderProductDto", orderProductDto);
