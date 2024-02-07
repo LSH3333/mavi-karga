@@ -9,6 +9,19 @@
         p {
             margin-bottom: 0.5rem;
         }
+
+        /* ajax 로딩 스피너 */
+        #spinner-div {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 2;
+        }
     </style>
 </head>
 
@@ -35,7 +48,8 @@
             <!-- 가격 USD -->
             <div class="mb-3">
                 <label for="price_USD" class="form-label">가격 USD ($)</label>
-                <input th:field="*{price_USD}" type="number" class="form-control" id="price_USD" name="price_USD" placeholder="$">
+                <input th:field="*{price_USD}" type="number" class="form-control" id="price_USD" name="price_USD"
+                    placeholder="$">
             </div>
             <!-- 상품 상세 -->
             <div class="mb-3">
@@ -90,9 +104,10 @@
             <div class="mb-3">
                 <p>색상</p>
                 <div th:each="color : ${addProductDto.productColors}">
-                    <input class="form-check-input" th:field="*{productColor}" type="checkbox" th:id="${'color-' + color}" th:value="${color}" />
+                    <input class="form-check-input" th:field="*{productColor}" type="checkbox"
+                        th:id="${'color-' + color}" th:value="${color}" />
                     <label th:for="${'color-' + color}" th:text="${color}"></label><br />
-                </div>                
+                </div>
             </div>
             <!-- DETAILS & CARE -->
             <div class="mb-3">
@@ -103,6 +118,12 @@
             <!-- 상품 이미지 -->
             <div class="mb-3">
                 <p>상품 이미지들</p>
+                <ul>
+                    <li>여러개의 이미지를 선택할수 있습니다</li>
+                    <li>선택된 이미지를 클릭하면 목록에서 제거할수 있습니다</li>
+                    <li>선택한 이미지들 중 첫번째 이미지가 앞면 썸네일</li>
+                    <li>선택한 이미지들 중 두번째 이미지가 뒷면 썸네일이 됩니다</li>
+                </ul>
                 <form id="uploadForm" enctype="multipart/form-data">
                     <input type="file" name="multipartFiles" id="fileInput" multiple
                         onchange="saveSelectedImagesToList()">
@@ -110,17 +131,19 @@
                 <!-- 선택한 이미지 랜더링 컨테이너 -->
                 <div id="imageContainer"></div>
             </div>
-            <div class="mb-3">
-                <p>상품 썸네일</p>
-                
-            </div>
 
             <!-- submit 버튼 -->
-            <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>
+            <button id="submitBtn" type="submit" class="btn btn-primary">Submit</button>                        
         </form>
 
+        <!-- ajax 요청 로딩 중 보여줄 스피너 -->
+        <div id="spinner-div" class="pt-5">
+            <div class="spinner-border text-primary mt-5" role="status">
+            </div>
+        </div>
     </main>
 
+   
 
     <script>
         // submit 버튼 이벤트

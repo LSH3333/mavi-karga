@@ -28,6 +28,15 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
 
+    // 썸네일
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "thumbnail_front_id")
+    private ProductImage thumbnail_front;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "thumbnail_back_id")
+    private ProductImage thumbnail_back;
+
     // 상품명
     private String name;
 
@@ -50,6 +59,7 @@ public class Product {
     // 카테고리
     @Enumerated(EnumType.STRING)
     private ClothingCategory clothingCategory;
+
 
 
 

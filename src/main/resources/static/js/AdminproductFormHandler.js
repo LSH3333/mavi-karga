@@ -52,6 +52,9 @@ function removeFileFromList(index) {
 
 // 서버에 이미지 파일들 전송 
 function uploadImages(productId) {
+    // ajax 요청중 보여줄 로딩 스피너
+    document.getElementById("spinner-div").style.display = "block";
+
     // 리스트 -> formData 로 
     let formData = new FormData();
     selectedFiles.forEach(function (file, index) {
@@ -72,6 +75,8 @@ function uploadImages(productId) {
             } else { // request fail
                 console.log('fail uploadImages')
             }
+            // ajax 요청 끝났으니 스피너 안보이도록 함 
+            document.getElementById("spinner-div").style.display = "none";
         }
     };
     xhr.send(formData);

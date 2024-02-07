@@ -35,18 +35,15 @@ public class ProductImageService {
     private void saveProductImage(MultipartFile multipartFile, Product product, int thumbnail) throws IOException {
         String fileUrl = s3Service.upload(multipartFile, "images"); // S3 버킷의 images 디렉토리 안에 저장됨
 
-        ProductImage productImage;
+        ProductImage productImage = new ProductImage(fileUrl, product);;
+        // 썸네일인 이미지라면 제품과 연관관계 맺어줌
         // 썸네일 앞면
         if(thumbnail == 0) {
-            productImage = new ProductImage(fileUrl, product, 1);
+            product.setThumbnail_front(productImage);
         }
         // 썸네일 뒷면
         else if(thumbnail == 1) {
-            productImage = new ProductImage(fileUrl, product, 2);
-        }
-        // 썸네일 아님
-        else {
-            productImage = new ProductImage(fileUrl, product, 0);
+            product.setThumbnail_back(productImage);
         }
 
         productImageRepository.save(productImage);
