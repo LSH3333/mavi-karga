@@ -69,6 +69,24 @@
                     <label class="form-check-label" for="inlineCheckboxXXL">XXL</label>
                 </div>
             </div>
+            <!-- 카테고리 -->
+            <div class="mb-3">
+                <label for="clothingCategory" class="form-label">카테고리</label>
+                <select class="form-select" aria-label="clothingCategory select" id="clothingCategory"
+                    th:field="*{clothingCategory}">
+                    <option th:each="category : ${addProductDto.clothingCategories}" th:value="${category}"
+                        th:text="${category}">카테고리</option>
+                </select>
+            </div>
+            <!-- 색상 -->
+            <div class="mb-3">
+                <p>색상</p>
+                <div th:each="color : ${addProductDto.productColors}">
+                    <input class="form-check-input" th:field="*{productColor}" type="checkbox"
+                        th:id="${'color-' + color}" th:value="${color}" />
+                    <label th:for="${'color-' + color}" th:text="${color}"></label><br />
+                </div>
+            </div>
             <!-- DETAILS & CARE -->
             <div class="mb-3">
                 <label for="detailsAndCare" class="form-label">DETAILS & CARE</label>

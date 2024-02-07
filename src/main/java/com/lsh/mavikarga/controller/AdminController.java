@@ -46,11 +46,13 @@ public class AdminController {
     }
 
     //////////////////// 상품 추가 ////////////////
+    // 상품 추가 폼
     @GetMapping("/admins/products/add")
     public String addProductForm(@ModelAttribute("addProductDto") AddProductDto addProductDto) {
         return "admins/products/add";
     }
 
+    // 상품 추가 post req
     // 상품 formData 담긴 ajax 요청 처리해서 상품 db에 저장
     // 이후에 클라이언트에서 이미지 저장 ajax 요청 서버로 보냄
     @PostMapping("/admins/products/add")
@@ -68,6 +70,8 @@ public class AdminController {
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessageBuilder.toString());
         }
+
+        log.info("AddProductDto = {}", addProductDto);
 
         // 에러 없으면 저장 처리
         Product product = productService.save(productService.createProductFromDto(addProductDto));
@@ -120,6 +124,7 @@ public class AdminController {
     //////////////////// 상품 수정 ////////////////
     @GetMapping("/admins/products/edit/{productId}")
     public String editProductForm(Model model, @PathVariable UUID productId) {
+
         Product product = productService.findById(productId).orElse(null);
         AddProductDto addProductDto = productService.createAddProductDto(productId);
 

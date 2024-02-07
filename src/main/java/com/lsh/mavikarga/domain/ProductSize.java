@@ -1,5 +1,6 @@
 package com.lsh.mavikarga.domain;
 
+import com.lsh.mavikarga.enums.ProductColor;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
@@ -27,16 +28,22 @@ public class ProductSize implements Comparable<ProductSize> {
     @OneToMany(mappedBy = "productSize")
     private List<Cart> carts = new ArrayList<>();
 
-
+    // 제품 사이즈
     private String size;
-
+    // 재고 여부
     private boolean available = false;
+    // 색상
+    @Enumerated(EnumType.STRING)
+    private ProductColor productColor;
+
+
 
 
     public ProductSize() {}
 
-    public ProductSize(String size, Product product) {
+    public ProductSize(String size, ProductColor productColor, Product product) {
         this.size = size;
+        this.productColor = productColor;
         this.product = product;
         this.available = false; // 최초에는 재고 없음 처리
     }

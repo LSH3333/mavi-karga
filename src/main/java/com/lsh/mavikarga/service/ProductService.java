@@ -44,14 +44,8 @@ public class ProductService {
     ////////// 상품 추가 ////////////
     // 클라이언트에서 보낸 addProductDto 로 Product 를 만듦
     public Product createProductFromDto(AddProductDto addProductDto) {
-        Product product = new Product(addProductDto);
-//        List<String> selectedSizes = addProductDto.getSizes();
-//        for (String selectedSize : selectedSizes) {
-//            product.setSizeAvailable(selectedSize);
-//        }
-        return product;
+        return new Product(addProductDto);
     }
-
 
 
     ////////// 상품 수정 ////////////
@@ -66,7 +60,10 @@ public class ProductService {
         addProductDto.setPrice(product.getPrice());
         addProductDto.setDetailsAndCare(product.getDetailsAndCare());
         addProductDto.setDescription(product.getDescription());
+        addProductDto.setClothingCategory(product.getClothingCategory());
+
         updateSize(product.getSizes(), addProductDto);
+        updateColor(product.getSizes(), addProductDto);
 
         return addProductDto;
     }
@@ -75,6 +72,13 @@ public class ProductService {
         for (ProductSize size : sizes) {
             if (size.isAvailable()) {
                 addProductDto.getSizes().add(size.getSize());
+            }
+        }
+    }
+    private void updateColor(List<ProductSize> sizes, AddProductDto addProductDto) {
+        for (ProductSize size : sizes) {
+            if (size.isAvailable()) {
+                addProductDto.getProductColor().add(size.getProductColor());
             }
         }
     }
@@ -89,7 +93,9 @@ public class ProductService {
         product.setPrice(addProductDto.getPrice());
         product.setDescription(addProductDto.getDescription());
         product.setDetailsAndCare(addProductDto.getDetailsAndCare());
-        product.updateAvailableSizes(addProductDto.getSizes());
+        product.setClothingCategory(addProductDto.getClothingCategory());
+        product.updateAvailableSizes(addProductDto.getSizes(), addProductDto.getProductColor());
+
 
         return true;
     }
