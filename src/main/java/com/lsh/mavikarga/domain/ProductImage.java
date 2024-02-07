@@ -21,12 +21,17 @@ public class ProductImage {
     // https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/baekjoon.png
     private String url;
 
+    // 0: 썸네일 아님
+    // 1: 썸네일 앞면
+    // 2: 썸네일 뒷면
+    private int thumbnail;
 
     public ProductImage() {}
 
-    public ProductImage(String url, Product product) {
+    public ProductImage(String url, Product product, int thumbnail) {
         this.url = url;
         this.product = product;
         this.product.getProductImages().add(this);
+        this.thumbnail = thumbnail;
     }
 }
