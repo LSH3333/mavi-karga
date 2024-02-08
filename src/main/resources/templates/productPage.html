@@ -96,7 +96,7 @@
                                                                     <div class="row justify-content-between">
                                                                         <div class="col-4">
                                                                             <label for="size"
-                                                                                class="form-label">SIZE</label>
+                                                                                class="form-label">SIZE - COLOR</label>
                                                                         </div>
                                                                         <div class="col-4">
                                                                             <button style="border-radius: 0;"
@@ -110,7 +110,7 @@
                                                                         <option value="-1" selected>SELECT SIZE</option>
                                                                         <option
                                                                             th:each="productSize : ${orderProductDto.productSizeList}"
-                                                                            th:text="${productSize.size}"
+                                                                            th:text="${productSize.size + ' - ' + productSize.productColor}"
                                                                             th:value="${productSize.id}">
                                                                         </option>
                                                                     </select>
