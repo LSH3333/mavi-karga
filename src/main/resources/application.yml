@@ -13,6 +13,8 @@ spring:
     initialSize: 5
     removeAbandoned: true
 
+  messages:
+    basename: messages
 
   jpa:
     hibernate:

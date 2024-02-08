@@ -83,7 +83,9 @@
                                                         <!-- 상품명 -->
                                                         <h4 th:text="${orderProductDto.name}"></h4>
                                                         <!-- 가격 -->
-                                                        <h5 th:text="${orderProductDto.price} + '원'"></h5>
+                                                        <!-- <p style="display: inline;" th:text="#{currency}"></p> -->
+                                                        <h5 style="display: inline-block;"
+                                                            th:text="${#numbers.formatCurrency(orderProductDto.price)}"></h5>
                                                         <h6>Tax included</h6>
                                                         <hr>
                                                         <!-- 상품 상세 -->
@@ -101,7 +103,8 @@
                                                                                 COLOR</label>
                                                                         </div>
                                                                         <div class="col-4">
-                                                                            <button style="border-radius: 0; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                                                                            <button
+                                                                                style="border-radius: 0; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
                                                                                 class="btn btn-outline-secondary btn-sm">SIZE
                                                                                 GUIDE</button>
                                                                         </div>
@@ -120,7 +123,8 @@
                                                                 <!-- 갯수 -->
                                                                 <div class="mb-3">
                                                                     <label for="count">COUNT</label>
-                                                                    <input class="mx-3" style="height: 30px;" th:field="${orderProductDto.count}"
+                                                                    <input class="mx-3" style="height: 30px;"
+                                                                        th:field="${orderProductDto.count}"
                                                                         type="number" id="count" name="count" min="1"
                                                                         max="100" />
                                                                 </div>

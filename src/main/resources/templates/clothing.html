@@ -13,12 +13,18 @@
         <div class="container-fluid mt-3">
             <div class="row product-row">
                 <!-- thymeleaf th:each -->
-                <div th:each="product: ${products}" class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder">
+                <div th:each="product: ${products}" class="col-6 col-sm-6 col-md-4 col-xl-4 product-placeholder">
                     <a href="/templates/index.html"
-                        th:href="@{/order/products?productId={productId}(productId=${product.id})}"><img
-                            class="product-placeholoder-img" th:src="@{/img/shop-details/product-big-3.png}"
-                            src="/static/img/shop-details/product-big-3.png" alt=""></a>
+                        th:href="@{/order/products?productId={productId}(productId=${product.id})}">
+                        <!-- 프론트 썸네일 이미지 존재하면 랜더링 -->
+                        <img class="product-placeholoder-img" th:if="${product.thumbnail_front != null}"
+                            th:src="${product.thumbnail_front.url}" alt="">
+                        <!-- 존재하지 않는 예외 경우 지정된 이미지 임시로 렌더링 -->
+                        <img class="product-placeholoder-img" th:unless="${product.thumbnail_front != null}"
+                            th:src="@{/image/clothing/KakaoTalk_20240207_105747721_01.jpg}" alt="">
+                    </a>
                     <div th:text="${product.name}" class="product-placeholder-exp">CAPT005</div>
+                    <div th:text="#{currency}" class="product-placeholder-exp"></div>                
                 </div>
                 <!-- 1200px(xl) 이상 4개의 col -->
                 <!-- 768px(md) 이상 3개의 col -->

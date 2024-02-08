@@ -16,7 +16,10 @@
     <script>
         const name_req = "mavikarga_cart_" + crypto.randomUUID();
         const amount_req = '[[${cartProductDtoList.totalAmount}]]'
-
+        let buyer_name_req;
+        let buyer_tel_req;
+        let buyer_addr_req;
+        let buyer_postcode_req;
     </script>
 
     <script>
@@ -33,11 +36,11 @@
                     merchant_uid: "mavikarga_merchant_" + crypto.randomUUID(), // 제품 번호 
                     name: name_req,
                     amount: amount_req,
-                    buyer_email: "dltpgustpgus@gmail.com",
-                    buyer_name: "SE HYUN LEE",
-                    buyer_tel: "010-7682-4646",
-                    buyer_addr: "서울특별시 강남구 삼성동",
-                    buyer_postcode: "123-456",
+                    buyer_email: buyer_email_req,
+                    buyer_name: buyer_name_req,
+                    buyer_tel: buyer_tel_req,
+                    buyer_addr: buyer_addr_req,
+                    buyer_postcode: buyer_postcode_req,
                 },
                 function (rsp) { // 결과 
                     // 결재 요청 성공 -> 서버에서 검증 
@@ -338,6 +341,15 @@
                 }, false)
             })
         })()
+    </script>
+    
+    <script>
+        buyer_name_req = document.getElementById('name').value;
+        buyer_tel_req = document.getElementById('phone').value;
+        buyer_email_req = document.getElementById('email').value;
+        buyer_postcode_req = document.getElementById('postcode').value;
+        buyer_addr_req = document.getElementById('roadAddress').value;
+
     </script>
 </body>
 

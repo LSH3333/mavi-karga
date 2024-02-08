@@ -29,11 +29,11 @@ public class Product {
     private List<ProductImage> productImages = new ArrayList<>();
 
     // 썸네일
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "thumbnail_front_id")
     private ProductImage thumbnail_front;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "thumbnail_back_id")
     private ProductImage thumbnail_back;
 

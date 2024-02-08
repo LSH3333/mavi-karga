@@ -11,6 +11,8 @@ import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.ProductImageService;
 import com.lsh.mavikarga.service.ProductService;
 import com.lsh.mavikarga.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.LocaleResolver;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @Slf4j
@@ -34,14 +34,16 @@ public class OrderController {
     private final OrderService orderService;
     private final ProductService productService;
     private final ProductImageService productImageService;
+    private final LocaleResolver localeResolver;
 
     @Autowired
     public OrderController(UserService userService, OrderService orderService, ProductService productService,
-                           ProductImageService productImageService) {
+                           ProductImageService productImageService, LocaleResolver localeResolver) {
         this.userService = userService;
         this.orderService = orderService;
         this.productService = productService;
         this.productImageService = productImageService;
+        this.localeResolver = localeResolver;
     }
 
     // 전체 상품 페이지
@@ -56,7 +58,7 @@ public class OrderController {
 
     // 단일 상품 페이지
     @GetMapping("/order/products")
-    public String productForm(Model model, @RequestParam UUID productId) {
+    public String productForm(Model model, @RequestParam UUID productId, HttpServletResponse response, HttpServletRequest request) {
 
         Product product = productService.findById(productId).orElse(null);
         if (product == null) {
@@ -68,7 +70,8 @@ public class OrderController {
 
         // 클라이언트로 보낼 DTO
         OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getSizes(),
-                allProductImagesUrlInProduct, product.getPrice(), product.getPrice_USD());
+                allProductImagesUrlInProduct, getPriceByLocale(response, request, product));
+
         // 사이즈 정렬 (S,M,L ... )
         Collections.sort(orderProductDto.getProductSizeList());
 
@@ -77,6 +80,15 @@ public class OrderController {
         return "productPage";
     }
 
+    // 현재 Locale 확인해서 그에 맞는 상품 가격 리턴
+    private int getPriceByLocale(HttpServletResponse response, HttpServletRequest request, Product product) {
+        Locale currentLocale = localeResolver.resolveLocale(request);
+        if(currentLocale == Locale.US) {
+            return product.getPrice_USD();
+        } else {
+            return product.getPrice();
+        }
+    }
 
 
     //  you can't redirect user in ajax requests!

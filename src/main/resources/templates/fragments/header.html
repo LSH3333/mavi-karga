@@ -45,7 +45,8 @@
                 <!-- login,logout btn -->                
                 <a sec:authorize="isAuthenticated()" class="nav-link px-5" th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/logout}">LogOut</a>
                 <a sec:authorize="isAnonymous()" class="nav-link px-5" th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/login.html" th:href="@{/login}">Login</a>
-
+                <!-- USD/KOR -->
+                <a class="nav-link px-5" th:href="@{/locale}">USD/KOR</a>
             </div>
         </div>
     </div>
