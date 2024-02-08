@@ -131,8 +131,17 @@ public class ProductService {
     public ClothingDtoList createClothingDto(List<Product> productList, HttpServletRequest request) {
         ClothingDtoList clothingDtoList = new ClothingDtoList();
         for (Product product : productList) {
-            ClothingDto clothingDto = new ClothingDto(product.getId(), product.getName(), getPriceByLocale(request, product), product.getThumbnail_front().getUrl(),
-                    product.getThumbnail_back().getUrl());
+            String thumbnail_front_url="", thumbnail_back_url="";
+            if(product.getThumbnail_front() != null) {
+                thumbnail_front_url = product.getThumbnail_front().getUrl();
+            }
+            if(product.getThumbnail_back() != null) {
+                thumbnail_back_url = product.getThumbnail_back().getUrl();
+            }
+
+            ClothingDto clothingDto = new ClothingDto(product.getId(), product.getName(), getPriceByLocale(request, product),
+                    thumbnail_front_url,
+                    thumbnail_back_url);
             clothingDtoList.getClothingDtoList().add(clothingDto);
         }
         return clothingDtoList;
@@ -147,4 +156,6 @@ public class ProductService {
             return product.getPrice();
         }
     }
+
+
 }
