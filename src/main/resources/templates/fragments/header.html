@@ -52,4 +52,33 @@
     </div>
 </nav>
 
+<!-- navbar-clothing -->
+<nav th:fragment="header-navBar-clothing" class="navbar navbar-expand-sm bg-body-tertiary sticky-top" style="padding-top: 0; padding-bottom: 0;">
+    <div class="container-fluid">
+        <!-- 화면 축소시 리스트 버튼 -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- navBar -->
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div style="font-size: 1.2em" class="navbar-nav">
+                <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가해서 선택된 탭 명암 효과 -->
+                <a class="nav-link px-5" th:classappend="${menu} == 'home' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">Home</a>
+                <a class="nav-link px-5" th:classappend="${menu} == 'all' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/clothing/all}">ALL</a>
+                <a class="nav-link px-5" th:classappend="${menu} == 'one' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/clothing/one}">01</a>
+                <a class="nav-link px-5" th:classappend="${menu} == 'two' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/clothing/two}">02</a>
+                <a class="nav-link px-5" th:classappend="${menu} == 'dye' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">Dye</a>
+                <a class="nav-link px-5" th:classappend="${menu} == 'acc' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">ACC</a>
+                <!-- login,logout btn -->                
+                <a sec:authorize="isAuthenticated()" class="nav-link px-5" th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/logout}">LogOut</a>
+                <a sec:authorize="isAnonymous()" class="nav-link px-5" th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/login.html" th:href="@{/login}">Login</a>
+                <!-- USD/KOR -->
+                <a class="nav-link px-5" th:href="@{/locale}">USD/KOR</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
 </html>

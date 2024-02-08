@@ -2,11 +2,11 @@ package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.CartForNonUser;
 import com.lsh.mavikarga.domain.Product;
-import com.lsh.mavikarga.domain.ProductSize;
 import com.lsh.mavikarga.domain.User;
-import com.lsh.mavikarga.dto.CartProductDto;
 import com.lsh.mavikarga.dto.CartProductDtoList;
+import com.lsh.mavikarga.dto.ClothingDtoList;
 import com.lsh.mavikarga.dto.OrderProductDto;
+import com.lsh.mavikarga.enums.ClothingCategory;
 import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.ProductImageService;
 import com.lsh.mavikarga.service.ProductService;
@@ -46,17 +46,54 @@ public class OrderController {
         this.localeResolver = localeResolver;
     }
 
-    // 전체 상품 페이지
+
+    /////////////////////////////// 전체 상품 페이지 ///////////////////////////////
     @GetMapping("/clothing")
-    public String products(Model model) {
-        // 전체 상품(product.removed=false 인 상품) 가져와서 뿌린다
-        List<Product> products = productService.findNotRemovedProducts();
-        model.addAttribute("products", products);
+    public String clothingMain(Model model, HttpServletRequest request) {
+        // 카테고리가 메인인 상품들
+        List<Product> products = productService.findByClothingCategoryAndRemovedFalse(ClothingCategory.MAIN);
+        ClothingDtoList clothingDtoList = productService.createClothingDto(products, request);
+
+        model.addAttribute("clothingDtoList", clothingDtoList);
+        // 헤더 navBar 선택한 탭 강조 처리용
         model.addAttribute("menu", "clothing");
         return "clothing";
     }
 
-    // 단일 상품 페이지
+    @GetMapping("/clothing/all")
+    public String clothingCategoryAll(Model model, HttpServletRequest request) {
+        // 카테고리 무관 전체 상품
+        List<Product> products = productService.findNotRemovedProducts();
+        ClothingDtoList clothingDtoList = productService.createClothingDto(products, request);
+
+        model.addAttribute("clothingDtoList", clothingDtoList);
+        model.addAttribute("menu", "all");
+        return "clothing/all";
+    }
+
+    @GetMapping("/clothing/one")
+    public String clothingCategoryOne(Model model, HttpServletRequest request) {
+        // 카테고리가 ONE 인 상품들
+        List<Product> products = productService.findByClothingCategoryAndRemovedFalse(ClothingCategory.ONE);
+        ClothingDtoList clothingDtoList = productService.createClothingDto(products, request);
+
+        model.addAttribute("clothingDtoList", clothingDtoList);
+        model.addAttribute("menu", "one");
+        return "clothing/one";
+    }
+
+    @GetMapping("/clothing/two")
+    public String clothingCategoryTwo(Model model, HttpServletRequest request) {
+        // 카테고리가 TWO 인 상품들
+        List<Product> products = productService.findByClothingCategoryAndRemovedFalse(ClothingCategory.TWO);
+        ClothingDtoList clothingDtoList = productService.createClothingDto(products, request);
+
+        model.addAttribute("clothingDtoList", clothingDtoList);
+        model.addAttribute("menu", "two");
+        return "clothing/two";
+    }
+
+    /////////////////////////////// 단일 상품 페이지 ///////////////////////////////
     @GetMapping("/order/products")
     public String productForm(Model model, @RequestParam UUID productId, HttpServletResponse response, HttpServletRequest request) {
 

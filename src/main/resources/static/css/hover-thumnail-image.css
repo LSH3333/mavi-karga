@@ -1,0 +1,20 @@
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0s;
+}
+
+.image-container:hover .hover-image {
+    opacity: 1;
+}
+
+.image-container:hover .original-image {
+    opacity: 0;
+}

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layouts/default-without-header}">
+    layout:decorate="~{layouts/clothingLayout}">
 
 <head>
     <title>mavi karga</title>
     <!-- product show layout -->
     <link href="/static/css/product.css" th:href="@{/css/product.css}" rel="stylesheet">
+
     <!-- 이미지 hover 시 앞면썸네일, 뒷면썸네일 전환해서 보여줌 -->
-    <link href="/static/css/hover-thumnail-image.css" th:href="@{/css/hover-thumnail-image.css}" rel="stylesheet">
+    <link href="/static/css/hover-thumnail-image.css" th:href="@{/css/hover-thumnail-image.css}" rel="stylesheet">   
 </head>
 
 <body layout:fragment="content">
@@ -47,12 +48,6 @@
         </div>
         <!---------- END OF 상단 6개의 대표 상품 이미지 -->
 
-        <!-- FULL STORE -->
-        <div class="container-fuild mb-3">
-            <a style="color: black;" href="/templates/clothing/all.html" th:href="@{/clothing/all}">
-                <h4 class="text-center"><u>FULL STORE</u></h4>
-            </a>
-        </div>
 
         <!-- divider -->
         <div class="container">

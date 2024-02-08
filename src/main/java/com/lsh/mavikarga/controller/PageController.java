@@ -23,6 +23,7 @@ public class PageController {
         this.localeResolver = localeResolver;
     }
 
+
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("menu", "home");
@@ -35,12 +36,12 @@ public class PageController {
         return "info";
     }
 
+    // USD/KOR 버튼 눌러서 Locale 변환
     @GetMapping("/locale")
     public String changeLocale(HttpServletRequest request, HttpServletResponse response) {
 
         // 현재 locale 이 KOREA 라면 ENGLISH 로 아니면 반대로 변경
         Locale currentLocale = localeResolver.resolveLocale(request);
-        log.info("currentLocale = {}", currentLocale);
 
         if(currentLocale == Locale.US) {
             localeResolver.setLocale(request, response, Locale.KOREA);
@@ -51,11 +52,6 @@ public class PageController {
         return "redirect:/";
     }
 
-    /////// TEST
-    @GetMapping("/sliderTest")
-    public String sliderTest() {
-        return "test/sliderTest";
-    }
 
 
 

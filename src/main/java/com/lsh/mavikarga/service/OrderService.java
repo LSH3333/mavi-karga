@@ -45,21 +45,6 @@ public class OrderService {
         this.cartRepository = cartRepository;
     }
 
-//    public void createOrderInfo(OrderProductDto orderProductDto, Long userId) {
-//        // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
-//        Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
-//        ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
-//        User user = userRepository.findById(userId).orElse(null);
-//
-//        log.info("product.getId() = {}", product.getId());
-//
-//        // OrderProduct 생성
-//        OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, product.getPrice(), orderProductDto.getCount());
-//        // Order 생성
-//        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProduct);
-//
-//        orderRepository.save(orderInfo);
-//    }
 
     //////////////////////////// 회원 장바구니 ////////////////////////////
     // 장바구니 추가

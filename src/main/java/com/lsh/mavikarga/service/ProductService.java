@@ -3,12 +3,19 @@ package com.lsh.mavikarga.service;
 import com.lsh.mavikarga.domain.Product;
 import com.lsh.mavikarga.domain.ProductSize;
 import com.lsh.mavikarga.dto.AddProductDto;
+import com.lsh.mavikarga.dto.ClothingDto;
+import com.lsh.mavikarga.dto.ClothingDtoList;
+import com.lsh.mavikarga.enums.ClothingCategory;
 import com.lsh.mavikarga.repository.ProductRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,10 +24,12 @@ import java.util.UUID;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final LocaleResolver localeResolver;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, LocaleResolver localeResolver) {
         this.productRepository = productRepository;
+        this.localeResolver = localeResolver;
     }
 
     public Product save(Product product) {
@@ -38,6 +47,11 @@ public class ProductService {
     // product.removed=false 인 product 들 찾아 리턴
     public List<Product> findNotRemovedProducts() {
         return productRepository.findByRemovedFalse();
+    }
+
+    // 관리자가 제외하지 않은 제품들중 카테고리로 찾음
+    public List<Product> findByClothingCategoryAndRemovedFalse(ClothingCategory clothingCategory) {
+        return productRepository.findByClothingCategoryAndRemovedFalse(clothingCategory);
     }
 
 
@@ -112,6 +126,25 @@ public class ProductService {
     }
 
 
+    ////////// 전체 상품 페이지 ////////////
+    // 전체 상품 페이지에 보낼 DTO 생성
+    public ClothingDtoList createClothingDto(List<Product> productList, HttpServletRequest request) {
+        ClothingDtoList clothingDtoList = new ClothingDtoList();
+        for (Product product : productList) {
+            ClothingDto clothingDto = new ClothingDto(product.getId(), product.getName(), getPriceByLocale(request, product), product.getThumbnail_front().getUrl(),
+                    product.getThumbnail_back().getUrl());
+            clothingDtoList.getClothingDtoList().add(clothingDto);
+        }
+        return clothingDtoList;
+    }
 
-
+    // 현재 Locale 확인해서 그에 맞는 상품 가격 리턴
+    private int getPriceByLocale(HttpServletRequest request, Product product) {
+        Locale currentLocale = localeResolver.resolveLocale(request);
+        if(currentLocale == Locale.US) {
+            return product.getPrice_USD();
+        } else {
+            return product.getPrice();
+        }
+    }
 }
