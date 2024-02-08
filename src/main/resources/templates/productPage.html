@@ -93,13 +93,15 @@
                                                                 <!-- 사이즈 -->
                                                                 <div class="mb-3"
                                                                     th:if="${not #lists.isEmpty(orderProductDto.productSizeList)}">
-                                                                    <div class="row justify-content-between">
+                                                                    <div
+                                                                        class="row justify-content-between align-items-center mb-1">
                                                                         <div class="col-4">
-                                                                            <label for="size"
-                                                                                class="form-label">SIZE - COLOR</label>
+                                                                            <label for="size" class="form-label"
+                                                                                style="margin-bottom: 0;">SIZE -
+                                                                                COLOR</label>
                                                                         </div>
                                                                         <div class="col-4">
-                                                                            <button style="border-radius: 0;"
+                                                                            <button style="border-radius: 0; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
                                                                                 class="btn btn-outline-secondary btn-sm">SIZE
                                                                                 GUIDE</button>
                                                                         </div>
@@ -118,7 +120,7 @@
                                                                 <!-- 갯수 -->
                                                                 <div class="mb-3">
                                                                     <label for="count">COUNT</label>
-                                                                    <input th:field="${orderProductDto.count}"
+                                                                    <input class="mx-3" style="height: 30px;" th:field="${orderProductDto.count}"
                                                                         type="number" id="count" name="count" min="1"
                                                                         max="100" />
                                                                 </div>
@@ -126,7 +128,7 @@
                                                                 <div sec:authorize="isAuthenticated()"
                                                                     class="d-grid gap-2 mb-1">
                                                                     <button
-                                                                        style="border-radius: 0; font-weight: bolder; color: black;"
+                                                                        style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
                                                                         id="submitBtn"
                                                                         class="btn btn-outline-secondary btn-sm" href=""
                                                                         disabled>ADD TO
@@ -139,7 +141,7 @@
                                                             <!-- 비회원 장바구니 추가 버튼 -->
                                                             <div class="d-grid gap-2 mb-1">
                                                                 <button
-                                                                    style="border-radius: 0; font-weight: bolder; color: black;"
+                                                                    style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
                                                                     id="nonUserSubmitBtn"
                                                                     class="btn btn-outline-secondary btn-sm" href=""
                                                                     disabled>ADD TO
@@ -147,7 +149,7 @@
                                                             </div>
                                                             <!-- 로그인 버튼 -->
                                                             <div class="d-grid gap-2">
-                                                                <a style="border-radius: 0; font-weight: bolder; color: black;"
+                                                                <a style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
                                                                     class="btn btn-outline-secondary btn-sm" href=""
                                                                     th:href="@{/login}">SIGN IN</a>
                                                             </div>
