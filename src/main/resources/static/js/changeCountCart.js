@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 최종 가격
         var excludeBtn = row.querySelector('.excludeBtn');
         // deleted 값
-        var deletedCheckbox = row.querySelector('.deleted');
+        // var deletedCheckbox = row.querySelector('.deleted');
 
         // 상품 가격 * 갯수 = 총 가격 
         function updateTotalPrice() {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 안보이도록 처리 
             row.style.display = 'none';
             // 서버에 보낼 데이터
-            deletedCheckbox.checked = true;
+            // deletedCheckbox.checked = true;
             // 장바구니 상품 갯수 -1
             numberOfCartProduct--;
             // 장바구니 상품 갯수가 0이되면 구매 버튼 클릭 불가능하도록 

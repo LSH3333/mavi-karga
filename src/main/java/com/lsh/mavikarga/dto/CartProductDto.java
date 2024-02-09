@@ -9,12 +9,12 @@ public class CartProductDto {
     //////// 사용자에게 보여줄 필드
     private String name;
     private int price;
+    // 썸네일 이미지
+    private String thumbnail_url;
 
     //////// 장바구니 폼에서 사용자가 변경 가능한 필드
     private int count; // 상품 구매 갯수
-    private boolean deleted = false; // 장바구니 폼에서 사용자가 이 제품 제거했는지 여부
-
-
+    
 
 
     public CartProductDto() {}

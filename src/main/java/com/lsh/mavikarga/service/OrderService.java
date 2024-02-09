@@ -93,15 +93,7 @@ public class OrderService {
         for (CartProductDto cartProductDto : cartProductDtoList) {
             Cart cart = cartRepository.findById(cartProductDto.getCartId()).orElse(null);
             if (cart == null) continue;
-
-            // 사용자가 해당 상품 장바구니에서 제외했다면 제거
-            if (cartProductDto.isDeleted()) {
-                cartRepository.delete(cart);
-            }
-            // 변경
-            else {
-                cart.setCount(cartProductDto.getCount());
-            }
+            cart.setCount(cartProductDto.getCount());
         }
     }
 
@@ -168,12 +160,7 @@ public class OrderService {
             int cartId = cartProductDto.getCartId().intValue();
             CartForNonUser cartForNonUser = cartList.get(cartId);
             if(cartForNonUser == null) continue;
-
-            if (cartProductDto.isDeleted()) {
-                cartList.remove(cartId);
-            } else {
-                cartForNonUser.setCount(cartProductDto.getCount());
-            }
+            cartForNonUser.setCount(cartProductDto.getCount());
         }
     }
 
