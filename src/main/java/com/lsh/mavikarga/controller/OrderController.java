@@ -211,13 +211,6 @@ public class OrderController {
     @PostMapping("/order/cart")
     public String createOrder(@ModelAttribute CartProductDtoList cartProductDtoList, Principal principal, HttpSession session) {
 
-//        log.info("CREATE ORDER");
-//        for (CartProductDto o : cartProductDtoList.getCartProductDtoList()) {
-//            log.info("id = {}", o.getCartId());
-//            log.info("getCount = {}", o.getCount());
-//            log.info("isDeleted = {}", o.isDeleted());
-//        }
-
         // 장바구니 수정 사항 업데이트
         orderService.updateCart(cartProductDtoList.getCartProductDtoList());
 

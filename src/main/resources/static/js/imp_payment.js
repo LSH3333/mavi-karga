@@ -1,16 +1,16 @@
-const name_req = "mavikarga_cart_" + crypto.randomUUID();
-const amount_req = '[[${cartProductDtoList.totalAmount}]]'
+
 let buyer_name_req;
 let buyer_tel_req;
 let buyer_addr_req;
 let buyer_postcode_req;
+let buyer_email_req;
 
 
 var IMP = window.IMP;
 IMP.init("imp18574515"); // 가맹점 식별코드 
 
 // 원포트에 결재 요청 api 
-function requestPay() {
+function requestPay(payment_server_req_path) {
     IMP.request_pay(
         {
             // pg: "kakaopay",
@@ -55,7 +55,7 @@ function requestPay() {
                 // formData.append("paid_at", rsp.paid_at);
 
                 const payReqXML = new XMLHttpRequest();
-                payReqXML.open("POST", "/payments/validate", true);
+                payReqXML.open("POST", payment_server_req_path, true);
                 payReqXML.onload = function () {
                     if (payReqXML.status === 200) {
                         console.log("결재 요청 데이터 서버 전송 성공")

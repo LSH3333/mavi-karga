@@ -12,6 +12,10 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <!-- iamport.payment.js -->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+    <script>
+        const name_req = "mavikarga_cart_" + crypto.randomUUID();
+        const amount_req = '[[${cartProductDtoList.totalAmount}]]'
+    </script>
     <script type="text/javascript" src="/static/js/imp_payment.js" th:src="@{/js/imp_payment.js}"></script>
 
 
@@ -47,10 +51,10 @@
 
             <!-- 주소 (다음 우편번호 API) -->
             <section class="container mb-5">
-                <input type="text" id="postcode" placeholder="우편번호" class="form-control"  required>
+                <input type="text" id="postcode" placeholder="우편번호" class="form-control" required>
                 <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-                <input type="text" id="roadAddress" placeholder="도로명주소" class="form-control"  required>
-                <input type="text" id="jibunAddress" placeholder="지번주소" class="form-control"  required>
+                <input type="text" id="roadAddress" placeholder="도로명주소" class="form-control" required>
+                <input type="text" id="jibunAddress" placeholder="지번주소" class="form-control" required>
                 <span id="guide" style="color:#999;display:none"></span>
                 <input type="text" id="detailAddress" placeholder="상세주소" class="form-control" required>
                 <input type="text" id="extraAddress" placeholder="참고항목" class="form-control">
@@ -90,7 +94,7 @@
                     </tbody>
                 </table>
                 <!-- 결제하기 버튼 -->
-                <button id="requestPayBtn" type="submit" >결제하기</button>
+                <button id="requestPayBtn" type="submit">결제하기</button>
                 <!-- 환불 테스트 -->
                 <!-- <button onclick="cancelPayments()">환불테스트버튼</button> -->
             </div>
@@ -190,7 +194,7 @@
             }
             else {
                 event.preventDefault();
-                requestPay(); // 모든 required 필드 입력됐다면 결재창 띄움 
+                requestPay('/payments/validate'); // 모든 required 필드 입력됐다면 결재창 띄움 
             }
         });
     </script>
@@ -217,14 +221,14 @@
             })
         })()
     </script>
-    
+
+    <!-- 결재 함수에 필요한 값들 body 에서 할당함 -->
     <script>
         buyer_name_req = document.getElementById('name').value;
         buyer_tel_req = document.getElementById('phone').value;
         buyer_email_req = document.getElementById('email').value;
         buyer_postcode_req = document.getElementById('postcode').value;
         buyer_addr_req = document.getElementById('roadAddress').value;
-
     </script>
 </body>
 

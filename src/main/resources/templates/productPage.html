@@ -85,7 +85,8 @@
                                                         <!-- 가격 -->
                                                         <!-- <p style="display: inline;" th:text="#{currency}"></p> -->
                                                         <h5 style="display: inline-block;"
-                                                            th:text="${#numbers.formatCurrency(orderProductDto.price)}"></h5>
+                                                            th:text="${#numbers.formatCurrency(orderProductDto.price)}">
+                                                        </h5>
                                                         <h6>Tax included</h6>
                                                         <hr>
                                                         <!-- 상품 상세 -->
@@ -112,7 +113,8 @@
                                                                     <select th:field="*{selectedProductSizeId}"
                                                                         id="size" name="size" class="form-select"
                                                                         onchange="checkSelectedSize()">
-                                                                        <option value="-1" selected>SELECT SIZE - COLOR</option>
+                                                                        <option value="-1" selected>SELECT SIZE - COLOR
+                                                                        </option>
                                                                         <option
                                                                             th:each="productSize : ${orderProductDto.productSizeList}"
                                                                             th:text="${productSize.size + ' - ' + productSize.productColor}"
@@ -256,10 +258,13 @@
     <script>
         let nonUserSubmitBtn = document.getElementById('nonUserSubmitBtn');
 
-        nonUserSubmitBtn.addEventListener('click', function (event) {
-            event.preventDefault();
-            submitNonUserForm();
-        })
+        if (nonUserSubmitBtn != null) {
+            nonUserSubmitBtn.addEventListener('click', function (event) {
+                event.preventDefault();
+                submitNonUserForm();
+            })
+        }
+
 
         function submitNonUserForm() {
             console.log('submitNonUserForm')
