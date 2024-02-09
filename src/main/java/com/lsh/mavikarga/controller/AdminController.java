@@ -6,6 +6,7 @@ import com.lsh.mavikarga.dto.AddProductDto;
 import com.lsh.mavikarga.dto.ShowUserToAdminDtoList;
 import com.lsh.mavikarga.dto.ViewProductDto;
 import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDtoList;
+import com.lsh.mavikarga.enums.ProductColor;
 import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.ProductImageService;
 import com.lsh.mavikarga.service.ProductService;
@@ -49,6 +50,7 @@ public class AdminController {
     // 상품 추가 폼
     @GetMapping("/admins/products/add")
     public String addProductForm(@ModelAttribute("addProductDto") AddProductDto addProductDto) {
+        addProductDto.getProductColor().add(ProductColor.NONE);
         return "admins/products/add";
     }
 

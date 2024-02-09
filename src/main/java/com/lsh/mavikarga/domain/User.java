@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="app_user")
+@Table(name="app_user") // postgresql 에서 "user" 는 예약어
 @Data
 public class User {
 

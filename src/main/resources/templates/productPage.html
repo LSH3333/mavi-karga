@@ -112,7 +112,7 @@
                                                                     <select th:field="*{selectedProductSizeId}"
                                                                         id="size" name="size" class="form-select"
                                                                         onchange="checkSelectedSize()">
-                                                                        <option value="-1" selected>SELECT SIZE</option>
+                                                                        <option value="-1" selected>SELECT SIZE - COLOR</option>
                                                                         <option
                                                                             th:each="productSize : ${orderProductDto.productSizeList}"
                                                                             th:text="${productSize.size + ' - ' + productSize.productColor}"

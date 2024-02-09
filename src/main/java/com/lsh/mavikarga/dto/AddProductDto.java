@@ -1,7 +1,5 @@
 package com.lsh.mavikarga.dto;
 
-import com.lsh.mavikarga.domain.Product;
-import com.lsh.mavikarga.domain.ProductSize;
 import com.lsh.mavikarga.enums.ClothingCategory;
 import com.lsh.mavikarga.enums.ProductColor;
 import jakarta.validation.constraints.Min;
