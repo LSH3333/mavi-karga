@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,8 +105,17 @@ public class OrderService {
         }
     }
 
+    // 회원 장바구니 상품 제거
+    public boolean removeCart(Long cartId) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
+        if(cart == null) return false;
+        cartRepository.delete(cart);
+        return true;
+    }
+
     //////////////////////////// 비회원 장바구니 ////////////////////////////
     // 비회원 장바구니 추가
+    // 비회원의 세션 어트리뷰트 키 "cartList" 에 비회원 장바구니 객체 추가함
     public boolean addCartForNonUser(OrderProductDto orderProductDto, List<CartForNonUser> cartList, HttpSession session) {
 
         // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
@@ -150,10 +160,10 @@ public class OrderService {
 
     // 장바구니 폼에서 보내온 정보 토대로 장바구니 업데이트 (상품 제거, 갯수 변경)
     public void updateCartNonUser(List<CartProductDto> cartProductDtoList, HttpSession session) {
-
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
 
+        // 비회원의 세션에 저장되어 있는 cartList 수정함
         for (CartProductDto cartProductDto : cartProductDtoList) {
             int cartId = cartProductDto.getCartId().intValue();
             CartForNonUser cartForNonUser = cartList.get(cartId);
@@ -165,6 +175,15 @@ public class OrderService {
                 cartForNonUser.setCount(cartProductDto.getCount());
             }
         }
+    }
+
+    // 비회원 장바구니 상품 제거
+    public boolean removeCartNonUser(int cartId, HttpSession session) {
+        // 세션에서 장바구니 가져옴
+        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+        if(cartList == null || cartId >= cartList.size()) return false;
+        cartList.remove(cartId);
+        return true;
     }
 
     //////////////////////////// 관리자 콘솔에서 사용자의 주문 목록 보는 뷰

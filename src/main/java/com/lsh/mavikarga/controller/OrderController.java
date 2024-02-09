@@ -127,6 +127,7 @@ public class OrderController {
         }
     }
 
+    /////////////////////////////// 장바구니 ///////////////////////////////
 
     //  you can't redirect user in ajax requests!
     // 회원 장바구니 추가 ajax
@@ -198,23 +199,32 @@ public class OrderController {
     @GetMapping("/order/cart/nonuser")
     public String cartFormNonUser(HttpSession session, Model model) {
 
-        // 사용자 장바구니 담긴 상품들 보여주기
+        // 사용자 장바구니 담긴 상품들 보여줄 dto
         CartProductDtoList cartProductDtoList;
-
+        // 비회원 세션 기반으로 장바구니 dto 에 정보 담음
         cartProductDtoList = new CartProductDtoList(orderService.createCartProductDtoListForNonUser(session));
+
         model.addAttribute("cartProductDtoList", cartProductDtoList);
 
         return "cartNonUser";
     }
 
-    // 장바구니 폼에서 최종적으로 구매 결정 -> 구매 페이지로 이동
+    // 회원 장바구니 폼에서 최종적으로 구매 결정 -> 구매 페이지로 이동
     @PostMapping("/order/cart")
     public String createOrder(@ModelAttribute CartProductDtoList cartProductDtoList, Principal principal, HttpSession session) {
-
         // 장바구니 수정 사항 업데이트
         orderService.updateCart(cartProductDtoList.getCartProductDtoList());
-
         return "redirect:/payments/payment";
+    }
+
+    // 회원 장바구니 상품 제거 요청 ajax
+    @PostMapping("/order/cart/remove")
+    public ResponseEntity<String> removeCart(@RequestParam Long cartId) {
+        if (orderService.removeCart(cartId)) {
+            return ResponseEntity.status(HttpStatus.OK).body("success");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
+        }
     }
 
     // 비회원 장바구니 폼에서 최종적으로 구매 결정 -> 구매 페이지로 이동
@@ -224,11 +234,16 @@ public class OrderController {
         return "redirect:/payments/payment/nonuser";
     }
 
-
-
-
-    @GetMapping("/test/productPageTest")
-    public String productPageTest() {
-        return "test/productPageTest";
+    // 비회원 장바구니 상품 제거 요청 ajax
+    @PostMapping("/order/cart/nonuser/remove")
+    public ResponseEntity<String> removeCartNonUser(HttpSession session, @RequestParam int cartId) {
+        if (orderService.removeCartNonUser(cartId, session)) {
+            return ResponseEntity.status(HttpStatus.OK).body("success");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
+        }
     }
+
+
+
 }

@@ -21,8 +21,8 @@
                 <tr th:each="cartProductDto, rowStat : *{cartProductDtoList}">
                     <!-- 상품ID -->
                     <td>
-                        <input type="number" th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}"
-                            style="display: none;">
+                        <input class="hidden_cart_id" type="number"
+                            th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}" style="display: none;">
                     </td>
                     <!-- 상품 이름 -->
                     <td class="name" th:text="${cartProductDto.name}"></td>
@@ -30,14 +30,15 @@
                     <td style="display: none;" class="price" th:text="${cartProductDto.price}"></td>
                     <!-- 갯수 수정 input -->
                     <td>
-                        <input class="count" th:field="*{cartProductDtoList[__${rowStat.index}__].count}"
-                            type="number" />
+                        <input class="count" th:field="*{cartProductDtoList[__${rowStat.index}__].count}" type="number"
+                            min="1" oninput="validCount(this)" />
                     </td>
                     <!-- 계산된 전체 가격 -->
                     <td class="totalPrice"></td>
                     <!-- 상품 제외 버튼 -->
                     <td>
-                        <button class="excludeBtn" type="button">제외</button>
+                        <button class="excludeBtn" type="button"
+                            th:value="*{cartProductDtoList[__${rowStat.index}__].cartId}">제외</button>
                         <!-- 상품 제거 버튼 누르면 deleted=true 로 만듦 -->
                         <input class="deleted" th:field="*{cartProductDtoList[__${rowStat.index}__].deleted}"
                             style="display: none;" type="checkbox">
@@ -55,63 +56,50 @@
 
 
     <script>
-        // 사용자가 상품 갯수 변경할때마다 최종 가격 업데이트해서 보여줌
-        // 제외 버튼 누르면 해당 행 안보이도록 처리 
+        // 제외 버튼 누르면 해당 상품 제거하도록 ajax 요청 보냄 
         document.addEventListener('DOMContentLoaded', function () {
-            const submitBtn = document.getElementById('submitBtn')
-            var rows = document.querySelectorAll('tr');
-            // 장바구니 상품 갯수 
-            var numberOfCartProduct = rows.length;
+            // 제외 버튼들 
+            const excludeButtons = document.querySelectorAll('.excludeBtn');
 
-            rows.forEach(function (row) {
-                // 개당 가격 
-                var priceCell = row.querySelector('.price');
-                // 갯수 
-                var countInput = row.querySelector('.count');
-                // 최종 가격
-                var totalPriceCell = row.querySelector('.totalPrice');
-                // 최종 가격
-                var excludeBtn = row.querySelector('.excludeBtn');
-                // deleted 값
-                var deletedCheckbox = row.querySelector('.deleted');
-
-                // 상품 가격 * 갯수 = 총 가격 
-                function updateTotalPrice() {
-                    var price = parseFloat(priceCell.textContent);
-                    var count = parseInt(countInput.value);
-
-                    var totalPrice = price * count;
-
-                    totalPriceCell.textContent = totalPrice;
-                }
-
-                // 제외 버튼 누르면 해당 row 안보이도록 처리 
-                function excludeProduct() {
-                    // 안보이도록 처리 
-                    row.style.display = 'none';
-                    // 서버에 보낼 데이터
-                    deletedCheckbox.checked = true;
-                    // 장바구니 상품 갯수 -1
-                    numberOfCartProduct--;
-                    // 장바구니 상품 갯수가 0이되면 구매 버튼 클릭 불가능하도록 
-                    if(numberOfCartProduct === 0) {
-                        submitBtn.disabled = true;
-                    }
-                }
-
-                // count input 이벤트 리스너 
-                countInput.addEventListener('input', updateTotalPrice);
-
-                // 제외 버튼 이벤트 리스너 
-                excludeBtn.addEventListener('click', excludeProduct);
-
-                // 가격 업데이트 
-                updateTotalPrice();
+            excludeButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    // .hidden_cart_id 에 담겨있는 cartId 값 
+                    const cartIdInput = button.closest('tr').querySelector('.hidden_cart_id');
+                    const cartId = cartIdInput.value;
+                    // ajax 요청 
+                    removeProduct('/order/cart/nonuser/remove', cartId);
+                });
             });
         });
+        // 상품 장바구니에서 제외 요청 ajax 함수 
+        function removeProduct(req_path, cartId) {
+            // AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', req_path + '?cartId=' + cartId, true);
 
-        
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert('Your item has been successfully removed from the cart!')
+                        console.log('success remove product from cart')
+                    } else {
+                        console.log('There was an error. please try again.')
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        // 갯수 0으로 못하도록
+        function validCount(input) {
+            if (input.value < 1) {
+                input.value = 1;
+            }
+        }
     </script>
+
+    <!-- 사용자가 상품 갯수 변경할때마다 최종 가격 업데이트해서 보여줌 -->
+    <script src="/static/js/changeCountCart.js" th:src="@{/js/changeCountCart.js}"></script>
 </body>
 
 </html>

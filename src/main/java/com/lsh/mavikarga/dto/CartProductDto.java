@@ -14,6 +14,9 @@ public class CartProductDto {
     private int count; // 상품 구매 갯수
     private boolean deleted = false; // 장바구니 폼에서 사용자가 이 제품 제거했는지 여부
 
+
+
+
     public CartProductDto() {}
 
     // 회원용 생성자

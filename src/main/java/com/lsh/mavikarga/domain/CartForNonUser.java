@@ -9,10 +9,8 @@ import java.util.List;
 @Data
 public class CartForNonUser {
 
-//    List<ProductSize> productSizeList = new ArrayList<>();
-//    List<Integer> countList = new ArrayList<>();
-
     // id
+    // 비회원 장바구니 객체는 세션에의 "cartList" 에 저장됨. id는 첫상품 부터 0,1,2 ...
     private int id;
     // 제품
     private ProductSize productSize;
