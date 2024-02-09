@@ -60,40 +60,10 @@
             <!-- 사이즈 -->
             <div class="mb-3 size-checkboxes">
                 <p>사이즈</p>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxNone"
-                        name="sizes" value="NONE" checked onchange="handleSizeCheckboxChange(this)">
-                    <label class="form-check-label" for="inlineCheckboxNone">NONE</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXS"
-                        name="sizes" value="XS" onchange="handleSizeCheckboxChange(this)">
-                    <label class="form-check-label" for="inlineCheckboxXS">XS</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxS"
-                        name="sizes" value="S" onchange="handleSizeCheckboxChange(this)">
-                    <label class="form-check-label" for="inlineCheckboxS">S</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxM"
-                        name="sizes" value="M" onchange="handleSizeCheckboxChange(this)">
-                    <label class="form-check-label" for="inlineCheckboxM">M</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxL"
-                        name="sizes" value="L" onchange="handleSizeCheckboxChange(this)">
-                    <label class="form-check-label" for="inlineCheckboxL">L</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXL"
-                        name="sizes" value="XL" onchange="handleSizeCheckboxChange(this)">
-                    <label class="form-check-label" for="inlineCheckboxXL">XL</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXXL"
-                        name="sizes" value="XXL" onchange="handleSizeCheckboxChange(this)">
-                    <label class="form-check-label" for="inlineCheckboxXXL">XXL</label>
+                <div th:each="s : ${addProductDto.sizes}">
+                    <input class="form-check-input" th:field="*{size}" type="checkbox"
+                        th:id="${'size-' + s}" th:value="${s}" onchange="handleSizeCheckboxChange(this)" />
+                    <label th:for="${'size-' + s}" th:text="${s}"></label><br />
                 </div>
             </div>
             <!-- 카테고리 -->
@@ -108,7 +78,7 @@
             <!-- 색상 -->
             <div class="mb-3 color-checkboxes">
                 <p>색상</p>
-                <div th:each="color, iterStat : ${addProductDto.productColors}">
+                <div th:each="color : ${addProductDto.productColors}">
                     <input class="form-check-input" th:field="*{productColor}" type="checkbox"
                         th:id="${'color-' + color}" th:value="${color}" onchange="handleClolorCheckboxChange(this)" />
                     <label th:for="${'color-' + color}" th:text="${color}"></label><br />
@@ -160,47 +130,7 @@
         })
     </script>
 
-    <!-- 체크박스들중 적어도 하나는 선택 필수 -->
-    <script>
-        // 색상 체크박스들 감지
-        function handleClolorCheckboxChange(checkbox) {
-            handleCheckboxChange('.color-checkboxes', checkbox);
-        }
-        // 사이즈 체크박스들 감지
-        function handleSizeCheckboxChange(checkbox) {
-            handleCheckboxChange('.size-checkboxes', checkbox);
-        }
-
-        function handleCheckboxChange(className, checkbox) {
-            const checkboxes = document.querySelectorAll(className + ' input[type="checkbox"]');
-            const firstCheckbox = document.querySelector(className + ' input[type="checkbox"]:first-child');
-            // 체크박스 체크 해제한 경우
-            // 적어도 하나의 체크박스는 체크처리 되있도록 보장함 
-            if (!checkbox.checked) {
-                // 체크박스들 순회하면서 모든 체크박스가 해제되었는지 검사
-                let allUnchecked = true;
-                checkboxes.forEach(cb => {
-                    if (cb.checked) {
-                        allUnchecked = false;
-                        return;
-                    }
-                });
-                // 모두 체크 해제된 상태라면 첫번째 체크박스 체크 처리 
-                if (allUnchecked) {
-                    firstCheckbox.checked = true;
-                }
-            }
-            // 체크박스 체크한 경우 
-            // 첫번째 이외 체크박스 체크한 경우 첫번째 체크박스는 해제시킨다 
-            else {
-                if (checkbox != firstCheckbox) {
-                    firstCheckbox.checked = false;
-                }
-            }
-
-        }
-    </script>
-
+    <script src="/static/js/handleCheckboxChanges.js" th:src="@{/js/handleCheckboxChanges.js}"></script>
     <script src="/static/js/AdminproductFormHandler.js" th:src="@{/js/AdminproductFormHandler.js}"></script>
 
 </body>

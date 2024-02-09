@@ -3,6 +3,7 @@ package com.lsh.mavikarga.domain;
 import com.lsh.mavikarga.dto.AddProductDto;
 import com.lsh.mavikarga.enums.ClothingCategory;
 import com.lsh.mavikarga.enums.ProductColor;
+import com.lsh.mavikarga.enums.Sizes;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -79,7 +80,7 @@ public class Product {
         // 크기별 색상별로 제품크기 생성.
         // ex) 사이즈 M & 색상 red, 사이즈 M & 색상 blue ...
         // 크기별
-        for (String selectedSize : addProductDto.getSizes()) {
+        for (Sizes selectedSize : addProductDto.getSize()) {
             // 색상별
             for (ProductColor productColor : addProductDto.getProductColor()) {
                 ProductSize productSize = new ProductSize(selectedSize, productColor,this);
@@ -90,7 +91,7 @@ public class Product {
     }
 
     // 현재 DB에 존재하는 ProductSize 순회하면서 선택된 크기, 색상에 맞는 ProductSize 재고 있음 처리
-    private boolean setAvailableSelectedProductSize(String selectedSize, ProductColor selectedColor) {
+    private boolean setAvailableSelectedProductSize(Sizes selectedSize, ProductColor selectedColor) {
         for (ProductSize size : this.sizes) {
             if (size.getSize().equals(selectedSize) && size.getProductColor() == selectedColor) {
                 size.setAvailable(true);
@@ -101,7 +102,7 @@ public class Product {
     }
 
     // 선택된 사이즈들은 available=true 처리, 나머지는 false 처리
-    public void updateAvailableSizes(List<String> selectedSizes, List<ProductColor> selectedProductColor) {
+    public void updateAvailableSizes(List<Sizes> selectedSizes, List<ProductColor> selectedProductColor) {
         // 먼저 모든 productSize.available=false 처리
         for (ProductSize productSize : this.sizes) {
             productSize.setAvailable(false);
@@ -118,7 +119,7 @@ public class Product {
 
         // M,BLACK M,BLUE L,BLACK, L,BLUE
         // 선택된 사이즈, 색상 조합 순회하면서 DB 에서 활성화,비활성화 처리
-        for (String selectedSize : selectedSizes) {
+        for (Sizes selectedSize : selectedSizes) {
             for (ProductColor selectedColor : selectedProductColor) {
                 // 현재 DB에 존재하는 ProductSize 순회하면서 선택된 크기, 색상에 맞는 ProductSize 재고 있음 처리
                 if(!setAvailableSelectedProductSize(selectedSize, selectedColor)) {

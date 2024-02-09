@@ -35,7 +35,8 @@
                 <input th:field="*{price_USD}" type="number" class="form-control" id="price_USD" name="price_USD"
                     placeholder="$">
                 <!-- BindingError 에러 발생 -->
-                <span th:if="${#fields.hasErrors('price_USD')}" th:errors="*{price_USD}" for="price_USD" style="color:red"></span>
+                <span th:if="${#fields.hasErrors('price_USD')}" th:errors="*{price_USD}" for="price_USD"
+                    style="color:red"></span>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">상품 상세</label>
@@ -46,36 +47,12 @@
                     style="color:red"></span>
             </div>
             <!-- 사이즈 -->
-            <div class="mb-3">
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXS"
-                        name="sizes" value="XS">
-                    <label class="form-check-label" for="inlineCheckboxXS">XS</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxS"
-                        name="sizes" value="S">
-                    <label class="form-check-label" for="inlineCheckboxS">S</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxM"
-                        name="sizes" value="M">
-                    <label class="form-check-label" for="inlineCheckboxM">M</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxL"
-                        name="sizes" value="L">
-                    <label class="form-check-label" for="inlineCheckboxL">L</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXL"
-                        name="sizes" value="XL">
-                    <label class="form-check-label" for="inlineCheckboxXL">XL</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input th:field="*{sizes}" class="form-check-input" type="checkbox" id="inlineCheckboxXXL"
-                        name="sizes" value="XXL">
-                    <label class="form-check-label" for="inlineCheckboxXXL">XXL</label>
+            <div class="mb-3 size-checkboxes">
+                <p>사이즈</p>
+                <div th:each="s : ${addProductDto.sizes}">
+                    <input class="form-check-input" th:field="*{size}" type="checkbox" th:id="${'size-' + s}"
+                        th:value="${s}" onchange="handleSizeCheckboxChange(this)" />
+                    <label th:for="${'size-' + s}" th:text="${s}"></label><br />
                 </div>
             </div>
             <!-- 카테고리 -->
@@ -88,11 +65,11 @@
                 </select>
             </div>
             <!-- 색상 -->
-            <div class="mb-3">
+            <div class="mb-3 color-checkboxes">
                 <p>색상</p>
                 <div th:each="color : ${addProductDto.productColors}">
                     <input class="form-check-input" th:field="*{productColor}" type="checkbox"
-                        th:id="${'color-' + color}" th:value="${color}" />
+                        th:id="${'color-' + color}" th:value="${color}" onchange="handleClolorCheckboxChange(this)" />
                     <label th:for="${'color-' + color}" th:text="${color}"></label><br />
                 </div>
             </div>
@@ -121,6 +98,9 @@
             xhr.send();
         }
     </script>
+
+    <script src="/static/js/AdminproductFormHandler.js" th:src="@{/js/AdminproductFormHandler.js}"></script>
+    <script src="/static/js/handleCheckboxChanges.js" th:src="@{/js/handleCheckboxChanges.js}"></script>
 </body>
 
 </html>

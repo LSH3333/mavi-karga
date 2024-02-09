@@ -86,7 +86,7 @@ public class ProductService {
     private void updateSize(List<ProductSize> sizes, AddProductDto addProductDto) {
         for (ProductSize size : sizes) {
             if (size.isAvailable()) {
-                addProductDto.getSizes().add(size.getSize());
+                addProductDto.getSize().add(size.getSize());
             }
         }
     }
@@ -110,7 +110,7 @@ public class ProductService {
         product.setDescription(addProductDto.getDescription());
         product.setDetailsAndCare(addProductDto.getDetailsAndCare());
         product.setClothingCategory(addProductDto.getClothingCategory());
-        product.updateAvailableSizes(addProductDto.getSizes(), addProductDto.getProductColor());
+        product.updateAvailableSizes(addProductDto.getSize(), addProductDto.getProductColor());
 
 
         return true;

@@ -1,5 +1,6 @@
 package com.lsh.mavikarga.dto.admin.showUserOrderToAdmin;
 
+import com.lsh.mavikarga.enums.Sizes;
 import lombok.Data;
 
 import java.util.UUID;
@@ -14,7 +15,7 @@ public class ShowUserOrderToAdminOrderProductDto {
     private int count;
 
     //// ProductSize
-    private String size;
+    private Sizes size;
 
     //// Product
     private UUID productId;
