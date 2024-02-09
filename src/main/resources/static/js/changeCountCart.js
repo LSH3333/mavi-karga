@@ -26,8 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
             var count = parseInt(countInput.value);
 
             var totalPrice = price * count;
-
-            totalPriceCell.textContent = totalPrice;
+            
+            // 한국 원화 
+            totalPriceCell.textContent = new Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(
+                totalPrice,
+            )
         }
 
         // 제외 버튼 누르면 해당 row 안보이도록 처리 

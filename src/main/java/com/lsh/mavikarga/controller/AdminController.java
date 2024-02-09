@@ -93,12 +93,12 @@ public class AdminController {
     }
 
     // 상품 이미지 업로드 ajax
+    // 관리자 콘솔에서 상품 추가, 이미지 수정폼 모두 여기로 ajax 요청 보냄
     @PostMapping("/admins/products/images")
     public ResponseEntity<String> uploadAjax(
             @RequestParam UUID productId,
             @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
-        log.info("UPLOAD AJAX");
-
+        log.info("IMG AJAX");
         if(files != null) {
             // 기존에 있는 모든 상품 이미지 삭제
             productImageService.deleteAllProductImages(productId);

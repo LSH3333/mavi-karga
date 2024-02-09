@@ -14,22 +14,24 @@ public class CartProductDto {
 
     //////// 장바구니 폼에서 사용자가 변경 가능한 필드
     private int count; // 상품 구매 갯수
-    
+
 
 
     public CartProductDto() {}
 
     // 회원용 생성자
-    public CartProductDto(Long cartId, String name, int price, int count) {
+    public CartProductDto(Long cartId, String name, int price, int count, String thumbnail_url) {
         this.cartId = cartId;
         this.name = name;
         this.price = price;
         this.count = count;
+        this.thumbnail_url = thumbnail_url;
     }
     // 비회원용 생성자
-    public CartProductDto(String name, int price, int count) {
+    public CartProductDto(String name, int price, int count, String thumbnail_url) {
         this.name = name;
         this.price = price;
         this.count = count;
+        this.thumbnail_url = thumbnail_url;
     }
 }

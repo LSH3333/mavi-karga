@@ -5,46 +5,77 @@
 <head>
     <title>mavi karga</title>
 
+    <style>
+        p {
+            margin-bottom: 0;
+        }
 
+        .excludeBtn {
+            border: none;
+            background-color: transparent;
+        }
+    </style>
 </head>
 
 <body layout:fragment="content">
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <main class="container">
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">CART</h1>
         </div>
 
 
-        <form th:action="@{/order/cart}" th:object="${cartProductDtoList}" method="post">
-            <table>
-                <tr th:each="cartProductDto, rowStat : *{cartProductDtoList}">
-                    <!-- 상품ID -->
-                    <td>
-                        <input class="hidden_cart_id" type="number"
-                            th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}" style="display: none;">
-                    </td>
-                    <!-- 상품 이름 -->
-                    <td class="name" th:text="${cartProductDto.name}"></td>
-                    <!-- 개당 가격 (안보이도록 처리) -->
-                    <td style="display: none;" class="price" th:text="${cartProductDto.price}"></td>
-                    <!-- 갯수 수정 input -->
-                    <td>
-                        <input class="count" th:field="*{cartProductDtoList[__${rowStat.index}__].count}" type="number"
-                            min="1" oninput="validCount(this)" />
-                    </td>
-                    <!-- 계산된 전체 가격 -->
-                    <td class="totalPrice"></td>
-                    <!-- 상품 제외 버튼 -->
-                    <td>
-                        <button class="excludeBtn" type="button">제외</button>
-                        <!-- 상품 제거 버튼 누르면 deleted=true 로 만듦 -->
-                        <!-- <input class="deleted" th:field="*{cartProductDtoList[__${rowStat.index}__].deleted}"
-                            style="display: none;" type="checkbox"> -->
-                    </td>
-                </tr>
+        <form class="mx-3" th:action="@{/order/cart}" th:object="${cartProductDtoList}" method="post">
+            <table class="mb-3">
+                <thead>
+                </thead>
+                <tbody>
+                    <tr class="row d-flex justify-content-between align-items-center mb-3"
+                        th:each="cartProductDto, rowStat : *{cartProductDtoList}">
+                        <!-- 상품ID -->
+                        <td style="display: none;">
+                            <input class="hidden_cart_id" type="number"
+                                th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}" style="display: none;">
+                        </td>
+                        <!-- 상품 이미지 -->
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <div class="container-fluid">
+                                <img class="img-fluid"
+                                    src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
+                                    th:src="${cartProductDto.thumbnail_url}" alt="product thumbnail img">
+                            </div>
+                        </td>
+                        <!-- 상품 이름 -->
+                        <td class="name col-md-2 col-lg-2 col-xl-2 align-items-center my-1">
+                            <p class="name" th:text="${cartProductDto.name}"></p>
+                        </td>
+                        <!-- 개당 가격  -->
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p th:text="${#numbers.formatCurrency(cartProductDto.price)}"></p>
+                            <p style="display: none;" class="price" th:text="${cartProductDto.price}"></p>
+                        </td>
+                        <!-- 갯수 수정 input -->
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <input class="count" th:field="*{cartProductDtoList[__${rowStat.index}__].count}"
+                                type="number" min="1" oninput="validCount(this)" style="width: 50px; height: 38px;" />
+                        </td>
+                        <!-- 계산된 전체 가격 -->
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="totalPrice"></p>
+                        </td>
+                        <!-- 상품 제외 버튼 -->
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <button class="excludeBtn" type="button">[x]</button>
+                        </td>
+                        <td>
+                            <hr>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
-            <button id="submitBtn" type="submit">구매</button>
+            <button
+                style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                id="submitBtn" type="submit" class="btn btn-outline-secondary btn-sm">PROCEED TO CHECKOUT</button>
         </form>
 
         <!-- divider -->
@@ -82,6 +113,7 @@
                     if (xhr.status === 200) {
                         alert('Your item has been successfully removed from the cart!')
                         console.log('success remove product from cart')
+                        window.location.href = '/order/cart'
                     } else {
                         console.log('There was an error. please try again.')
                     }

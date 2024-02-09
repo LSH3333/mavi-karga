@@ -81,7 +81,13 @@ public class OrderService {
         for (Cart cart : carts) {
             ProductSize productSize = cart.getProductSize();
             Product product = productSize.getProduct();
-            CartProductDto cartProductDto = new CartProductDto(cart.getId(), product.getName(), product.getPrice(), cart.getCount());
+            // 기본 썸네일
+            String thumbnail_url = "https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg";
+            if(product.getThumbnail_front() != null) {
+                thumbnail_url = product.getThumbnail_front().getUrl();
+            }
+            CartProductDto cartProductDto = new CartProductDto(cart.getId(), product.getName(), product.getPrice(),
+                    cart.getCount(), thumbnail_url);
             cartProductDtos.add(cartProductDto);
         }
         return cartProductDtos;
@@ -136,14 +142,19 @@ public class OrderService {
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
         // 세션에 장바구니 없으면 새로 만듦
         if (cartList == null) {
-            cartList = new ArrayList<CartForNonUser>();
+            cartList = new ArrayList<>();
             session.setAttribute("cart", cartList);
         }
 
         for (CartForNonUser cartForNonUser : cartList) {
             ProductSize productSize = cartForNonUser.getProductSize();
             Product product = productSize.getProduct();
-            CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getName(), product.getPrice(), cartForNonUser.getCount());
+            String thumbnail_url = "https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg";
+            if(product.getThumbnail_front() != null) {
+                thumbnail_url = product.getThumbnail_front().getUrl();
+            }
+            CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getName(), product.getPrice(),
+                    cartForNonUser.getCount(), thumbnail_url);
             cartProductDtos.add(cartProductDto);
         }
 
