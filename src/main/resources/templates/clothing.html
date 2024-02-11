@@ -8,6 +8,24 @@
     <link href="/static/css/product.css" th:href="@{/css/product.css}" rel="stylesheet">
     <!-- 이미지 hover 시 앞면썸네일, 뒷면썸네일 전환해서 보여줌 -->
     <link href="/static/css/hover-thumnail-image.css" th:href="@{/css/hover-thumnail-image.css}" rel="stylesheet">
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
+        th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
+    <style>
+        @font-face {
+            font-family: 'Treegarden';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            padding-top: 0;
+            font-family: 'Treegarden', sans-serif;
+        }
+    </style>
+
 </head>
 
 <body layout:fragment="content">
@@ -48,10 +66,42 @@
         <!---------- END OF 상단 6개의 대표 상품 이미지 -->
 
         <!-- FULL STORE -->
-        <div class="container-fuild mb-3">
+        <div class="container-fluid mb-3">
             <a style="color: black;" href="/templates/clothing/all.html" th:href="@{/clothing/all}">
                 <h4 class="text-center"><u>FULL STORE</u></h4>
             </a>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-lg-5 col-xl-5 d-flex align-items-center justify-content-center">
+                    <div>
+                        <img class="img-fluid" th:src="@{/image/clothing-first.jpg}"
+                            src="/static/image/clothing-first.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col-md-7 col-lg-7 col-xl-7 py-5" style="padding-left: 7rem; padding-right: 7rem;">
+                    <div>
+                        <div class="my-5">
+                            <h4 style="white-space: nowrap;" class="text-center"><u>01 "first button"</u></h4>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat voluptates suscipit,
+                            facilis, quisquam inventore quasi facere eius molestiae nam natus rem fugiat tempora aut
+                            odit reiciendis mollitia iusto? Earum, iure!</p>
+                        <div style="width: 15px;">
+                            <hr class="border border-2 opacity-75">
+                        </div>
+                        <div class="d-flex flex-column">
+                            <button
+                                style="width: 130px; border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                                class="btn btn-outline-secondary btn-sm mb-1">Making Story</button>
+                            <button
+                                style="width: 130px; border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                                class="btn btn-outline-secondary btn-sm">collection</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- divider -->
