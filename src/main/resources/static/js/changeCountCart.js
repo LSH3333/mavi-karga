@@ -4,7 +4,7 @@
 // 제외 버튼 누르면 해당 행 안보이도록 처리 
 document.addEventListener('DOMContentLoaded', function () {
     const submitBtn = document.getElementById('submitBtn')
-    var rows = document.querySelectorAll('tr');
+    var rows = document.querySelectorAll('tr.tbody-row');
     // 장바구니 상품 갯수 
     var numberOfCartProduct = rows.length;
 

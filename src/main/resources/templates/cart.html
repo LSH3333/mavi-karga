@@ -10,9 +10,17 @@
             margin-bottom: 0;
         }
 
+        /* 제외 버튼 <button> 기본 디자인 제거 */
         .excludeBtn {
             border: none;
             background-color: transparent;
+        }
+
+        /* 작은 화면에서 thead 안보이도록 처리 */
+        @media (max-width: 768px) {
+            .thead-row {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -21,16 +29,27 @@
     <main class="container">
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">CART</h1>
+            <h1 class="h2">Your Cart</h1>
         </div>
 
 
         <form class="mx-3" th:action="@{/order/cart}" th:object="${cartProductDtoList}" method="post">
             <table class="mb-3">
                 <thead>
+                    <tr class="row justify-content-between align-items-center thead-row">
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRODUCT</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRICE</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">QTY</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">TOTAL</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                        <td>
+                            <hr>
+                        </td>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr class="row d-flex justify-content-between align-items-center mb-3"
+                    <tr class="row justify-content-between align-items-center tbody-row"
                         th:each="cartProductDto, rowStat : *{cartProductDtoList}">
                         <!-- 상품ID -->
                         <td style="display: none;">
@@ -39,7 +58,7 @@
                         </td>
                         <!-- 상품 이미지 -->
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                            <div class="container-fluid">
+                            <div style="width: 60%;">
                                 <img class="img-fluid"
                                     src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
                                     th:src="${cartProductDto.thumbnail_url}" alt="product thumbnail img">

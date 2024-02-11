@@ -197,7 +197,11 @@ public class OrderController {
 
     // 비회원 장바구니 폼
     @GetMapping("/order/cart/nonuser")
-    public String cartFormNonUser(HttpSession session, Model model) {
+    public String cartFormNonUser(HttpSession session, Model model, Principal principal) {
+        // 로그인된 상태로 비회원 장바구니 폼 접근 시도 시 홈으로 리다이렉트 
+        if(principal != null) {
+            return "redirect:/";
+        }
 
         // 사용자 장바구니 담긴 상품들 보여줄 dto
         CartProductDtoList cartProductDtoList;
