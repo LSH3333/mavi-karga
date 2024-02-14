@@ -7,7 +7,16 @@
 
     <!-- 커스텀 스크롤 디자인 -->
     <link rel="stylesheet" href="/static/css/scroll_box.css" th:href="@{/css/scroll_box.css}">
-
+    <style>
+        /* modal-header가 modal-content 위에 오버랩해서 위치하도록 */
+        .modal-header-overlap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+    </style>
 </head>
 
 <body layout:fragment="content">
@@ -26,21 +35,6 @@
                                     data-bs-target="#exampleModal"><img style="width: 100%;" src="/static/image/-6.jpg"
                                         th:src="${productImageUrl}" alt=""></a>
                             </div>
-                            <!-- <div>
-                                <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
-                                        style="width: 100%;" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}"
-                                        alt=""></a>
-                            </div>
-                            <div>
-                                <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
-                                        style="width: 100%;" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}"
-                                        alt=""></a>
-                            </div>
-                            <div>
-                                <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><img
-                                        style="width: 100%;" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}"
-                                        alt=""></a>
-                            </div> -->
                         </div>
                     </div>
                     <!-- RIGHT SIDE STICKY -->
@@ -168,7 +162,7 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-scrollable modal-fullscreen">
             <div class="modal-content ">
-                <div class="modal-header" style="height: 2rem;">
+                <div class="modal-header modal-header-overlap" style="border-bottom: none; height: 1rem;">
                     <!-- <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1> -->
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
