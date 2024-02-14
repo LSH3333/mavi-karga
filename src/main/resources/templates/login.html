@@ -1,53 +1,64 @@
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
 
 <head>
     <title>mavi karga</title>
-
     <!-- bootstrap -->
     <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
         th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
-
-    <!-- Custom styles for this template -->
-    <link href="/static/css/sign-in.css" th:href="@{/css/sign-in.css}" rel="stylesheet">
-
     <style>
+        @font-face {
+            font-family: 'Treegarden';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            padding-top: 0;
+            font-family: 'Treegarden', sans-serif;
+        }
+
         .oauth2-login-img {
-            width: 200px;
+            width: 250px;
+            height: 50px;
         }
     </style>
+
 </head>
 
-<body>
-
+<body layout:fragment="content">
     <main>
-        <div>
-            <div>
-                <a href="/templates/index.html" th:href="@{/}">mavi-karga</a>
+        <div style="width: 400px;" class="container d-flex flex-column border border-2 rounded border-secondary-subtle py-3 my-5">
+            <div class="mx-auto mt-3 mb-3">
+                <h4>Login</h4>
             </div>
-            <div>
+            <div class="oauth2-login-img mb-1 mx-auto">
                 <!-- google oauth2 login -->
-                <a href="" th:href="@{/oauth2/authorization/google}"><img class="oauth2-login-img"
-                        src="/static/image/login/web_light_sq_ctn@1x.png"
-                        th:src="@{/image/login/web_light_sq_ctn@1x.png}" alt=""></a>
+                <a href="" th:href="@{/oauth2/authorization/google}"><img class="w-100 h-100"
+                        src="/static/image/login/web_neutral_sq_ctn@2x_378x80.png"
+                        th:src="@{/image/login/web_neutral_sq_ctn@2x_378x80.png}" alt=""></a>
             </div>
-            <div>
+            <div class="oauth2-login-img mb-1 mx-auto">
                 <!-- naver oauth2 login -->
-                <a href="" th:href="@{/oauth2/authorization/naver}"><img class="oauth2-login-img"
-                        src="/static/image/login/btnG_완성형.png" th:src="@{/image/login/btnG_완성형.png}" alt=""></a>
+                <a href="" th:href="@{/oauth2/authorization/naver}"><img class="w-100 h-100"
+                        src="/static/image/login/btnG_official_378x80.png" th:src="@{/image/login/btnG_official_378x80.png}" alt=""></a>
             </div>
-            <div>
+            <div class="oauth2-login-img mb-1 mx-auto">
                 <!-- kakao oauth2 login -->
-                <a href="" th:href="@{/oauth2/authorization/kakao}"><img class="oauth2-login-img"
-                        src="/static/image/login/kakao_login_medium_narrow.png"
-                        th:src="@{/image/login/kakao_login_medium_narrow.png}" alt=""></a>
+                <a href="" th:href="@{/oauth2/authorization/kakao}"><img class="w-100 h-100"
+                        src="/static/image/login/kakao_login_large_wide_378x80.png"
+                        th:src="@{/image/login/kakao_login_large_wide_378x80.png}" alt=""></a>
             </div>
         </div>
+
+
+        <!-- divider -->
+        <div class="container">
+            <hr class="featurette-divider">
+        </div>
     </main>
-
-
-
-
 </body>
 
 </html>
