@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mavi karga</title>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
+        th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
+    <!-- js -->
+    <script src="/static/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"
+        th:src="@{/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js}"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
+        th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
+    <!-- carousel 왼쪽, 오른쪽 버튼 hovering -->
+    <link rel="stylesheet" href="/static/css/carouselBtn.css"
+        th:href="@{/css/carouselBtn.css}">
+
+    <style>
+        @font-face {
+            font-family: 'Treegarden';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            padding-top: 0;
+            font-family: 'Treegarden', sans-serif;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+
+    <div class="container-fluid p-0">
+        <div id="productCarousel" class="carousel slide row m-0" style="">
+            <!-- left container -->
+            <div class="p-0 col-lg-4">
+                <button style="" class="carousel-btn" id="carousel-prev-btn">
+                    <div class="carousel-inner">
+                        <div style="position: relative;" class="carousel-item active">
+                            <img src="/static/image/clothing/KakaoTalk_20240207_105747721_02.jpg"
+                                th:src="@{/image/clothing/KakaoTalk_20240207_105747721_02.jpg}"
+                                class="d-block img-fluid" alt="...">
+                            <div style="display: none;">
+                                <p>01/03</p>
+                                <p>product name 1</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/static/image/clothing/KakaoTalk_20240207_105747721_03.jpg"
+                                th:src="@{/image/clothing/KakaoTalk_20240207_105747721_03.jpg}"
+                                class="d-block img-fluid" alt="...">
+                            <div style="display: none;">
+                                <p>02/03</p>
+                                <p>product name 2</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="/static/image/clothing/KakaoTalk_20240207_105747721_04.jpg"
+                                th:src="@{/image/clothing/KakaoTalk_20240207_105747721_04.jpg}"
+                                class="d-block img-fluid" alt="...">
+                            <div style="display: none;">
+                                <p>03/03</p>
+                                <p>product name 3</p>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+            <!-- right container -->
+            <div class="col-lg-8 p-0" style="">
+                <button id="carousel-next-btn" class="w-100 h-100 carousel-btn">
+                    <div class="container w-100 h-100">
+                        <div style="height: 40%;"></div>
+                        <!-- 상품 번호 -->
+                        <div class="">
+                            <p class="text-start" id="display-product-info-number">01/29</p>
+                        </div>
+                        <!-- 상품 이름 -->
+                        <div style="position: absolute; bottom: 0; right:5%;">
+                            <p class="text-end" id="display-product-info-name">product name</p>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // carousel 클릭으로 다음 이미지로 넘어가면, 대응하는 상품 번호, 이름을 
+        // .display-product-info-number, .display-product-info-name 에 디스플레이함 
+        document.addEventListener("DOMContentLoaded", function () {
+            // 모든 carousel-item 들 
+            const carouselItems = document.querySelectorAll('.carousel-item');
+            const displayProductNumber = document.getElementById('display-product-info-number');
+            const displayProductName = document.getElementById('display-product-info-name');
+
+            function updateProductInfo(activeIndex) {
+                // 현재 active 상태인 carousel-item 
+                const activeItem = carouselItems[activeIndex];
+                // 번호,이름
+                const productNumber = activeItem.querySelector('div:nth-child(2) > p:nth-child(1)').innerText;
+                const productName = activeItem.querySelector('div:nth-child(2) > p:nth-child(2)').innerText;
+                // 업데이트 
+                displayProductNumber.innerText = productNumber;
+                displayProductName.innerText = productName;
+            }
+
+            // 처음에는 첫 carousel-item 의 번호,이름 디스플레이 
+            updateProductInfo(0);
+
+            const productCarousel = document.getElementById('productCarousel');
+            productCarousel.addEventListener('slide.bs.carousel', function (event) {
+                const activeIndex = event.to;
+                updateProductInfo(activeIndex);
+            });
+        });
+
+    </script>
+
+    <script>
+        // 화면의 좌측 클릭, 우측 클릭으로 이전,다음 carousel-item 디스플레이 함 
+        const myCarouselElement = document.querySelector('#productCarousel')
+
+        const carousel = new bootstrap.Carousel(myCarouselElement, {
+            interval: 2000,
+            touch: false
+        })
+
+        const carouselPrevBtn = document.getElementById('carousel-prev-btn');
+        const carouselNextBtn = document.getElementById('carousel-next-btn');
+
+        carouselNextBtn.addEventListener('click', function () {
+            carousel.next();
+        });
+
+        carouselPrevBtn.addEventListener('click', function () {
+            carousel.prev();
+        });
+
+    </script>
+</body>
+
+</html>

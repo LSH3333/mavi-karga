@@ -1,0 +1,19 @@
+     /* 왼쪽 오른쪽 버튼 hover 이미지 */
+     .carousel-btn {
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+        width: auto;
+        overflow: visible;
+        outline: none;
+        cursor: pointer;
+    }
+
+    #carousel-prev-btn:hover {
+        cursor: url('../icon/chevron-left-solid-32px.png'), auto;
+    }
+
+    #carousel-next-btn:hover {
+        cursor: url('../icon/chevron-right-solid-32px.png'), auto;
+    }

@@ -1,0 +1,21 @@
+/* 버튼 디자인 제거 */
+#main_video_btn {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    outline: none;
+    cursor: pointer;
+}
+
+/* hover */
+#main_video_btn:hover {
+    cursor: url('../icon/volume-xmark-solid_w.png'), auto;
+}
+
+#main_video_btn.muted {
+    cursor: url('../icon/volume-high-solid_w.png'), auto;
+    
+}
