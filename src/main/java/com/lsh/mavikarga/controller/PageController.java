@@ -36,6 +36,11 @@ public class PageController {
         return "info";
     }
 
+    @GetMapping("/carouselTest")
+    public String carouselTest() {
+        return "test/carouselTest";
+    }
+
     // USD/KOR 버튼 눌러서 Locale 변환
     @GetMapping("/locale")
     public String changeLocale(HttpServletRequest request, HttpServletResponse response) {
