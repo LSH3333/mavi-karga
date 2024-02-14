@@ -7,7 +7,7 @@
 
     <!-- 커스텀 스크롤 디자인 -->
     <link rel="stylesheet" href="/static/css/scroll_box.css" th:href="@{/css/scroll_box.css}">
-  
+
 </head>
 
 <body layout:fragment="content">
@@ -173,18 +173,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mx-5">
+                    <div class="mx-5" th:each="productImageUrl: ${orderProductDto.productImgUrlList}">
                         <div>
-                            <img class="d-block w-100" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}" alt="">
-                        </div>
-                        <div>
-                            <img class="d-block w-100" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}" alt="">
-                        </div>
-                        <div>
-                            <img class="d-block w-100" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}" alt="">
-                        </div>
-                        <div>
-                            <img class="d-block w-100" src="/static/image/-6.jpg" th:src="@{/image/-6.jpg}" alt="">
+                            <img class="d-block w-100" th:src="${productImageUrl}" alt="">
                         </div>
                     </div>
                 </div>
@@ -192,6 +183,7 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save changes</button>
                 </div> -->
+
             </div>
         </div>
     </div>
