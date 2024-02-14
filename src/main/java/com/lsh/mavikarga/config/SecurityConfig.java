@@ -45,7 +45,7 @@ public class SecurityConfig {
                                 .requestMatchers("/order/products/add/nonuser", "/order/cart", "/order/cart/nonuser", "/order/cart/nonuser/**", "/payments/payment/nonuser", "/payments/validate/nonuser").permitAll()
 
                                 // 테스트 중 ..
-                                .requestMatchers("/payment/validate", "/payTest", "/sliderTest", "/payments/**", "/test/**").permitAll()
+                                .requestMatchers("/payment/validate", "/payTest", "/sliderTest", "/payments/**", "/test/**", "/carouselTest").permitAll()
                                 // static files
                                 .requestMatchers("/js/**", "/icon/**", "/css/**", "/bootstrap-5.3.2-dist/**", "/img/**", "/image/**", "/vid/**", "/*.ico", "/error").permitAll()
 
