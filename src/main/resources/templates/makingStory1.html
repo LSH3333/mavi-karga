@@ -17,6 +17,7 @@
         .carousel-item {
             height: auto;
         }
+
         /* modal-header가 modal-content 위에 오버랩해서 위치하도록 */
         .modal-header-overlap {
             position: absolute;
@@ -71,7 +72,7 @@
                     <!-- COL -->
                     <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
                         <!-- 이미지 링크 -->
-                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setCurIdx(0)">
                             <div class="image-container">
                                 <img class="original-image img-fluid"
                                     src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
@@ -82,7 +83,7 @@
                     <!-- COL -->
                     <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
                         <!-- 이미지 링크 -->
-                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setCurIdx(1)">
                             <div class="image-container">
                                 <img class="original-image img-fluid"
                                     src="/static/image/clothing/KakaoTalk_20240207_105747721_02.jpg"
@@ -94,44 +95,48 @@
                     <!-- COL -->
                     <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
                         <!-- 이미지 링크 -->
-                        <a href="/templates/index.html">
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setCurIdx(2)">
                             <div class="image-container">
                                 <img class="original-image img-fluid"
-                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
-                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721_02.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721_02.jpg}"
+                                    alt="Original Image">
                             </div>
                         </a>
                     </div>
                     <!-- COL -->
                     <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
                         <!-- 이미지 링크 -->
-                        <a href="/templates/index.html">
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setCurIdx(3)">
                             <div class="image-container">
                                 <img class="original-image img-fluid"
-                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
-                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721_02.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721_02.jpg}"
+                                    alt="Original Image">
                             </div>
                         </a>
                     </div>
                     <!-- COL -->
                     <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
                         <!-- 이미지 링크 -->
-                        <a href="/templates/index.html">
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setCurIdx(4)">
                             <div class="image-container">
                                 <img class="original-image img-fluid"
-                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
-                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721_02.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721_02.jpg}"
+                                    alt="Original Image">
                             </div>
                         </a>
                     </div>
                     <!-- COL -->
                     <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
                         <!-- 이미지 링크 -->
-                        <a href="/templates/index.html">
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setCurIdx(5)">
                             <div class="image-container">
                                 <img class="original-image img-fluid"
-                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
-                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721_02.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721_02.jpg}"
+                                    alt="Original Image">
                             </div>
                         </a>
                     </div>
@@ -162,7 +167,7 @@
                                 <div class="p-0 col-lg-4">
                                     <button style="" class="carousel-btn" id="carousel-prev-btn">
                                         <div class="carousel-inner">
-                                            <div class="carousel-item ">
+                                            <div class="carousel-item active">
                                                 <img src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
                                                     th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}"
                                                     class="d-block img-fluid" alt="...">
@@ -219,31 +224,42 @@
     </main>
 
     <script>
-        // 각 이미지 누르면 이 값 0~carouselSize 중 설정해야함
-        // 이 값에 따라 modal,carousel 열렀을때 carousel 이미지들 중 active 됨
-        let curCarouselIdx = 1;
+        // 현재 active 상태인 carousel-item 이 몇번째 인지 나타내는 인덱스 
+        let curCarouselIdx = 0;
+
+        // 모든 carousel-item 들 
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        const displayProductNumber = document.getElementById('display-product-info-number');
+        const displayProductName = document.getElementById('display-product-info-name');
+
+        // 현재 active 상태인 carousel-item을 나타내는 curCarouselIdx 업데이트 
+        function setCurIdx(idx) {
+            curCarouselIdx = idx;
+            // 모든 아이템들에서 active 제거   
+            carouselItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            // 선택된 아이템에 active 추가 
+            carouselItems[curCarouselIdx].classList.add('active')
+            // carousel 에 표시되는 상품 이름,정보 업데이트 
+            updateProductInfo(curCarouselIdx);
+        }
+
+        // carousel에 표시되는 상품 이름,정보를 현재 active 상태인 carousel-item 의 정보로 업데이트 
+        function updateProductInfo(activeIndex) {
+            // 현재 active 상태인 carousel-item 
+            const activeItem = carouselItems[activeIndex];
+            // 번호,이름
+            const productNumber = activeItem.querySelector('div:nth-child(2) > p:nth-child(1)').innerText;
+            const productName = activeItem.querySelector('div:nth-child(2) > p:nth-child(2)').innerText;            
+            // 업데이트 
+            displayProductNumber.innerText = productNumber;
+            displayProductName.innerText = productName;
+        }
 
         // carousel 클릭으로 다음 이미지로 넘어가면, 대응하는 상품 번호, 이름을 
         // .display-product-info-number, .display-product-info-name 에 디스플레이함 
         document.addEventListener("DOMContentLoaded", function () {
-            // 모든 carousel-item 들 
-            const carouselItems = document.querySelectorAll('.carousel-item');
-            const displayProductNumber = document.getElementById('display-product-info-number');
-            const displayProductName = document.getElementById('display-product-info-name');
-
-            function updateProductInfo(activeIndex) {
-                console.log('index = ' + activeIndex)
-                // 현재 active 상태인 carousel-item 
-                const activeItem = carouselItems[activeIndex];
-                // 번호,이름
-                const productNumber = activeItem.querySelector('div:nth-child(2) > p:nth-child(1)').innerText;
-                const productName = activeItem.querySelector('div:nth-child(2) > p:nth-child(2)').innerText;
-                console.log(productName + ' ' + productName)
-                // 업데이트 
-                displayProductNumber.innerText = productNumber;
-                displayProductName.innerText = productName;
-            }
-
             carouselItems[curCarouselIdx].classList.add('active');
 
             // 처음에는 첫 carousel-item 의 번호,이름 디스플레이 
