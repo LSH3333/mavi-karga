@@ -6,34 +6,8 @@
     <title>mavi karga</title>
 
     <!-- 커스텀 스크롤 디자인 -->
-    <style>
-        .scroll {
-            /* width: 200px; */
-            height: 250px;
-            overflow: auto;
-            float: left;
-            margin: 0 10px;
-        }
-
-        .content {
-            height: 250px;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2em;
-            font-family: sans-serif;
-            margin: 20px;
-        }
-
-        .scroll2::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .scroll2::-webkit-scrollbar-thumb {
-            background: #666;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/scroll_box.css" th:href="@{/css/scroll_box.css}">
+  
 </head>
 
 <body layout:fragment="content">

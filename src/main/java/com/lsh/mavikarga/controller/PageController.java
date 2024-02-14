@@ -42,6 +42,12 @@ public class PageController {
         return "film";
     }
 
+    @GetMapping("/makingStory/1")
+    public String makingStory1(Model model) {
+        model.addAttribute("menu", "clothing");
+        return "makingStory1";
+    }
+
     @GetMapping("/carouselTest")
     public String carouselTest() {
         return "test/carouselTest";

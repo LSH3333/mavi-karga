@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
+
+<head>
+    <title>mavi karga</title>
+
+    <!-- 커스텀 스크롤 디자인 -->
+    <link rel="stylesheet" href="/static/css/scroll_box.css" th:href="@{/css/scroll_box.css}">
+    <style>
+        .scroll {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body layout:fragment="content">
+    <main>
+        <div class="container mt-3 mb-3">
+            <div class="row">
+                <div class="col-lg-8">
+                    <video src="/static/vid/shell_lug_reduced.mp4" th:src="@{/vid/shell_lug_reduced.mp4}" class="w-100"
+                        muted controls></video>
+                </div>
+                <div class="col-lg-4">
+                    <div class="scroll scroll2">
+                        <div class="content">
+                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quam et illo, commodi minima
+                            similique
+                            pariatur enim vero unde necessitatibus laboriosam adipisci dolorem atque rerum ea sunt
+                            perferendis iusto deserunt at ipsa. Blanditiis sunt perferendis soluta eaque repellendus
+                            consequuntur repellat distinctio facere eum voluptatibus numquam odio tempora possimus
+                            ullam,
+                            quam illum nam provident ipsa libero, maiores, illo neque. Fuga perspiciatis, quo nesciunt
+                            impedit, neque nostrum magni, exercitationem eum maxime doloremque deleniti in quae
+                            molestias
+                            velit rerum. Sunt quisquam maiores nemo excepturi laboriosam placeat, velit autem nisi
+                            similique
+                            pariatur vel nam. Quibusdam quam animi magnam nesciunt provident veniam consequuntur
+                            pariatur in
+                            quod.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <h6>01 Collection: Tree flower me</h6>
+            <div class="container-fluid my-3">
+                <div class="row product-row">
+                    <!-- COL -->
+                    <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
+                        <!-- 이미지 링크 -->
+                        <a href="/templates/index.html">
+                            <div class="image-container">
+                                <img class="original-image img-fluid"
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                            </div>
+                        </a>
+                    </div>
+                    <!-- COL -->
+                    <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
+                        <!-- 이미지 링크 -->
+                        <a href="/templates/index.html">
+                            <div class="image-container">
+                                <img class="original-image img-fluid"
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721_02.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721_02.jpg}"
+                                    alt="Original Image">
+                            </div>
+                        </a>
+                    </div>
+                    <!-- COL -->
+                    <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
+                        <!-- 이미지 링크 -->
+                        <a href="/templates/index.html">
+                            <div class="image-container">
+                                <img class="original-image img-fluid"
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                            </div>
+                        </a>
+                    </div>
+                    <!-- COL -->
+                    <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
+                        <!-- 이미지 링크 -->
+                        <a href="/templates/index.html">
+                            <div class="image-container">
+                                <img class="original-image img-fluid"
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                            </div>
+                        </a>
+                    </div>
+                    <!-- COL -->
+                    <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
+                        <!-- 이미지 링크 -->
+                        <a href="/templates/index.html">
+                            <div class="image-container">
+                                <img class="original-image img-fluid"
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                            </div>
+                        </a>
+                    </div>
+                    <!-- COL -->
+                    <div class="col-6 col-sm-6 col-md-4 col-xl-3 product-placeholder mb-3">
+                        <!-- 이미지 링크 -->
+                        <a href="/templates/index.html">
+                            <div class="image-container">
+                                <img class="original-image img-fluid"
+                                    src="/static/image/clothing/KakaoTalk_20240207_105747721.jpg"
+                                    th:src="@{/image/clothing/KakaoTalk_20240207_105747721.jpg}" alt="Original Image">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- divider -->
+        <div class="container">
+            <hr class="featurette-divider">
+        </div>
+    </main>
+</body>
+
+</html>

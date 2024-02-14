@@ -11,9 +11,9 @@
     }
 
     #carousel-prev-btn:hover {
-        cursor: url('../icon/chevron-left-solid-32px.png'), auto;
+        cursor: url('../icon/prev.png'), auto;
     }
 
     #carousel-next-btn:hover {
-        cursor: url('../icon/chevron-right-solid-32px.png'), auto;
+        cursor: url('../icon/next.png'), auto;
     }
