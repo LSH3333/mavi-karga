@@ -1,84 +1,147 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
+<head>
+</head>
+
 <!-- 대문 -->
-<div th:fragment="header" id="myCarousel" class="carousel slide mb-6" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <!-- 비디오 -->
-            <div id="videoContainer">
-                <video style="width: 100%;" autoplay loop muted>
-                    <source th:src="@{/vid/production_id_4124024 (2160p).mp4}"
-                        src="/static/vid/production_id_4124024 (2160p).mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <div class="container">
-                <div class="carousel-caption text-start">
-                    <h1>Mavi-karga</h1>
-                    <p class="opacity-75">Some representative placeholder content for the first slide of the
-                        carousel.</p>
-                    <!-- <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p> -->
-                </div>
-            </div>
-        </div>
+<div th:fragment="header">
+    <!-- 비디오 -->
+    <div class="container-fluid px-0 video-container">
+        <button id="main_video_btn" onclick="toggleMute()">
+            <video id="main_video" src="/static/vid/shell_lug_reduced.mp4" th:src="@{/vid/shell_lug_reduced.mp4}" type="video/mp4"
+                class="w-100" autoplay loop muted>
+            </video>
+        </button>
     </div>
 </div>
 
 <!-- navbar -->
-<nav th:fragment="header-navBar" class="navbar navbar-expand-sm bg-body-tertiary sticky-top" style="padding-top: 0; padding-bottom: 0;">
+<!-- <nav th:fragment="header-navBar" class="navbar navbar-expand-lg bg-body-tertiary sticky-top"
+    style="padding-top: 0; padding-bottom: 0;">
     <div class="container-fluid">
-        <!-- 화면 축소시 리스트 버튼 -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <!-- navBar -->
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div style="font-size: 1.2em" class="navbar-nav">
-                <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가 -->
-                <a class="nav-link px-5" th:classappend="${menu} == 'home' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">Home</a>
-                <a class="nav-link px-5" th:classappend="${menu} == 'info' ? 'fw-bold active'" href="/templates/info.html" th:href="@{/info}" >Info</a>
-                <a class="nav-link px-5" th:classappend="${menu} == 'clothing' ? 'fw-bold active'" href="/templates/clothing.html" th:href="@{/clothing}">Clothing</a>                                    
-                <a class="nav-link px-5" href="#">Film</a>
-                <a class="nav-link px-5" href="#">Object</a>
-                <!-- login,logout btn -->                
-                <a sec:authorize="isAuthenticated()" class="nav-link px-5" th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/logout}">LogOut</a>
-                <a sec:authorize="isAnonymous()" class="nav-link px-5" th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/login.html" th:href="@{/login}">Login</a>
-                <!-- USD/KOR -->
-                <!-- <a class="nav-link px-5" th:href="@{/locale}">USD/KOR</a> -->
+                <span style="width: 150px;"><a class="nav-link mx-4" href="/templates/index.html" th:href="@{/}"><img
+                            class="img-fluid" src="/static/image/logo.png" th:src="@{/image/logo.png}"
+                            alt=""></a></span>
+                <a class="nav-link mx-4" th:classappend="${menu} == 'info' ? 'fw-bold active'"
+                    href="/templates/info.html" th:href="@{/info}">Info</a>
+                <a class="nav-link mx-4" th:classappend="${menu} == 'clothing' ? 'fw-bold active'"
+                    href="/templates/clothing.html" th:href="@{/clothing}">Clothing</a>
+                <a class="nav-link mx-4" href="#">Film</a>
+                <a class="nav-link mx-4" href="#">Object</a>
+                <a sec:authorize="isAuthenticated()" class="nav-link mx-4"
+                    th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/index.html"
+                    th:href="@{/logout}">LogOut</a>
+                <a sec:authorize="isAnonymous()" class="nav-link mx-4"
+                    th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/login.html"
+                    th:href="@{/login}">Login</a>
             </div>
+        </div>
+    </div>
+</nav> -->
+
+<!-- navbar -->
+<nav th:fragment="header-navBar" class="navbar sticky-top navbar-expand-lg bg-body-tertiary py-1">
+    <div class="container-fluid">
+        <!-- 로고 -->
+        <a style="width: 150px;" class="nav-link mx-4" href="/templates/index.html" th:href="@{/}"><img
+                class="img-fluid" src="/static/image/logo.png" th:src="@{/image/logo.png}" alt=""></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- 매뉴탭 -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul style="font-size: 1.2em" class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가 -->
+                <li class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'info' ? 'fw-bold active'"
+                        href="/templates/info.html" th:href="@{/info}">Info</a>
+                </li>
+                <li class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'clothing' ? 'fw-bold active'"
+                        href="/templates/clothing.html" th:href="@{/clothing}">Clothing</a>
+                </li>
+                <li class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'film' ? 'fw-bold active'"
+                        href="/templates/film.html" th:href="@{/clothing}">Film</a>
+                </li>
+                <li class="nav-item mx-4">
+                    <a class="nav-link">Object</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
+                        href="/templates/index.html" th:href="@{/logout}">LogOut</a>
+                </li>
+                <li sec:authorize="isAnonymous()" class="nav-item" style="margin-left: 3.5rem!important;">
+                    <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
+                        href="/templates/login.html" th:href="@{/login}">Login</a>
+                </li>
+                <!-- <li class="nav-item mx-4">
+                    <a class="nav-link mx-4" th:href="@{/locale}">USD/KOR</a>
+                </li> -->
+            </ul>
         </div>
     </div>
 </nav>
 
+
 <!-- navbar-clothing -->
-<nav th:fragment="header-navBar-clothing" class="navbar navbar-expand-sm bg-body-tertiary sticky-top" style="padding-top: 0; padding-bottom: 0;">
+<nav th:fragment="header-navBar-clothing" class="navbar sticky-top navbar-expand-lg bg-body-tertiary py-1">
     <div class="container-fluid">
-        <!-- 화면 축소시 리스트 버튼 -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- 로고 -->
+        <a style="width: 150px;" class="nav-link mx-4" href="/templates/index.html" th:href="@{/}"><img
+                class="img-fluid" src="/static/image/logo.png" th:src="@{/image/logo.png}" alt=""></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <!-- navBar -->
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div style="font-size: 1.2em" class="navbar-nav">
-                <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가해서 선택된 탭 명암 효과 -->
-                <a class="nav-link px-5" th:classappend="${menu} == 'home' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">Home</a>
-                <a class="nav-link px-5" th:classappend="${menu} == 'all' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/clothing/all}">ALL</a>
-                <a class="nav-link px-5" th:classappend="${menu} == 'one' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/clothing/one}">01</a>
-                <a class="nav-link px-5" th:classappend="${menu} == 'two' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/clothing/two}">02</a>
-                <a class="nav-link px-5" th:classappend="${menu} == 'dye' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">Dye</a>
-                <a class="nav-link px-5" th:classappend="${menu} == 'acc' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/}">ACC</a>
-                <!-- login,logout btn -->                
-                <a sec:authorize="isAuthenticated()" class="nav-link px-5" th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/index.html" th:href="@{/logout}">LogOut</a>
-                <a sec:authorize="isAnonymous()" class="nav-link px-5" th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/login.html" th:href="@{/login}">Login</a>
-                <!-- USD/KOR -->
-                <!-- <a class="nav-link px-5" th:href="@{/locale}">USD/KOR</a> -->
-            </div>
+        <!-- 매뉴탭 -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul style="font-size: 1.2em" class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가 -->
+                <li class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'all' ? 'fw-bold active'"
+                        href="/templates/index.html" th:href="@{/clothing/all}">All</a>
+                </li>
+                <li class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'one' ? 'fw-bold active'"
+                        href="/templates/index.html" th:href="@{/clothing/one}">01</a>
+                </li>
+                <li class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'two' ? 'fw-bold active'"
+                        href="/templates/index.html" th:href="@{/clothing/two}">02</a>
+                </li>
+                <li class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'dye' ? 'fw-bold active'"
+                        href="/templates/index.html" th:href="@{/}">Dye</a>
+                </li>
+                <li class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'dye' ? 'fw-bold active'"
+                        href="/templates/index.html" th:href="@{/}">ACC</a>
+                </li>
+                <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
+                    <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
+                        href="/templates/index.html" th:href="@{/logout}">LogOut</a>
+                </li>
+                <li sec:authorize="isAnonymous()" class="nav-item" style="margin-left: 3.5rem!important;">
+                    <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
+                        href="/templates/login.html" th:href="@{/login}">Login</a>
+                </li>
+                <!-- <li class="nav-item mx-4">
+                    <a class="nav-link mx-4" th:href="@{/locale}">USD/KOR</a>
+                </li> -->
+            </ul>
         </div>
     </div>
 </nav>
+
 
 
 </html>
