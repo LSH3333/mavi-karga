@@ -36,10 +36,17 @@ public class PageController {
         return "info";
     }
 
+    @GetMapping("/film")
+    public String film(Model model) {
+        model.addAttribute("menu", "film");
+        return "film";
+    }
+
     @GetMapping("/carouselTest")
     public String carouselTest() {
         return "test/carouselTest";
     }
+
 
     // USD/KOR 버튼 눌러서 Locale 변환
     @GetMapping("/locale")
