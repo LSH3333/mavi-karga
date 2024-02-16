@@ -1,5 +1,6 @@
 package com.lsh.mavikarga.service;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -19,10 +20,10 @@ import java.util.Optional;
 @Slf4j
 public class S3Service {
 
-    private final AmazonS3Client amazonS3Client;
+    private final AmazonS3 amazonS3Client;
 
     @Autowired
-    public S3Service(AmazonS3Client amazonS3Client) {
+    public S3Service(AmazonS3 amazonS3Client) {
         this.amazonS3Client = amazonS3Client;
     }
 
@@ -63,13 +64,10 @@ public class S3Service {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        log.info("CONVERT");
         File convertFile = new File(file.getOriginalFilename()); // 업로드한 파일의 이름
         log.info("convertFile = {}", convertFile);
         if (convertFile.createNewFile()) {
-            log.info("=======1");
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
-                log.info("=========2");
                 fos.write(file.getBytes());
             }
             return Optional.of(convertFile);
