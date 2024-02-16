@@ -335,4 +335,16 @@ public class OrderService {
         myPageDtoList.setTotalPages(orderList.getTotalPages());
         return myPageDtoList;
     }
+
+
+
+    // todo:
+    public OrderInfo findOrderWithOrderLookUpNumber(String orderLookUpNumber) {
+        OrderInfo orderInfo = orderRepository.findByOrderLookUpNumber(orderLookUpNumber);
+        List<OrderProduct> orderProducts = orderInfo.getOrderProducts();
+        for (OrderProduct orderProduct : orderProducts) {
+            log.info("orderProduct = {}", orderProduct);
+        }
+        return null;
+    }
 }

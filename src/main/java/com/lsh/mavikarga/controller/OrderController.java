@@ -250,4 +250,10 @@ public class OrderController {
 
 
 
+    // todo
+    // 주문 조회 번호로 주문 조회
+    @GetMapping("/order/lookup")
+    public ResponseEntity<String> findOrderWithOrderLookUpNumber(String orderLookUpNumber) {
+        return null;
+    }
 }

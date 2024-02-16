@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -130,7 +131,7 @@ public class PaymentService {
             orderProductList.add(orderProduct);
         }
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery);
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery, UUID.randomUUID().toString());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);
@@ -239,7 +240,7 @@ public class PaymentService {
         }
 
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery);
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, UUID.randomUUID().toString());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);

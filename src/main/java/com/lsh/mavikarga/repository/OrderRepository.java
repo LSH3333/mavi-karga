@@ -21,4 +21,6 @@ public interface OrderRepository extends JpaRepository<OrderInfo, Long> {
 
     // User 와 OrderStatus 로 찾음
     Page<OrderInfo> findByUserAndOrderStatus(User user, OrderStatus orderStatus, Pageable pageable);
+
+    OrderInfo findByOrderLookUpNumber(String orderLookUpNumber);
 }

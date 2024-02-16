@@ -56,6 +56,7 @@ public class PaymentController {
     // 결재 성공 폼
     @GetMapping("/payments/paymentSuccess")
     public String paymentSuccessForm() {
+//        return "redirect:/users/myPage";
         return "/payments/paymentSuccess";
     }
 
@@ -99,7 +100,7 @@ public class PaymentController {
         return "payments/paymentNonUser";
     }
 
-    // 클라이언트에서 결재요청 성공 후 받는 end point
+    // 클라이언트에서 회원 결재요청 성공 후 받는 end point
     @PostMapping("/payments/validate")
     private ResponseEntity<String> validatePayment(@ModelAttribute @Valid PaymentRequestDto paymentRequestDto, Principal principal, BindingResult bindingResult)
             throws IamportResponseException, IOException {
@@ -123,7 +124,7 @@ public class PaymentController {
         }
     }
 
-    // 클라이언트에서 결재요청 성공 후 받는 end point
+    // 클라이언트에서 비회원 결재요청 성공 후 받는 end point
     @PostMapping("/payments/validate/nonuser")
     private ResponseEntity<String> validatePaymentNonUser(@ModelAttribute @Valid PaymentRequestDto paymentRequestDto, HttpSession session, BindingResult bindingResult)
             throws IamportResponseException, IOException {

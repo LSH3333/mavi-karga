@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * (postgresql 에서 Order 는 예약어라서 OrderInfo 로함)
@@ -52,6 +53,9 @@ public class OrderInfo {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus = OrderStatus.NOT_DONE;
 
+    // (비회원용) 주문 조회 번호
+    private String orderLookUpNumber;
+
 
     public void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
@@ -63,7 +67,7 @@ public class OrderInfo {
      * @param user: 주문한 유저
      * @param orderProductList: 주문한 물품들
      */
-    public static OrderInfo createOrderInfo(User user, List<OrderProduct> orderProductList, PaymentInfo paymentInfo, Delivery delivery) {
+    public static OrderInfo createOrderInfo(User user, List<OrderProduct> orderProductList, PaymentInfo paymentInfo, Delivery delivery, String orderLookUpNumber) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setUser(user);
         for (OrderProduct orderProduct : orderProductList) {
@@ -76,6 +80,8 @@ public class OrderInfo {
         orderInfo.delivery = delivery;
         // 처리 상태 초기에 NOT_DONE
         orderInfo.orderStatus = OrderStatus.NOT_DONE;
+        // 주문 조회 번호
+        orderInfo.orderLookUpNumber = orderLookUpNumber;
         return orderInfo;
     }
 

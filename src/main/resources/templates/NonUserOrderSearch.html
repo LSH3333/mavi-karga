@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
+
+<head>
+    <title>mavi karga</title>
+
+</head>
+
+<body layout:fragment="content">
+
+    <main>
+        <div class="container my-3">
+            <h1>My Page</h1>
+        </div>
+
+        <div class="container">
+            <!-- 테이블 -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Order date</th>
+                        <th scope="col">Price (quantity)</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody th:object="${myPageDtoList}">
+                    <tr th:each="myPageDto : *{myPageDtoList}">
+                        <td>
+                            <p th:text="${myPageDto.name}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${myPageDto.orderDate}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${myPageDto.orderPrice + ' (' + myPageDto.count + ')'}"></p>
+                        </td>
+                        <td>
+                            <p th:text="${myPageDto.orderStatus}"></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        
+
+        <!-- divider -->
+        <div class="container">
+            <hr class="featurette-divider">
+        </div>
+    </main>
+
+    
+</body>
+
+</html>
