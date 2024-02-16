@@ -4,15 +4,18 @@ import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.MyPageDtoList;
 import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 
 @Controller
+@Slf4j
 public class UserController {
 
     private final OrderService orderService;
@@ -41,6 +44,15 @@ public class UserController {
         return "users/myPage";
     }
 
+    // 회원 탈퇴
+    @PostMapping("/users/delete")
+    public String deleteUser(Principal principal) {
+        User user = userService.findByUsername(principal.getName()).orElse(null);
+        if(user != null) {
+            userService.deleteUser(user.getId());
+        }
 
+        return "redirect:/logout";
+    }
 
 }

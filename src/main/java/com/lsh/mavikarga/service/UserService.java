@@ -65,6 +65,11 @@ public class UserService {
         return showUserToAdminDtoList;
     }
 
-
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user != null) {
+            user.delete();
+        }
+    }
 
 }

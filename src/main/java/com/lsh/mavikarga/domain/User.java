@@ -44,7 +44,11 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdTime;
 
-
+    // 회원 삭제 (탈퇴) 여부
+    private boolean deleted = false;
+    // 마지막 로그인 시간
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    private LocalDateTime lastLoggedIn;
 
 
 
@@ -59,6 +63,19 @@ public class User {
         this.provider = provider;
         this.provider_id = providerId;
         this.createdTime = createdTime;
+        this.deleted = false;
+        this.lastLoggedIn = LocalDateTime.now();
+    }
+
+    // 회원 삭제 (탈퇴)
+    // 실제로 테이블 삭제하지는 않고 정보들 제거처리
+    public void delete() {
+        this.username = "DELETED";
+        this.password = "DELETED";
+        this.email = "DELETED";
+        this.provider = "DELETED";
+        this.provider_id = "DELETED";
+        this.deleted = true;
     }
 
 

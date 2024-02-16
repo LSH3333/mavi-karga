@@ -10,17 +10,17 @@
 <body layout:fragment="content">
 
     <main>
-        <div>마이페이지</div>
+        <div class="container my-3">My page</div>
 
         <div class="container">
             <!-- 테이블 -->
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">상품정보</th>
-                        <th scope="col">주문일자</th>
-                        <th scope="col">주문금액(수량)</th>
-                        <th scope="col">주문상태</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Order date</th>
+                        <th scope="col">Price (quantity)</th>
+                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody th:object="${myPageDtoList}">
@@ -41,6 +41,15 @@
                 </tbody>
             </table>
 
+        </div>
+
+        <!-- 회원탈퇴 -->
+        <div class="container my-3">
+            <!-- <a th:href="@{/users/delete}" class="btn btn-danger" onclick="return confirmDelete()">회원탈퇴</a> -->
+
+            <form th:action="@{/users/delete}" method="post">
+                <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">회원탈퇴</button>
+            </form>
         </div>
 
         <!-- pagination -->
@@ -154,7 +163,11 @@
         }
     </script>
 
-
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete your account?');
+        }
+    </script>
 </body>
 
 </html>

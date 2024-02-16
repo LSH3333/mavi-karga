@@ -19,7 +19,7 @@ spring:
   jpa:
     hibernate:
       # !!!!!!!!!!!!!!!!! DB 초기화 수정 주의 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      ddl-auto: none
+      ddl-auto: create
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
     properties:
       hibernate:
