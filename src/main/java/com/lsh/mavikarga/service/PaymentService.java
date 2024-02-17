@@ -131,7 +131,7 @@ public class PaymentService {
             orderProductList.add(orderProduct);
         }
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery, UUID.randomUUID().toString());
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);
@@ -240,7 +240,7 @@ public class PaymentService {
         }
 
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, UUID.randomUUID().toString());
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);
@@ -259,6 +259,22 @@ public class PaymentService {
             priceToPay += (price * count);
         }
         return priceToPay;
+    }
+
+    private String generateOrderInfoLookUpNumber() {
+        // Generate a random UUID
+        UUID uuid = UUID.randomUUID();
+
+        // Convert the UUID to a decimal string
+        String decimalUUID = uuid.toString().replaceAll("-", "");
+        long decimalValue = Long.parseLong(decimalUUID, 16);
+
+        // Convert the decimalValue to a String
+        String orderNumber = String.valueOf(decimalValue);
+
+        // Print the order number
+        log.info("orderNumber = {}", orderNumber);
+        return orderNumber;
     }
 
 }

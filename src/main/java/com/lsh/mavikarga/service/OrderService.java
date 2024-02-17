@@ -165,9 +165,11 @@ public class OrderService {
     public void updateCartNonUser(List<CartProductDto> cartProductDtoList, HttpSession session) {
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+        log.info("==== updateCartNonUser");
 
         // 비회원의 세션에 저장되어 있는 cartList 수정함
         for (CartProductDto cartProductDto : cartProductDtoList) {
+            log.info("cartProductDto = {}", cartProductDto);
             int cartId = cartProductDto.getCartId().intValue();
             CartForNonUser cartForNonUser = cartList.get(cartId);
             if(cartForNonUser == null) continue;
@@ -339,12 +341,38 @@ public class OrderService {
 
 
     // todo:
-    public OrderInfo findOrderWithOrderLookUpNumber(String orderLookUpNumber) {
+    // 비회원용 주문번호로 주문 조회
+    public List<MyPageDto> findOrderWithOrderLookUpNumber(String orderLookUpNumber) {
+        List<MyPageDto> myPageDtoList = new ArrayList<>();
+
         OrderInfo orderInfo = orderRepository.findByOrderLookUpNumber(orderLookUpNumber);
+        // 주문번호가 잘못됨
+        if(orderInfo == null) {
+            return null;
+        }
         List<OrderProduct> orderProducts = orderInfo.getOrderProducts();
+
         for (OrderProduct orderProduct : orderProducts) {
             log.info("orderProduct = {}", orderProduct);
+
+            // Dto
+            MyPageDto myPageDto = new MyPageDto();
+
+            // 상품명
+            myPageDto.setName(orderProduct.getProductSize().getProduct().getName());
+            // 주문 일자
+            myPageDto.setOrderDate(orderInfo.getOrderDate());
+            // 구매한 상품 개당 가격
+            myPageDto.setOrderPrice(orderProduct.getOrderPrice());
+            // 구매한 갯수
+            myPageDto.setCount(orderProduct.getCount());
+            // 처리 상태
+            myPageDto.setOrderStatus(orderInfo.getOrderStatus());
+
+            // 리스트에 추가
+            myPageDtoList.add(myPageDto);
         }
-        return null;
+
+        return myPageDtoList;
     }
 }
