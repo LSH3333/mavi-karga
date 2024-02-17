@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
+
+<head>
+    <title>mavi karga</title>
+
+    <style>
+        p {
+            margin-bottom: 0;
+        }
+
+        /* 작은 화면에서 thead 안보이도록 처리 */
+        @media (max-width: 768px) {
+            .thead-row {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body layout:fragment="content">
+
+    <main class="container">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Your Orders</h1>
+        </div>
+        <!-- 주문 조회 번호 입력 -->
+        <div class="container mb-3">
+            <label for="lookUpNumber" class="form-label">lookUp Number</label>
+            <input type="text" class="form-control" id="lookUpNumber" placeholder="enter number">
+        </div>
+        <!-- 버튼 -->
+        <div class="container mb-5">
+            <button class="btn btn-outline-secondary btn-sm"
+                style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                onclick="lookUpOrder()">Look Up Order!</button>
+        </div>
+
+        <div class="mx-3">
+            <table class="mb-3 w-100 order-table">
+                <thead>
+                    <tr class="row justify-content-between align-items-center thead-row">
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRODUCT</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">ORDER DATE</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">QTY</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRICE</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">STATUS</td>
+                        <td>
+                            <hr>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="myPageDto row justify-content-between align-items-center tbody-row">
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="image"></p>
+                        </td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="name"></p>
+                        </td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="orderDate"></p>
+                        </td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class=""></p>
+                        </td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="orderPrice"></p>
+                        </td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="orderStatus"></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- divider -->
+        <div class="container">
+            <hr class="featurette-divider">
+        </div>
+    </main>
+
+    <script>
+        // 주문 조회 번호로 주문한 물품들 조회 
+        function lookUpOrder() {
+            var lookUpNumber = document.getElementById('lookUpNumber').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/order/lookupSearch' + '?orderLookUpNumber=' + lookUpNumber, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        console.log(data);
+
+                        var tbody = document.querySelector('.order-table tbody');
+                        tbody.innerHTML = '';
+
+                        data.forEach(function (dto) {
+                            let productId = dto.productId;
+                            let name = dto.name;
+                            let orderDate = dto.orderDate;
+                            let orderPrice = dto.orderPrice;
+                            let count = dto.count;
+                            let orderStatus = dto.orderStatus;
+                            let thumbnail_url = dto.thumbnail_url;
+                            console.log(dto);
+
+                            var row = document.createElement('tr');
+                            row.classList.add('myPageDto', 'row', 'justify-content-between', 'align-items-center', 'tbody-row');
+                            // 이미지
+                            var td1 = document.createElement('td');
+                            td1.classList.add('col-md-2', 'col-lg-2', 'col-xl-2', 'my-1');
+                            var div = document.createElement('div');
+                            div.style.width = '60%';
+                            var imgAnchor = document.createElement('a');
+                            imgAnchor.href = '/order/products?productId=' + productId;
+                            var img = document.createElement('img');
+                            img.classList.add('img-fluid');
+                            img.src = thumbnail_url;
+                            img.alt = 'product thumbnail img';
+
+                            imgAnchor.appendChild(img);
+                            div.appendChild(imgAnchor);
+                            td1.appendChild(div);
+                            row.appendChild(td1);
+
+                            var td2 = document.createElement('td');
+                            td2.classList.add('col-md-2', 'col-lg-2', 'col-xl-2', 'my-1');
+                            var p1 = document.createElement('p');
+                            p1.classList.add('name');
+                            p1.textContent = name;
+                            td2.appendChild(p1);
+                            row.appendChild(td2);
+
+                            var td3 = document.createElement('td');
+                            td3.classList.add('col-md-2', 'col-lg-2', 'col-xl-2', 'my-1');
+                            var p2 = document.createElement('p');
+                            p2.classList.add('orderDate');
+                            p2.textContent = orderDate.split('T')[0];
+                            td3.appendChild(p2);
+                            row.appendChild(td3);
+
+                            var td4 = document.createElement('td');
+                            td4.classList.add('col-md-2', 'col-lg-2', 'col-xl-2', 'my-1');
+                            var p3 = document.createElement('p');
+                            p3.textContent = count;
+                            td4.appendChild(p3);
+                            row.appendChild(td4);
+
+                            var td5 = document.createElement('td');
+                            td5.classList.add('col-md-2', 'col-lg-2', 'col-xl-2', 'my-1');
+                            var p4 = document.createElement('p');
+                            p4.classList.add('orderPrice');
+                            p4.textContent = '₩ ' + orderPrice;
+                            td5.appendChild(p4);
+                            row.appendChild(td5);
+
+                            var td6 = document.createElement('td');
+                            td6.classList.add('col-md-2', 'col-lg-2', 'col-xl-2', 'my-1');
+                            var p5 = document.createElement('p');
+                            p5.classList.add('orderStatus');
+                            p5.textContent = orderStatus;
+                            td6.appendChild(p5);
+                            row.appendChild(td6);
+
+                            tbody.appendChild(row);
+                        })
+                    } else {
+                        console.error(xhr.responseText);
+                        alert('invalid lookup number')
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+
+    </script>
+</body>
+
+</html>

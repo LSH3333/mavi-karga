@@ -261,20 +261,12 @@ public class PaymentService {
         return priceToPay;
     }
 
+    // 주문 조회 번호 생성
+    // UUID 에서 '-' 제외한 문자열
     private String generateOrderInfoLookUpNumber() {
-        // Generate a random UUID
         UUID uuid = UUID.randomUUID();
-
-        // Convert the UUID to a decimal string
-        String decimalUUID = uuid.toString().replaceAll("-", "");
-        long decimalValue = Long.parseLong(decimalUUID, 16);
-
-        // Convert the decimalValue to a String
-        String orderNumber = String.valueOf(decimalValue);
-
-        // Print the order number
-        log.info("orderNumber = {}", orderNumber);
-        return orderNumber;
+        String uuid_string = uuid.toString().replaceAll("-", "");
+        return uuid_string;
     }
 
 }

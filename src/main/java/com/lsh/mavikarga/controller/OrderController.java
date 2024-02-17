@@ -251,12 +251,17 @@ public class OrderController {
     }
 
 
+    //////////////////// 주문번호로 주문 조회 ////////////////////
 
-    // todo
-    // 주문 조회 번호로 주문 조회
     @GetMapping("/order/lookup")
+    public String findOrderWithOrderLookUpNumberForm() {
+        return "FindOrderWithOrderLookUpNumber";
+    }
+
+    // 주문 조회 번호로 주문 조회 ajax
+    @GetMapping("/order/lookupSearch")
     public ResponseEntity<List<MyPageDto>> findOrderWithOrderLookUpNumber(@RequestParam String orderLookUpNumber) {
-        log.info("ORDER LOOKUP");
+        log.info("ORDER LOOKUP = {}", orderLookUpNumber);
         List<MyPageDto> myPageDtoList = orderService.findOrderWithOrderLookUpNumber(orderLookUpNumber);
         if(myPageDtoList == null) {
             return ResponseEntity.badRequest().body(null);
