@@ -22,7 +22,7 @@
 </head>
 
 <body layout:fragment="content">
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <main class="container">
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">결재 (비회원)</h1>
@@ -34,69 +34,101 @@
             <section class="container mb-5">
                 <div class="mb-3">
                     <label for="name" class="form-label">이름</label>
-                    <input type="text" class="form-control" id="name" placeholder="" required>
+                    <input style="width: 30%;" type="text" class="form-control" id="name" placeholder="" required>
                     <div class="invalid-feedback">
                         이름을 입력해 주세요.
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">이메일</label>
-                    <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                    <input style="width: 30%;" type="email" class="form-control" id="email"
+                        placeholder="name@example.com" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">휴대전화</label>
-                    <input type="tel" class="form-control" id="phone" placeholder="'-' 제외하고 입력해주세요." required>
+                    <input style="width: 30%;" type="tel" class="form-control" id="phone" placeholder="'-' 제외하고 입력해주세요."
+                        required>
                 </div>
             </section>
 
             <!-- 주소 (다음 우편번호 API) -->
             <section class="container mb-5">
-                <input type="text" id="postcode" placeholder="우편번호" class="form-control" required>
-                <input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br>
-                <input type="text" id="roadAddress" placeholder="도로명주소" class="form-control" required>
-                <input type="text" id="jibunAddress" placeholder="지번주소" class="form-control" required>
+                <input style="width: 50%;" type="text" id="postcode" placeholder="우편번호" class="form-control mb-1"
+                    required>
+                <input
+                    style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                    type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"
+                    class="btn btn-outline-secondary btn-sm mb-1"><br>
+                <input style="width: 50%;" type="text" id="roadAddress" placeholder="도로명주소" class="form-control mb-1"
+                    required>
+                <input style="width: 50%;" type="text" id="jibunAddress" placeholder="지번주소" class="form-control mb-1"
+                    required>
                 <span id="guide" style="color:#999;display:none"></span>
-                <input type="text" id="detailAddress" placeholder="상세주소" class="form-control" required>
-                <input type="text" id="extraAddress" placeholder="참고항목" class="form-control">
-
-                <!-- <button id="addressTestBtn" onclick="addressTest()"></button> -->
+                <input style="width: 50%;" type="text" id="detailAddress" placeholder="상세주소" class="form-control mb-1"
+                    required>
+                <input style="width: 50%;" type="text" id="extraAddress" placeholder="참고항목" class="form-control mb-1">
             </section>
 
-            <div th:object="${cartProductDtoList}">
-                <table class="table table-hover">
+            <!-- 주문 상품 목록 -->
+            <div class="mx-3" th:object="${cartProductDtoList}">
+                <table class="mb-3 w-100">
                     <thead>
-                        <tr>
-                            <th scope="col">상품명</th>
-                            <th scope="col">가격</th>
-                            <th scope="col">구매 갯수</th>
-                            <th scope="col">전체 가격</th>
+                        <tr class="row justify-content-between align-items-center thead-row">
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRODUCT</td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRICE</td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">QTY</td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">TOTAL</td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                            <td>
+                                <hr>
+                            </td>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="cartProductDto, rowStat : *{cartProductDtoList}">
-                            <!-- 상품 이름 -->
-                            <td class="name" th:text="${cartProductDto.name}"></td>
-                            <!-- 개당 가격-->
-                            <td class="price " th:text="${cartProductDto.price}"></td>
-                            <!-- 갯수  -->
-                            <td class="count " th:text="${cartProductDto.count}">
-                                <!-- <input class="count" th:field="*{cartProductDtoList[__${rowStat.index}__].count}"
-                        type="number" /> -->
-                            </td>
-                            <!-- 전체 가격 -->
-                            <td class="total" th:text="${cartProductDto.price * cartProductDto.count}"></td>
+                        <tr class="row justify-content-between align-items-center tbody-row"
+                            th:each="cartProductDto, rowStat : *{cartProductDtoList}">
                             <!-- 상품ID -->
                             <td>
                                 <input type="number" th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}"
                                     style="display: none;">
                             </td>
+                            <!-- 상품 이미지 -->
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                                <div style="width: 60%;">
+                                    <img class="img-fluid"
+                                        src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
+                                        th:src="${cartProductDto.thumbnail_url}" alt="product thumbnail img">
+                                </div>
+                            </td>
+                            <!-- 상품 이름 -->
+                            <td class="name col-md-2 col-lg-2 col-xl-2 align-items-center my-1">
+                                <p class="name" th:text="${cartProductDto.name}"></p>
+                            </td>
+                            <!-- 개당 가격  -->
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                                <p class="price " th:text="${cartProductDto.price}"></p>
+                            </td>
+                            <!-- 갯수 -->
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                                <p class="count " th:text="${cartProductDto.count}"></p>
+                            </td>
+                            <!-- 계산된 전체 가격 -->
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                                <p class="total" th:text="${cartProductDto.price * cartProductDto.count}"></p>
+                            </td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            </td>
+                            <td>
+                                <hr>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
                 <!-- 결제하기 버튼 -->
-                <button id="requestPayBtn" type="submit">결제하기</button>
-                <!-- 환불 테스트 -->
-                <!-- <button onclick="cancelPayments()">환불테스트버튼</button> -->
+                <button
+                    style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                    id="requestPayBtn" type="submit" class="btn btn-outline-secondary btn-sm">결제하기</button>
             </div>
         </form>
 
