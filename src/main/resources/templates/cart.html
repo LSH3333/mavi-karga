@@ -34,7 +34,7 @@
 
 
         <form class="mx-3" th:action="@{/order/cart}" th:object="${cartProductDtoList}" method="post">
-            <table class="mb-3">
+            <table class="mb-3 w-100">
                 <thead>
                     <tr class="row justify-content-between align-items-center thead-row">
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRODUCT</td>
@@ -51,17 +51,20 @@
                 <tbody>
                     <tr class="row justify-content-between align-items-center tbody-row"
                         th:each="cartProductDto, rowStat : *{cartProductDtoList}">
-                        <!-- 상품ID -->
                         <td style="display: none;">
+                            <!-- 장바구니ID -->
                             <input class="hidden_cart_id" type="number"
                                 th:field="*{cartProductDtoList[__${rowStat.index}__].cartId}" style="display: none;">
                         </td>
                         <!-- 상품 이미지 -->
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">
                             <div style="width: 60%;">
-                                <img class="img-fluid"
-                                    src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
-                                    th:src="${cartProductDto.thumbnail_url}" alt="product thumbnail img">
+                                <a
+                                    th:href="@{/order/products?productId={productId}(productId=${cartProductDto.productId})}">
+                                    <img class="img-fluid"
+                                        src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
+                                        th:src="${cartProductDto.thumbnail_url}" alt="product thumbnail img">
+                                </a>
                             </div>
                         </td>
                         <!-- 상품 이름 -->

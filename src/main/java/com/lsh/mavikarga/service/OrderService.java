@@ -86,7 +86,7 @@ public class OrderService {
             if(product.getThumbnail_front() != null) {
                 thumbnail_url = product.getThumbnail_front().getUrl();
             }
-            CartProductDto cartProductDto = new CartProductDto(cart.getId(), product.getName(), product.getPrice(),
+            CartProductDto cartProductDto = new CartProductDto(cart.getId(), product.getId(), product.getName(), product.getPrice(),
                     cart.getCount(), thumbnail_url);
             cartProductDtos.add(cartProductDto);
         }
@@ -153,7 +153,7 @@ public class OrderService {
             if(product.getThumbnail_front() != null) {
                 thumbnail_url = product.getThumbnail_front().getUrl();
             }
-            CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getName(), product.getPrice(),
+            CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getId(), product.getName(), product.getPrice(),
                     cartForNonUser.getCount(), thumbnail_url);
             cartProductDtos.add(cartProductDto);
         }
