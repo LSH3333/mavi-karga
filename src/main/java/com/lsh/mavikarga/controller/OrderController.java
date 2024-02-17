@@ -205,11 +205,7 @@ public class OrderController {
         CartProductDtoList cartProductDtoList;
         // 비회원 세션 기반으로 장바구니 dto 에 정보 담음
         cartProductDtoList = new CartProductDtoList(orderService.createCartProductDtoListForNonUser(session));
-        log.info("==== cartProductDtoList");
-        List<CartProductDto> cartProductDtoList1 = cartProductDtoList.getCartProductDtoList();
-        for (CartProductDto cartProductDto : cartProductDtoList1) {
-            log.info("cartProductDto = {}", cartProductDto);
-        }
+
         model.addAttribute("cartProductDtoList", cartProductDtoList);
 
         return "cartNonUser";
@@ -261,7 +257,6 @@ public class OrderController {
     // 주문 조회 번호로 주문 조회 ajax
     @GetMapping("/order/lookupSearch")
     public ResponseEntity<List<MyPageDto>> findOrderWithOrderLookUpNumber(@RequestParam String orderLookUpNumber) {
-        log.info("ORDER LOOKUP = {}", orderLookUpNumber);
         List<MyPageDto> myPageDtoList = orderService.findOrderWithOrderLookUpNumber(orderLookUpNumber);
         if(myPageDtoList == null) {
             return ResponseEntity.badRequest().body(null);

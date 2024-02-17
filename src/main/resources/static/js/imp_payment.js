@@ -58,8 +58,10 @@ function requestPay(payment_server_req_path) {
                 payReqXML.open("POST", payment_server_req_path, true);
                 payReqXML.onload = function () {
                     if (payReqXML.status === 200) {
-                        console.log("결재 요청 데이터 서버 전송 성공")
-                        window.location.href = '/payments/paymentSuccess';
+                        var orderLookUpNumber = payReqXML.responseText;                        
+                        console.log("결재 요청 데이터 서버 전송 성공");
+                        console.log('orderLookUpNumber = ' + orderLookUpNumber)
+                        window.location.href = '/payments/paymentSuccess?orderLookUpNumber='+orderLookUpNumber;
                     } else {
                         console.log("결재 요청 데이터 서버 전송 실패")
                         // window.location.href = '/payments/paymentFail';

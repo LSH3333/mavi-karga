@@ -20,6 +20,8 @@ public class MyPageDto {
     private int count;
     // 처리 상태
     private OrderStatus orderStatus;
+    // 주문 조회 번호
+    private String orderLookUpNumber;
 
     // 썸네일 이미지
     private String thumbnail_url;

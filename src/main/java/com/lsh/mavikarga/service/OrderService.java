@@ -350,7 +350,6 @@ public class OrderService {
 
 
 
-    // todo:
     // 비회원용 주문번호로 주문 조회
     public List<MyPageDto> findOrderWithOrderLookUpNumber(String orderLookUpNumber) {
         List<MyPageDto> myPageDtoList = new ArrayList<>();
@@ -386,6 +385,8 @@ public class OrderService {
                 thumbnail_url = product.getThumbnail_front().getUrl();
             }
             myPageDto.setThumbnail_url(thumbnail_url);
+            // 주문 조회 번호
+            myPageDto.setOrderLookUpNumber(orderLookUpNumber);
 
             // 리스트에 추가
             myPageDtoList.add(myPageDto);

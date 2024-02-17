@@ -24,21 +24,30 @@
     <main class="container">
         <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Your Orders</h1>
+            <h1 class="h2">Search Order</h1>
         </div>
         <!-- 주문 조회 번호 입력 -->
         <div class="container mb-3">
-            <label for="lookUpNumber" class="form-label">lookUp Number</label>
-            <input type="text" class="form-control" id="lookUpNumber" placeholder="enter number">
+            <label for="lookUpNumber" class="form-label">Please enter order lookUp number</label>
+            <input style="width: 40%;" type="text" class="form-control" id="lookUpNumber" placeholder="enter order lookup number">
         </div>
         <!-- 버튼 -->
-        <div class="container mb-5">
+        <div class="container mb-1">
             <button class="btn btn-outline-secondary btn-sm"
                 style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
-                onclick="lookUpOrder()">Look Up Order!</button>
+                onclick="lookUpOrder()">Search Order</button>
+        </div>
+
+        <!-- divider -->
+        <div class="container">
+            <hr class="featurette-divider">
         </div>
 
         <div class="mx-3">
+            <div class="container mb-3 p-0">
+                <label for="SearchedOrderLookUpNumber" class="form-label">Order lookUp number</label>
+                <input style="width: 40%;" type="text" class="form-control" id="SearchedOrderLookUpNumber" readonly>
+            </div>
             <table class="mb-3 w-100 order-table">
                 <thead>
                     <tr class="row justify-content-between align-items-center thead-row">
@@ -111,7 +120,11 @@
                             let count = dto.count;
                             let orderStatus = dto.orderStatus;
                             let thumbnail_url = dto.thumbnail_url;
+                            let orderLookUpNumber = dto.orderLookUpNumber;
                             console.log(dto);
+
+                            document.getElementById('SearchedOrderLookUpNumber').value = orderLookUpNumber;
+                            
 
                             var row = document.createElement('tr');
                             row.classList.add('myPageDto', 'row', 'justify-content-between', 'align-items-center', 'tbody-row');

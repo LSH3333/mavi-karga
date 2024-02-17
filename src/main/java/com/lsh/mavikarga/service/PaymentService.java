@@ -84,23 +84,23 @@ public class PaymentService {
      * @param irsp:        포트원쪽에서 결재 정보
      * @param paymentRequestDto: 결재 페이지에서 사용자에게 입력 받은 정보들 (이름,이메일,배송정보 등)
      */
-    public boolean validatePayment(IamportResponse<Payment> irsp, PaymentRequestDto paymentRequestDto, Principal principal) {
+    public String validatePayment(IamportResponse<Payment> irsp, PaymentRequestDto paymentRequestDto, Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElse(null);
         if (user == null) {
-            return false;
+            return null;
         }
 
         int paid_amount = Integer.parseInt(paymentRequestDto.getPaid_amount());
         // 포트원 서버에서 조회된 결재금액과 실제 사용자 결재 금액이 다름
         // getAmount() 결과는 BigDecimal
         if (irsp.getResponse().getAmount().intValue() != paid_amount) {
-            return false;
+            return null;
         }
 
         //  DB에 저장된 물품의 실제금액과 비교
         int priceToPay = calPriceToPay(user);
         if (priceToPay != paid_amount) {
-            return false;
+            return null;
         }
 
         // 검증 완료 -> DB에 저장
@@ -139,7 +139,7 @@ public class PaymentService {
         // 장바구니에 있는 물품들 결재 완료됐으니 장바구니 비운다
         clearCart(user);
 
-        return true;
+        return orderInfo.getOrderLookUpNumber();
     }
 
     // 사용자의 장바구니 비움
@@ -193,7 +193,7 @@ public class PaymentService {
 
 
     ////////////////////////// 비회원 //////////////////////////
-    public boolean validatePaymentNonUser(IamportResponse<Payment> irsp, PaymentRequestDto paymentRequestDto, HttpSession session) {
+    public String validatePaymentNonUser(IamportResponse<Payment> irsp, PaymentRequestDto paymentRequestDto, HttpSession session) {
 
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
@@ -202,13 +202,13 @@ public class PaymentService {
         // 포트원 서버에서 조회된 결재금액과 실제 사용자 결재 금액이 다름
         // getAmount() 결과는 BigDecimal
         if (irsp.getResponse().getAmount().intValue() != paid_amount) {
-            return false;
+            return null;
         }
 
         //  DB에 저장된 물품의 실제금액과 비교
         int priceToPay = calPriceToPayNonUser(cartList);
         if (priceToPay != paid_amount) {
-            return false;
+            return null;
         }
 
         // 검증 완료 -> DB에 저장
@@ -248,7 +248,7 @@ public class PaymentService {
         // 장바구니에 있는 물품들 결재 완료됐으니 장바구니 비운다
         session.removeAttribute("cart");
 
-        return true;
+        return orderInfo.getOrderLookUpNumber();
     }
 
     private int calPriceToPayNonUser(List<CartForNonUser> cartList) {

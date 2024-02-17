@@ -2,6 +2,7 @@ package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.CartProductDtoList;
+import com.lsh.mavikarga.dto.MyPageDto;
 import com.lsh.mavikarga.dto.PaymentRequestDto;
 import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.PaymentService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -55,9 +57,12 @@ public class PaymentController {
 
     // 결재 성공 폼
     @GetMapping("/payments/paymentSuccess")
-    public String paymentSuccessForm() {
-//        return "redirect:/users/myPage";
+    public String paymentSuccessForm(Principal principal, Model model, @RequestParam String orderLookUpNumber) {
+
+        log.info("orderLookUpNumber = {}", orderLookUpNumber);
+        model.addAttribute("orderLookUpNumber", orderLookUpNumber);
         return "/payments/paymentSuccess";
+
     }
 
     // 결재 실패 폼
@@ -117,8 +122,10 @@ public class PaymentController {
         String merchant_uid = paymentRequestDto.getMerchant_uid();
 
         IamportResponse<Payment> irsp = paymentLookup(impUid);
-        if(paymentService.validatePayment(irsp, paymentRequestDto, principal)) {
-            return ResponseEntity.status(HttpStatus.OK).body("결재 정보 검증 완료");
+        // 결제 성공 시 주문 조회 번호 클라이언트로 보냄
+        String orderLookUpNumber = paymentService.validatePayment(irsp, paymentRequestDto, principal);
+        if(orderLookUpNumber != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
         }
@@ -141,8 +148,9 @@ public class PaymentController {
         String merchant_uid = paymentRequestDto.getMerchant_uid();
 
         IamportResponse<Payment> irsp = paymentLookup(impUid);
-        if(paymentService.validatePaymentNonUser(irsp, paymentRequestDto, session)) {
-            return ResponseEntity.status(HttpStatus.OK).body("결재 정보 검증 완료");
+        String orderLookUpNumber = paymentService.validatePaymentNonUser(irsp, paymentRequestDto, session);
+        if(orderLookUpNumber != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
         }
