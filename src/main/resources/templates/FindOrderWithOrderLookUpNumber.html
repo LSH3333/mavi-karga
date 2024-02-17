@@ -16,6 +16,19 @@
                 display: none;
             }
         }
+
+        /* ajax 로딩 스피너 */
+        #spinner-div {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 2;
+        }
     </style>
 </head>
 
@@ -29,7 +42,8 @@
         <!-- 주문 조회 번호 입력 -->
         <div class="container mb-3">
             <label for="lookUpNumber" class="form-label">Please enter order lookUp number</label>
-            <input style="width: 40%;" type="text" class="form-control" id="lookUpNumber" placeholder="enter order lookup number">
+            <input style="width: 40%;" type="text" class="form-control" id="lookUpNumber"
+                placeholder="enter order lookup number">
         </div>
         <!-- 버튼 -->
         <div class="container mb-1">
@@ -92,11 +106,19 @@
         <div class="container">
             <hr class="featurette-divider">
         </div>
+
+        <!-- ajax 요청 로딩 중 보여줄 스피너 -->
+        <div id="spinner-div" class="pt-5">
+            <div class="spinner-border text-primary mt-5" role="status">
+            </div>
+        </div>
     </main>
 
     <script>
         // 주문 조회 번호로 주문한 물품들 조회 
         function lookUpOrder() {
+            // ajax 요청중 보여줄 로딩 스피너
+            document.getElementById("spinner-div").style.display = "block";
             var lookUpNumber = document.getElementById('lookUpNumber').value;
 
             var xhr = new XMLHttpRequest();
@@ -124,7 +146,7 @@
                             console.log(dto);
 
                             document.getElementById('SearchedOrderLookUpNumber').value = orderLookUpNumber;
-                            
+
 
                             var row = document.createElement('tr');
                             row.classList.add('myPageDto', 'row', 'justify-content-between', 'align-items-center', 'tbody-row');
@@ -191,6 +213,8 @@
                         alert('invalid lookup number')
                     }
                 }
+                // ajax 요청 끝났으니 스피너 안보이도록 함 
+                document.getElementById("spinner-div").style.display = "none";
             };
             xhr.send();
         }
