@@ -14,7 +14,7 @@
             <h1>My Page</h1>
         </div>
 
-        <div class="container">
+        <div class="container mb-5">
             <!-- 테이블 -->
             <table class="table">
                 <thead>
@@ -45,14 +45,6 @@
 
         </div>
 
-        <!-- 회원탈퇴 -->
-        <div class="container my-3">
-            <!-- <a th:href="@{/users/delete}" class="btn btn-danger" onclick="return confirmDelete()">회원탈퇴</a> -->
-
-            <form th:action="@{/users/delete}" method="post">
-                <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">회원탈퇴</button>
-            </form>
-        </div>
 
         <!-- pagination -->
         <nav aria-label="..." class="d-flex justify-content-center mt-5">
@@ -74,6 +66,13 @@
                 </li>
             </ul>
         </nav>
+
+        <!-- 회원탈퇴 -->
+        <div class="container mt-5 mb-5">
+            <form th:action="@{/users/delete}" method="post">
+                <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">회원탈퇴</button>
+            </form>
+        </div>
 
         <!-- divider -->
         <div class="container">

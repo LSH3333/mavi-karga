@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var count = parseInt(countInput.value);
 
             var totalPrice = price * count;
-            
+
             // 한국 원화 
             totalPriceCell.textContent = new Intl.NumberFormat("ko-KR", { style: "currency", currency: "KRW" }).format(
                 totalPrice,
@@ -34,24 +34,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 제외 버튼 누르면 해당 row 안보이도록 처리 
-        function excludeProduct() {
-            // 안보이도록 처리 
-            row.style.display = 'none';
-            // 서버에 보낼 데이터
-            // deletedCheckbox.checked = true;
-            // 장바구니 상품 갯수 -1
-            numberOfCartProduct--;
-            // 장바구니 상품 갯수가 0이되면 구매 버튼 클릭 불가능하도록 
-            if (numberOfCartProduct === 0) {
-                submitBtn.disabled = true;
-            }
-        }
+        // function excludeProduct() {
+        //     // 안보이도록 처리 
+        //     row.style.display = 'none';
+        //     // 서버에 보낼 데이터
+        //     // deletedCheckbox.checked = true;
+        //     // 장바구니 상품 갯수 -1
+        //     numberOfCartProduct--;
+        //     // 장바구니 상품 갯수가 0이되면 구매 버튼 클릭 불가능하도록 
+        //     if (numberOfCartProduct === 0) {
+        //         submitBtn.disabled = true;
+        //     }
+        // }
 
         // count input 이벤트 리스너 
         countInput.addEventListener('input', updateTotalPrice);
 
         // 제외 버튼 이벤트 리스너 
-        excludeBtn.addEventListener('click', excludeProduct);
+        // excludeBtn.addEventListener('click', excludeProduct);
 
         // 가격 업데이트 
         updateTotalPrice();
