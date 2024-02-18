@@ -12,10 +12,12 @@ import com.siot.IamportRestClient.exception.IamportResponseException;
 import com.siot.IamportRestClient.request.CancelData;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,8 +34,14 @@ import java.util.Map;
 @Slf4j
 public class PaymentController {
 
+    @Value("${PORT_ONE_API_KEY}")
+    private String portOneApiKey;
+
+    @Value("${PORT_ONE_SECRET_KEY}")
+    private String portOneSecretKey;
+
     // https://github.com/iamport/iamport-rest-client-java
-    private final IamportClient iamportClientApi;
+    private IamportClient iamportClientApi;
     private final PaymentService paymentService;
 
     private final UserService userService;
@@ -41,18 +49,17 @@ public class PaymentController {
 
     @Autowired
     public PaymentController(PaymentService paymentService, UserService userService, OrderService orderService) {
-        this.iamportClientApi = new IamportClient("0053241158344250",
-                "VgsaKTATZ9bt9LDbE4snPbPe1uz9TQ7ls08cn6dIabsTp53auvZgqJNa0qk5rDq6pFSjGWo1MzLYDpgv");
         this.paymentService = paymentService;
 
         this.userService = userService;
         this.orderService = orderService;
     }
 
-    // 테스트용
-    @GetMapping("/payTest")
-    public String payTest() {
-        return "payments/payTest";
+    @PostConstruct
+    public void injectIamportClientApi() {
+        log.info("PostConstruct = {}", portOneApiKey);
+        this.iamportClientApi = new IamportClient(portOneApiKey,
+                portOneSecretKey);
     }
 
     // 결재 성공 폼
