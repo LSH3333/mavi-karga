@@ -16,27 +16,45 @@
 
         <div class="container mb-5">
             <!-- 테이블 -->
-            <table class="table">
+            <table class="mb-3 w-100 order-table">
                 <thead>
-                    <tr>
-                        <th scope="col">Product</th>
-                        <th scope="col">Order date</th>
-                        <th scope="col">Price (quantity)</th>
-                        <th scope="col">Status</th>
+                    <tr class="row justify-content-between align-items-center thead-row">
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRODUCT</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">ORDER DATE</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">QTY</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRICE</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">STATUS</td>
+                        <td>
+                            <hr>
+                        </td>
                     </tr>
                 </thead>
                 <tbody th:object="${myPageDtoList}">
-                    <tr th:each="myPageDto : *{myPageDtoList}">
-                        <td>
-                            <p th:text="${myPageDto.name}"></p>
+                    <tr th:each="myPageDto : *{myPageDtoList}"
+                        class="row justify-content-between align-items-center tbody-row">
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <div style="width: 60%;">
+                                <a th:href="@{/order/products?productId={productId}(productId=${myPageDto.productId})}">
+                                    <img class="img-fluid"
+                                        src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
+                                        th:src="${myPageDto.thumbnail_url}" alt="product thumbnail img">
+                                </a>
+                            </div>
                         </td>
-                        <td>
-                            <p th:text="${myPageDto.orderDate}"></p>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="name" th:text="${myPageDto.name}"></p>
                         </td>
-                        <td>
-                            <p th:text="${myPageDto.orderPrice + ' (' + myPageDto.count + ')'}"></p>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="orderDate" th:text="${#temporals.format(myPageDto.orderDate, 'yyyy-MM-dd')}"></p>
                         </td>
-                        <td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p class="" th:text="${myPageDto.count}"></p>
+                        </td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <p th:text="${myPageDto.orderPrice}"></p>
+                        </td>
+                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
                             <p th:text="${myPageDto.orderStatus}"></p>
                         </td>
                     </tr>

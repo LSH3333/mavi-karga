@@ -33,7 +33,7 @@
         </div>
 
 
-        <form class="mx-3" th:action="@{/order/cart}" th:object="${cartProductDtoList}" method="post">
+        <form th:action="@{/order/cart}" th:object="${cartProductDtoList}" method="post">
             <table class="mb-3 w-100">
                 <thead>
                     <tr class="row justify-content-between align-items-center thead-row">

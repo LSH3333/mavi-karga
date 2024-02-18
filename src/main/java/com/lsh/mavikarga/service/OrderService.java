@@ -328,8 +328,12 @@ public class OrderService {
                 // Dto
                 MyPageDto myPageDto = new MyPageDto();
 
+                Product product = orderProduct.getProductSize().getProduct();
+
+                // 상품 ID
+                myPageDto.setProductId(product.getId());
                 // 상품명
-                myPageDto.setName(orderProduct.getProductSize().getProduct().getName());
+                myPageDto.setName(product.getName());
                 // 주문 일자
                 myPageDto.setOrderDate(orderInfo.getOrderDate());
                 // 구매한 상품 개당 가격
@@ -338,6 +342,12 @@ public class OrderService {
                 myPageDto.setCount(orderProduct.getCount());
                 // 처리 상태
                 myPageDto.setOrderStatus(orderInfo.getOrderStatus());
+                // 썸네일 이미지 url
+                String thumbnail_url = "";
+                if(product.getThumbnail_front() != null) {
+                    thumbnail_url = product.getThumbnail_front().getUrl();
+                }
+                myPageDto.setThumbnail_url(thumbnail_url);
 
                 // 리스트에 추가
                 myPageDtoList.getMyPageDtoList().add(myPageDto);
