@@ -51,7 +51,7 @@ public class OrderInfo {
 
     // 처리 상태
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus = OrderStatus.NOT_DONE;
+    private OrderStatus orderStatus = OrderStatus.PROCESSING;
 
     // (비회원용) 주문 조회 번호
     private String orderLookUpNumber;
@@ -79,7 +79,7 @@ public class OrderInfo {
         // OrderInfo - Delivery 연관관계
         orderInfo.delivery = delivery;
         // 처리 상태 초기에 NOT_DONE
-        orderInfo.orderStatus = OrderStatus.NOT_DONE;
+        orderInfo.orderStatus = OrderStatus.PROCESSING;
         // 주문 조회 번호
         orderInfo.orderLookUpNumber = orderLookUpNumber;
         return orderInfo;

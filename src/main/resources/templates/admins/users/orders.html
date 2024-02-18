@@ -17,13 +17,13 @@
 
         <!-- 모두보기, 배송미완료, 배송완료 버튼 -->
         <div class="container my-3 p-0">
-            <div class="btn-group" role="group" >
+            <div class="btn-group" role="group">
                 <a id="all-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='ALL')}"
                     class="btn btn-primary">모두보기</a>
-                <a id="not-done-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='NOT_DONE')}"
+                <a id="not-done-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='PROCESSING')}"
                     class="btn btn-danger">배송
                     미완료</a>
-                <a id="done-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='DONE')}"
+                <a id="done-btn" th:href="@{/admins/users/orders(userId=${userId},orderStatus='DELIVERED')}"
                     class="btn btn-success">배송
                     완료</a>
             </div>
@@ -34,7 +34,7 @@
 
             <!-- 사용자의 주문 정보 -->
             <!-- *{showUserOrderToAdminDtoList} = ShowUserOrderToAdminDto.showUserOrderToAdminOrderProductDtoList -->
-            <div th:class="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DONE} ? 'container border border-3 border-success rounded mb-3 py-3' : 'container border border-3 border-danger rounded mb-3 py-3'"
+            <div th:class="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DELIVERED} ? 'container border border-3 border-success rounded mb-3 py-3' : 'container border border-3 border-danger rounded mb-3 py-3'"
                 th:each="order : *{showUserOrderToAdminDtoList}">
 
                 <div class="container mb-3">
@@ -44,11 +44,11 @@
                     <p th:text="'처리상태: ' + ${order.orderStatus}"></p>
                     <!-- 완료, 미완료 처리 버튼 -->
                     <form method="post"
-                        th:action="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DONE} ? @{/admins/users/orders/orderStatus(orderInfoId=${order.orderInfoId},status='NOT_DONE',userId=${userId})} : 
-                    @{/admins/users/orders/orderStatus(orderInfoId=${order.orderInfoId},status='DONE',userId=${userId})}">
+                        th:action="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DELIVERED} ? @{/admins/users/orders/orderStatus(orderInfoId=${order.orderInfoId},status='PROCESSING',userId=${userId})} : 
+                    @{/admins/users/orders/orderStatus(orderInfoId=${order.orderInfoId},status='DELIVERED',userId=${userId})}">
                         <button type="submit"
-                            th:class="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DONE} ? 'btn btn-danger' : 'btn btn-primary'"
-                            th:text="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DONE} ? '미완료 처리' : '완료 처리'"></button>
+                            th:class="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DELIVERED} ? 'btn btn-danger' : 'btn btn-primary'"
+                            th:text="${order.orderStatus == T(com.lsh.mavikarga.enums.OrderStatus).DELIVERED} ? '미완료 처리' : '완료 처리'"></button>
                     </form>
                 </div>
 
@@ -205,7 +205,7 @@
                 allBtn.setAttribute('data-bs-toggle', 'button');
                 allBtn.setAttribute('aria-pressed', 'true');
                 allBtn.classList.add('active');
-            } else if (orderStatus == 'NOT_DONE') {
+            } else if (orderStatus == 'PROCESSING') {
                 notDoneBtn.setAttribute('data-bs-toggle', 'button');
                 notDoneBtn.setAttribute('aria-pressed', 'true');
                 notDoneBtn.classList.add('active');

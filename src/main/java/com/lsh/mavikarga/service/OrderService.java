@@ -215,10 +215,10 @@ public class OrderService {
         // 모든, 배송 미완료, 배송 완료
         if (orderStatus.equals("ALL")) {
             orderInfoList = orderRepository.findByUser(user, pageable);
-        } else if (orderStatus.equals(OrderStatus.NOT_DONE.toString())) {
-            orderInfoList = orderRepository.findByUserAndOrderStatus(user, OrderStatus.NOT_DONE, pageable);
+        } else if (orderStatus.equals(OrderStatus.PROCESSING.toString())) {
+            orderInfoList = orderRepository.findByUserAndOrderStatus(user, OrderStatus.PROCESSING, pageable);
         } else {
-            orderInfoList = orderRepository.findByUserAndOrderStatus(user, OrderStatus.DONE, pageable);
+            orderInfoList = orderRepository.findByUserAndOrderStatus(user, OrderStatus.DELIVERED, pageable);
         }
 
         // DTO
@@ -241,12 +241,12 @@ public class OrderService {
         if (orderStatus.equals("ALL")) {
             // 모두 가져옴
             orderInfoList = orderRepository.findAll(pageable);
-        } else if (orderStatus.equals(OrderStatus.NOT_DONE.toString())) {
+        } else if (orderStatus.equals(OrderStatus.PROCESSING.toString())) {
             // 배송 완료 되지 않은 주문만 가져옴 (orderStatus==OrderStatus.NOT_DONE)
-            orderInfoList = orderRepository.findAllByOrderStatus(OrderStatus.NOT_DONE, pageable);
+            orderInfoList = orderRepository.findAllByOrderStatus(OrderStatus.PROCESSING, pageable);
         } else {
             // 배송 완료 된 주문만 가져옴 (orderStatus==OrderStatus.DONE)
-            orderInfoList = orderRepository.findAllByOrderStatus(OrderStatus.DONE, pageable);
+            orderInfoList = orderRepository.findAllByOrderStatus(OrderStatus.DELIVERED, pageable);
         }
 
         // Dto
@@ -301,10 +301,10 @@ public class OrderService {
         if (orderInfo == null) return;
         OrderStatus orderStatus;
 
-        if (status.equals(OrderStatus.NOT_DONE.toString())) {
-            orderStatus = OrderStatus.NOT_DONE;
+        if (status.equals(OrderStatus.PROCESSING.toString())) {
+            orderStatus = OrderStatus.PROCESSING;
         } else {
-            orderStatus = OrderStatus.DONE;
+            orderStatus = OrderStatus.DELIVERED;
         }
 
         orderInfo.setOrderStatus(orderStatus);
