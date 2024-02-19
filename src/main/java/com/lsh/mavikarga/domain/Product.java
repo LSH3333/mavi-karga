@@ -20,7 +20,7 @@ public class Product {
 
     @Id
     @UuidGenerator
-    @Column(name = "product_id")
+    @Column(name = "product_id", nullable = false)
     private UUID id;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

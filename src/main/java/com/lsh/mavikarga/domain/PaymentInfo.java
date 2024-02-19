@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class PaymentInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="payment_info_id")
+    @Column(name="payment_info_id", nullable = false)
     private Long id;
 
     @OneToOne(mappedBy = "paymentInfo")
@@ -32,13 +32,13 @@ public class PaymentInfo {
     @Column(nullable = false)
     private int amount;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true)
     private String buyerAddr;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = true)
     private String buyerPostcode;
 
-    // 결재 시간
+    // 결제 시간
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdTime;
 

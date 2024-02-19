@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductSize implements Comparable<ProductSize> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_size_id")
+    @Column(name = "product_size_id", nullable = false)
     private Long id;
 
     @ManyToOne
@@ -30,7 +30,6 @@ public class ProductSize implements Comparable<ProductSize> {
     private List<Cart> carts = new ArrayList<>();
 
     // 제품 사이즈
-//    private String size;
     @Enumerated(EnumType.STRING)
     private Sizes size;
 

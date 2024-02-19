@@ -16,7 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long id;
 
     // 주문 리스트
@@ -30,23 +30,32 @@ public class User {
 
 
     @NotEmpty(message = "비어있을수 없습니다")
+    @Column(length = 100, nullable = false)
     private String username;
+
     @NotEmpty(message = "비어있을수 없습니다")
+    @Column(length = 255, nullable = false)
     private String password;
 
+    @Column(length = 20, nullable = false)
     private String role; // ROLE_USER, ROLE_ADMIN
 
 //    @NotEmpty(message = "비어있을수 없습니다")
 //    private String email;
+    @Column(length = 100, nullable = false)
     private String provider; // google, kakao ..
+    @Column(length = 100, nullable = false)
     private String provider_id;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdTime;
 
     // 회원 삭제 (탈퇴) 여부
+    @Column(nullable = false)
     private boolean deleted = false;
+
     // 마지막 로그인 시간
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime lastLoggedIn;
 

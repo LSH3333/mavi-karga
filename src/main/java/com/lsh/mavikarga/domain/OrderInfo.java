@@ -25,7 +25,7 @@ import java.util.UUID;
 public class OrderInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_info_id")
+    @Column(name = "order_info_id", nullable = false)
     private Long id;
 
     // 주문한 사용자
@@ -47,13 +47,16 @@ public class OrderInfo {
 
     // 주문 일자
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    @Column(nullable = false)
     private LocalDateTime orderDate;
 
     // 처리 상태
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private OrderStatus orderStatus = OrderStatus.PROCESSING;
 
     // (비회원용) 주문 조회 번호
+    @Column(length = 100, nullable = false)
     private String orderLookUpNumber;
 
 

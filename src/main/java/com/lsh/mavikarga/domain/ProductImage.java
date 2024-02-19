@@ -9,7 +9,7 @@ public class ProductImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_image_id")
+    @Column(name = "product_image_id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
