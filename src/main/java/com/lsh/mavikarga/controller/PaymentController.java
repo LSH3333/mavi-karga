@@ -57,7 +57,6 @@ public class PaymentController {
 
     @PostConstruct
     public void injectIamportClientApi() {
-        log.info("PostConstruct = {}", portOneApiKey);
         this.iamportClientApi = new IamportClient(portOneApiKey,
                 portOneSecretKey);
     }

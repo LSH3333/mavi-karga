@@ -274,6 +274,8 @@ public class OrderService {
             showUserOrderToAdminDto.setDelivery(delivery);
             // 처리 상태
             showUserOrderToAdminDto.setOrderStatus(order.getOrderStatus());
+            // 주문 조회 번호
+            showUserOrderToAdminDto.setOrderLookUpNumber(order.getOrderLookUpNumber());
 
             // ShowUserOrderToAdminOrderProductDto 객체 생성
             // showUserOrderToAdminOrderProductDtoList 에 담음

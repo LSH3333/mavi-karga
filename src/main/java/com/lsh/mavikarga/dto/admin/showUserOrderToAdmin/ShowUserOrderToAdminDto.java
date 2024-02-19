@@ -27,6 +27,7 @@ public class ShowUserOrderToAdminDto {
     // 구매한 상품들 정보
     private List<ShowUserOrderToAdminOrderProductDto> showUserOrderToAdminOrderProductDtoList = new ArrayList<>();
 
-
+    // 주문 조회 번호
+    private String orderLookUpNumber;
 
 }
