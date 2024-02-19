@@ -12,10 +12,9 @@
 
 /* hover */
 #main_video_btn:hover {
-    cursor: url('../icon/volume-xmark-solid_w.png'), auto;
+    cursor: url('../icon/volume-xmark-solid_w_20px.png'), auto;
 }
 
 #main_video_btn.muted {
-    cursor: url('../icon/volume-high-solid_w.png'), auto;
-    
+    cursor: url('../icon/volume-high-solid_w_20px.png'), auto;    
 }

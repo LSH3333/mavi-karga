@@ -11,6 +11,7 @@ IMP.init("imp18574515"); // 가맹점 식별코드
 
 // 원포트에 결재 요청 api 
 function requestPay(payment_server_req_path) {
+    console.log('requestPay')
     IMP.request_pay(
         {
             // pg: "kakaopay",
@@ -45,6 +46,13 @@ function requestPay(payment_server_req_path) {
                 formData.append("detailAddress", document.getElementById('detailAddress').value);
                 formData.append("extraAddress", document.getElementById('extraAddress').value);
 
+                console.log('==============')
+                console.log('pg_provider = ' + rsp.pg_provider)
+                console.log('paid_at = ' + rsp.paid_at);
+                console.log('rsp.name = ' + rsp.name)
+                console.log('rsp.pay_method = ' + rsp.pay_method)
+                console.log('rsp.buyer_email = ' + rsp.buyer_email)   
+                console.log('rsp.buyer_tel = ' + rsp.buyer_tel)             
 
 
                 // formData.append("pay_method", rsp.pay_method);
