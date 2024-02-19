@@ -19,7 +19,7 @@ spring:
   jpa:
     hibernate:
       # !!!!!!!!!!!!!!!!! DB 초기화 수정 주의 !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      ddl-auto: none
+      ddl-auto: create
       dialect: org.hibernate.dialect.PostgreSQL10Dialect
     properties:
       hibernate:
@@ -43,7 +43,7 @@ spring:
             client-secret: ${GOOGLE_CLIENT_SECRET}
             scope: # provider 추가 시 OpenIdProvider 로 인식, 구글은 OpenIdProvider 사용하지 않음
               - profile
-              - email
+#              - email
             #redirect-uri: CommonOAuth2Provider 에서 구글은 기본으로 설정되어 있음 : "{baseUrl}/{action}/oauth2/code/{registrationId}"
             redirect-uri: ${GOOGLE_REDIRECT_URI}
 
@@ -52,9 +52,9 @@ spring:
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_CLIENT_SECRET}
             scope:
-              - name
-              - email
-              - gender
+#              - name
+#              - email
+#              - gender
             client-name: Naver
             authorization-grant-type: authorization_code
             redirect-uri: ${NAVER_REDIRECT_URI}

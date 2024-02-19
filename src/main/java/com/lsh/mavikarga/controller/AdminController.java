@@ -195,7 +195,7 @@ public class AdminController {
 
         model.addAttribute("orderList", showUserOrderToAdminDtoList);
         model.addAttribute("userId", userId);
-        model.addAttribute("userEmail", user.getEmail());
+//        model.addAttribute("userEmail", user.getEmail());
         // current page
         model.addAttribute("page", page+1);
         // 처리 상태 필터

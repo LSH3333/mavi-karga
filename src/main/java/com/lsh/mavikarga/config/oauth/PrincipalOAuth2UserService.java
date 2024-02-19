@@ -88,7 +88,8 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
         User userEntity = userService.findByUsername(username).orElse(null);
         // 중복 아니면 새로 생성후 저장
         if (userEntity == null) {
-            userEntity = new User(username, password, email, role, provider, providerId, LocalDateTime.now());
+//            userEntity = new User(username, password, email, role, provider, providerId, LocalDateTime.now());
+            userEntity = new User(username, password, role, provider, providerId, LocalDateTime.now());
             userService.save(userEntity);
         }
         // Authentication 에 담기게됨

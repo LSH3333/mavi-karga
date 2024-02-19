@@ -36,8 +36,8 @@ public class User {
 
     private String role; // ROLE_USER, ROLE_ADMIN
 
-    @NotEmpty(message = "비어있을수 없습니다")
-    private String email;
+//    @NotEmpty(message = "비어있을수 없습니다")
+//    private String email;
     private String provider; // google, kakao ..
     private String provider_id;
 
@@ -55,10 +55,10 @@ public class User {
     public User() {}
 
     // oauth2 register
-    public User(String username, String password, String email, String role, String provider, String providerId, LocalDateTime createdTime) {
+    public User(String username, String password, String role, String provider, String providerId, LocalDateTime createdTime) {
         this.username = username;
         this.password = password;
-        this.email = email;
+//        this.email = email;
         this.role = role;
         this.provider = provider;
         this.provider_id = providerId;
@@ -72,7 +72,7 @@ public class User {
     public void delete() {
         this.username = "DELETED";
         this.password = "DELETED";
-        this.email = "DELETED";
+//        this.email = "DELETED";
         this.provider = "DELETED";
         this.provider_id = "DELETED";
         this.deleted = true;

@@ -12,16 +12,16 @@ public class ShowUserToAdminDto {
     // 유저명
     private String username;
     // 이메일
-    private String email;
+//    private String email;
     // 생성일
     private LocalDateTime createdTime;
 
     protected ShowUserToAdminDto() {}
 
-    public ShowUserToAdminDto(Long userId, String username, String email, LocalDateTime createdTime) {
+    public ShowUserToAdminDto(Long userId, String username,  LocalDateTime createdTime) {
         this.userId = userId;
         this.username = username;
-        this.email = email;
+//        this.email = email;
         this.createdTime = createdTime;
     }
 

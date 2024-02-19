@@ -58,7 +58,7 @@ public class UserService {
         // ShowUserToAdminDto 생성
         for (User user : allUsers) {
 //            log.info("user = {}, {}, {}", user.getId(), user.getUsername(), user.getEmail());
-            ShowUserToAdminDto showUserToAdminDto = new ShowUserToAdminDto(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedTime());
+            ShowUserToAdminDto showUserToAdminDto = new ShowUserToAdminDto(user.getId(), user.getUsername(), user.getCreatedTime());
             showUserToAdminDtoList.getShowUserToAdminDtoList().add(showUserToAdminDto);
         }
 
