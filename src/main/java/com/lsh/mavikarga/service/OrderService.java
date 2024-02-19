@@ -275,16 +275,21 @@ public class OrderService {
             // 처리 상태
             showUserOrderToAdminDto.setOrderStatus(order.getOrderStatus());
 
-            // showUserOrderToAdminOrderProductDtoList
+            // ShowUserOrderToAdminOrderProductDto 객체 생성
+            // showUserOrderToAdminOrderProductDtoList 에 담음
             List<OrderProduct> orderProducts = order.getOrderProducts();
             for (OrderProduct orderProduct : orderProducts) {
                 ShowUserOrderToAdminOrderProductDto showUserOrderToAdminOrderProductDto = new ShowUserOrderToAdminOrderProductDto();
 
+                ProductSize productSize = orderProduct.getProductSize();
+                Product product = orderProduct.getProductSize().getProduct();
+
                 showUserOrderToAdminOrderProductDto.setOrderPrice(orderProduct.getOrderPrice());
                 showUserOrderToAdminOrderProductDto.setCount(orderProduct.getCount());
-                showUserOrderToAdminOrderProductDto.setSize(orderProduct.getProductSize().getSize());
-                showUserOrderToAdminOrderProductDto.setProductId(orderProduct.getProductSize().getProduct().getId());
-                showUserOrderToAdminOrderProductDto.setName(orderProduct.getProductSize().getProduct().getName());
+                showUserOrderToAdminOrderProductDto.setSize(productSize.getSize());
+                showUserOrderToAdminOrderProductDto.setProductId(product.getId());
+                showUserOrderToAdminOrderProductDto.setName(product.getName());
+                showUserOrderToAdminOrderProductDto.setThumbnail_url(product.getThumbnail_front().getUrl());
 
                 showUserOrderToAdminDto.getShowUserOrderToAdminOrderProductDtoList().add(showUserOrderToAdminOrderProductDto);
             }

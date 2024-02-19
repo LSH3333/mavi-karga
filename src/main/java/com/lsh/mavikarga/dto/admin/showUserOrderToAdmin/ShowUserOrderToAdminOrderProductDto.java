@@ -21,5 +21,7 @@ public class ShowUserOrderToAdminOrderProductDto {
     private UUID productId;
     // 상품명
     private String name;
+    // 상품 썸네일 이미지 주소
+    private String thumbnail_url;
 
 }
