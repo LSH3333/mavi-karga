@@ -52,8 +52,7 @@ function removeFileFromList(index) {
 
 // 서버에 이미지 파일들 전송 
 function uploadImages(productId) {
-    // ajax 요청중 보여줄 로딩 스피너
-    document.getElementById("spinner-div").style.display = "block";
+
 
     // 리스트 -> formData 로 
     let formData = new FormData();
@@ -84,6 +83,9 @@ function uploadImages(productId) {
 
 // 폼 전송 
 function submitForm() {
+    // ajax 요청중 보여줄 로딩 스피너
+    document.getElementById("spinner-div").style.display = "block";
+
     const formData = new FormData(document.getElementById('productForm'));
 
     // AJAX
@@ -100,6 +102,8 @@ function submitForm() {
                 console.log('fail submitForm')
                 // 에러 내용 담김
                 const errorResult = xhr.responseText;
+                // ajax 요청 끝났으니 스피너 안보이도록 함 
+                document.getElementById("spinner-div").style.display = "none";
                 // 에러 알림 
                 alert(errorResult);
             }

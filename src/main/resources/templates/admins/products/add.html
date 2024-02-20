@@ -61,8 +61,8 @@
             <div class="mb-3 size-checkboxes">
                 <p>사이즈</p>
                 <div th:each="s : ${addProductDto.sizes}">
-                    <input class="form-check-input" th:field="*{size}" type="checkbox"
-                        th:id="${'size-' + s}" th:value="${s}" onchange="handleSizeCheckboxChange(this)" />
+                    <input class="form-check-input" th:field="*{size}" type="checkbox" th:id="${'size-' + s}"
+                        th:value="${s}" onchange="handleSizeCheckboxChange(this)" />
                     <label th:for="${'size-' + s}" th:text="${s}"></label><br />
                 </div>
             </div>
@@ -125,6 +125,8 @@
         document.getElementById('submitBtn').addEventListener('click', function (event) {
             // 버튼 form submit 이벤트 방지 
             event.preventDefault();
+            // 버튼 비활성화
+            this.disabled = true;
             // form ajax 전송 -> 이미지 ajax 전송 
             submitForm();
         })
