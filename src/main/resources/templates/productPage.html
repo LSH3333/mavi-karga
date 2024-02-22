@@ -17,6 +17,73 @@
             z-index: 1000;
         }
     </style>
+
+    <style>
+        .offcanvas-scroll {
+            /* width: 200px; */
+            height: 100%;
+            overflow: auto;
+            float: left;
+            /* margin: 0 10px; */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        .offcanvas-scroll2::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .offcanvas-scroll2::-webkit-scrollbar-thumb {
+            background: #666;
+        }
+
+        /* 상세 설명 커스텀 스크롤 높이 */
+        .offcanvas-scroll {
+            height: 100%;
+        }
+
+        .offcanvas-header {
+            padding: 10px;
+        }
+
+        /* offcanvas */
+        .offcanvas-body {
+            padding: 10px;
+        }
+
+        .product-row {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .product-col-left {
+            padding: 0;
+        }
+
+        .offcanvas p {
+            margin-bottom: 10px;
+        }
+
+        /* 갯수 증감 input 컨테이너 */
+        .count-input-container {
+            width: 300px;
+        }
+
+        /* 제외 버튼 <button> 기본 디자인 제거 */
+        .excludeBtn {
+            border: none;
+            background-color: transparent;
+            padding: 0;
+            font-size: 15px;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/c39d59a5ec.js" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
 <body layout:fragment="content">
@@ -122,6 +189,14 @@
                                                                     class="btn btn-outline-secondary btn-sm" href=""
                                                                     disabled>ADD TO
                                                                     CART</button>
+                                                                <!-- Offcanvas btn -->
+                                                                <button class="btn btn-outline-secondary btn-sm"
+                                                                    style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                                                                    type="button" data-bs-toggle="offcanvas"
+                                                                    data-bs-target="#offcanvasExample"
+                                                                    aria-controls="offcanvasExample">
+                                                                    Button with data-bs-target
+                                                                </button>
                                                             </div>
                                                             <!-- 로그인 버튼 -->
                                                             <div class="d-grid gap-2">
@@ -155,8 +230,155 @@
         <div class="container">
             <hr class="featurette-divider">
         </div>
+
+
     </main>
 
+
+    <!-- OffCanvas content -->
+    <div style="width: 600px;" class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel">
+        <!-- header -->
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Cart</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <!-- body -->
+        <div class="offcanvas-body">
+            <div style="width: 100%;" class="offcanvas-scroll offcanvas-scroll2">
+                <div style="min-height: 230px;" class="row product-row">
+                    <div class="product-col-left col-4 col-lg-4">
+                        <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
+                    </div>
+                    <div class="product-col-right col-8 col-lg-8">
+                        <p>The turtle shell vest</p>
+                        <p>M</p>
+                        <p>$448.00 USD</p>
+                        <div class="count-input-container border border-3">
+                            <div class="row">
+                                <div class="col-xs-3 col-xs-offset-3">
+                                    <div class="input-group number-spinner">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="dwn"><i
+                                                    class="fa-solid fa-minus"></i></button>
+                                        </span>
+                                        <input style="border: none;" type="text" class="form-control text-center"
+                                            value="1">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="up"><i
+                                                    class="fa-solid fa-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="excludeBtn"><u>REMOVE</u></button>
+                    </div>
+                </div>
+                <div style="min-height: 230px;" class="row product-row">
+                    <div class="product-col-left col-4 col-lg-4">
+                        <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
+                    </div>
+                    <div class="product-col-right col-8 col-lg-8">
+                        <p>The turtle shell vest</p>
+                        <p>M</p>
+                        <p>$448.00 USD</p>
+                        <div class="count-input-container border border-3">
+                            <div class="row">
+                                <div class="col-xs-3 col-xs-offset-3">
+                                    <div class="input-group number-spinner">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="dwn"><i
+                                                    class="fa-solid fa-minus"></i></button>
+                                        </span>
+                                        <input style="border: none;" type="text" class="form-control text-center"
+                                            value="1">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="up"><i
+                                                    class="fa-solid fa-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="excludeBtn"><u>REMOVE</u></button>
+                    </div>
+                </div>
+                <div style="min-height: 230px;" class="row product-row">
+                    <div class="product-col-left col-4 col-lg-4">
+                        <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
+                    </div>
+                    <div class="product-col-right col-8 col-lg-8">
+                        <p>The turtle shell vest</p>
+                        <p>M</p>
+                        <p>$448.00 USD</p>
+                        <div class="count-input-container border border-3">
+                            <div class="row">
+                                <div class="col-xs-3 col-xs-offset-3">
+                                    <div class="input-group number-spinner">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="dwn"><i
+                                                    class="fa-solid fa-minus"></i></button>
+                                        </span>
+                                        <input style="border: none;" type="text" class="form-control text-center"
+                                            value="1">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="up"><i
+                                                    class="fa-solid fa-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="excludeBtn"><u>REMOVE</u></button>
+                    </div>
+                </div>
+                <div style="min-height: 230px;" class="row product-row">
+                    <div class="product-col-left col-4 col-lg-4">
+                        <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
+                    </div>
+                    <div class="product-col-right col-8 col-lg-8">
+                        <p>The turtle shell vest</p>
+                        <p>M</p>
+                        <p>$448.00 USD</p>
+                        <div class="count-input-container border border-3">
+                            <div class="row">
+                                <div class="col-xs-3 col-xs-offset-3">
+                                    <div class="input-group number-spinner">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="dwn"><i
+                                                    class="fa-solid fa-minus"></i></button>
+                                        </span>
+                                        <input style="border: none;" type="text" class="form-control text-center"
+                                            value="1">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="up"><i
+                                                    class="fa-solid fa-plus"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="excludeBtn"><u>REMOVE</u></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- divider -->
+        <div class="container">
+            <hr style="margin: 10px 0;" class="">
+        </div>
+        <div class="container d-flex justify-content-between">
+            <p>TOTAL</p>
+            <p>$100 <br>Tax included</p>
+        </div>
+        <div class="container mb-2">
+            <button
+                style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem; width: 100%;"
+                id="" type="submit" class="btn btn-outline-secondary">CHECK OUT</button>
+        </div>
+    </div>
+    <!-- End of offcanvas content -->
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -182,6 +404,8 @@
         </div>
     </div>
     <!-- End of Modal -->
+
+
 
     <!-- 회원 장바구니 추가 ajax -->
     <script>
@@ -227,7 +451,6 @@
             })
         }
 
-
         function submitNonUserForm() {
             console.log('submitNonUserForm')
             let formData = new FormData(document.getElementById('formData'))
@@ -239,6 +462,9 @@
                 if (xhrNonUser.readyState == XMLHttpRequest.DONE) {
                     if (xhrNonUser.status == 200) {
                         console.log("order success");
+                        // offcanvas active
+                        const bsOffcanvas = new bootstrap.Offcanvas('#offcanvasExample')
+                        bsOffcanvas.show();
                     } else if (xhrNonUser.status == 302) {
                         console.log('302')
                     }
@@ -300,6 +526,26 @@
         }
     </script>
 
+
+    <script>
+        // offcanvas 상품 갯수 input
+        $(document).on('click', '.number-spinner button', function () {
+            var btn = $(this),
+                oldValue = btn.closest('.number-spinner').find('input').val().trim(),
+                newVal = 0;
+
+            if (btn.attr('data-dir') == 'up') {
+                newVal = parseInt(oldValue) + 1;
+            } else {
+                if (oldValue > 1) {
+                    newVal = parseInt(oldValue) - 1;
+                } else {
+                    newVal = 1;
+                }
+            }
+            btn.closest('.number-spinner').find('input').val(newVal);
+        });
+    </script>
 </body>
 
 </html>
