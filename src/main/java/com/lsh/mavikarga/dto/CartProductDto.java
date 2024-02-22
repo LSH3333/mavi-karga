@@ -1,5 +1,7 @@
 package com.lsh.mavikarga.dto;
 
+import com.lsh.mavikarga.domain.ProductSize;
+import com.lsh.mavikarga.enums.Sizes;
 import lombok.Data;
 
 import java.util.UUID;
@@ -17,6 +19,8 @@ public class CartProductDto {
     private int price;
     // 썸네일 이미지
     private String thumbnail_url;
+    // 사이즈
+    private Sizes size;
 
     //////// 장바구니 폼에서 사용자가 변경 가능한 필드
     private int count; // 상품 구매 갯수
@@ -26,16 +30,17 @@ public class CartProductDto {
     public CartProductDto() {}
 
     // 회원용 생성자
-    public CartProductDto(Long cartId, UUID productId, String name, int price, int count, String thumbnail_url) {
+    public CartProductDto(Long cartId, UUID productId, String name, int price, int count, String thumbnail_url, Sizes size) {
         this.cartId = cartId;
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.count = count;
         this.thumbnail_url = thumbnail_url;
+        this.size = size;
     }
     // 비회원용 생성자
-    public CartProductDto(String name, UUID productId, int price, int count, String thumbnail_url) {
+    public CartProductDto(int cartId, String name, UUID productId, int price, int count, String thumbnail_url) {
         this.name = name;
         this.productId = productId;
         this.price = price;

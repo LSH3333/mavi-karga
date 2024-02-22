@@ -125,6 +125,26 @@ public class OrderController {
         }
     }
 
+    // offcanvs 장바구니 ajax
+    @GetMapping("/order/products/cart")
+    public ResponseEntity<List<CartProductDto>> offCanvasCartRequest(HttpSession session, Principal principal) {
+
+        List<CartProductDto> cartProductDtoList;
+
+        // 비회원
+        if(principal == null) {
+            // 사용자 장바구니 담긴 상품들 보여줄 dto
+            // 비회원 세션 기반으로 장바구니 dto 에 정보 담음
+            cartProductDtoList = orderService.createCartProductDtoListForNonUser(session);
+        } else {
+            cartProductDtoList = new ArrayList<>();
+        }
+
+
+        return ResponseEntity.ok(cartProductDtoList);
+    }
+
+
     /////////////////////////////// 장바구니 ///////////////////////////////
 
     //  you can't redirect user in ajax requests!

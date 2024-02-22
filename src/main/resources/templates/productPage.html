@@ -59,6 +59,7 @@
         .product-row {
             margin: 0;
             margin-bottom: 10px;
+            min-height: 230px;
         }
 
         .product-col-left {
@@ -275,7 +276,8 @@
                         <button class="excludeBtn"><u>REMOVE</u></button>
                     </div>
                 </div>
-                <div style="min-height: 230px;" class="row product-row">
+                <!--  -->
+                <div class="row product-row">
                     <div class="product-col-left col-4 col-lg-4">
                         <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
                     </div>
@@ -304,64 +306,8 @@
                         <button class="excludeBtn"><u>REMOVE</u></button>
                     </div>
                 </div>
-                <div style="min-height: 230px;" class="row product-row">
-                    <div class="product-col-left col-4 col-lg-4">
-                        <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
-                    </div>
-                    <div class="product-col-right col-8 col-lg-8">
-                        <p>The turtle shell vest</p>
-                        <p>M</p>
-                        <p>$448.00 USD</p>
-                        <div class="count-input-container border border-3">
-                            <div class="row">
-                                <div class="col-xs-3 col-xs-offset-3">
-                                    <div class="input-group number-spinner">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" data-dir="dwn"><i
-                                                    class="fa-solid fa-minus"></i></button>
-                                        </span>
-                                        <input style="border: none;" type="text" class="form-control text-center"
-                                            value="1">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" data-dir="up"><i
-                                                    class="fa-solid fa-plus"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="excludeBtn"><u>REMOVE</u></button>
-                    </div>
-                </div>
-                <div style="min-height: 230px;" class="row product-row">
-                    <div class="product-col-left col-4 col-lg-4">
-                        <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
-                    </div>
-                    <div class="product-col-right col-8 col-lg-8">
-                        <p>The turtle shell vest</p>
-                        <p>M</p>
-                        <p>$448.00 USD</p>
-                        <div class="count-input-container border border-3">
-                            <div class="row">
-                                <div class="col-xs-3 col-xs-offset-3">
-                                    <div class="input-group number-spinner">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" data-dir="dwn"><i
-                                                    class="fa-solid fa-minus"></i></button>
-                                        </span>
-                                        <input style="border: none;" type="text" class="form-control text-center"
-                                            value="1">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" data-dir="up"><i
-                                                    class="fa-solid fa-plus"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="excludeBtn"><u>REMOVE</u></button>
-                    </div>
-                </div>
+
+
             </div>
         </div>
         <!-- divider -->
@@ -462,9 +408,11 @@
                 if (xhrNonUser.readyState == XMLHttpRequest.DONE) {
                     if (xhrNonUser.status == 200) {
                         console.log("order success");
-                        // offcanvas active
-                        const bsOffcanvas = new bootstrap.Offcanvas('#offcanvasExample')
-                        bsOffcanvas.show();
+
+
+                        // offcanvas ajax 요청 
+                        offcanvsCartAjaxRequest();
+
                     } else if (xhrNonUser.status == 302) {
                         console.log('302')
                     }
@@ -545,6 +493,90 @@
             }
             btn.closest('.number-spinner').find('input').val(newVal);
         });
+    </script>
+
+    <script>
+        // offcanvas 장바구니 ajax 요청 
+
+        function offcanvsCartAjaxRequest() {
+            console.log('offcanvsCartAjaxRequest')
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/order/products/cart', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
+                        console.log(data);
+
+                        data.forEach(function (dto) {
+                            let cartId = dto.cartId;
+                            let productId = dto.productId;
+                            let name = dto.name;
+                            let price = dto.price;
+                            let thumbnail_url = dto.thumbnail_url;
+                            let count = dto.count;
+                            let size = dto.size;
+
+                            console.log(dto);
+
+                            // row
+                            var row = document.createElement('div');
+                            row.classList.add('row', 'product-row');
+
+                            // left element 
+                            var leftElement = document.createElement('div');
+                            leftElement.classList.add('product-col-left', 'col-4', 'col-lg-4')
+
+                            // 썸네일 
+                            var imgAnchor = document.createElement('a');
+                            imgAnchor.href = '/order/products?productId=' + productId;
+                            var img = document.createElement('img');
+                            img.classList.add('img-fluid');
+                            img.src = thumbnail_url;
+                            img.alt = 'product thumbnail img';
+
+                            imgAnchor.appendChild(img);
+                            leftElement.appendChild(imgAnchor);
+
+                            // right element
+                            var rightElement = document.createElement('div');
+                            leftElement.classList.add('product-col-right', 'col-8', 'col-lg-8')
+
+                            // name
+                            var nameElement = document.createElement('p')
+                            nameElement.textContent = name;
+                            rightElement.appendChild(name);
+
+                            // size
+                            var sizeElement = document.createElement('p')
+                            sizeElement.textContent = size;
+                            rightElement.appendChild(sizeElement)
+
+                            // price 
+                            var priceElement = document.createElement('p')
+                            priceElement.textContent = price;
+                            rightElement.appendChild(priceElement)
+
+                            // 
+                            
+
+                        })
+
+                        // offcanvas active
+                        const bsOffcanvas = new bootstrap.Offcanvas('#offcanvasExample')
+                        bsOffcanvas.show();
+                    } else {
+                        console.error(xhr.responseText);
+                        alert('invalid cart. try again.')
+                    }
+                }
+
+            };
+            xhr.send();
+        }
     </script>
 </body>
 

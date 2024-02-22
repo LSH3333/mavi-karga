@@ -2,8 +2,6 @@ package com.lsh.mavikarga.domain;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
 
 // 비회원 장바구니 객체
 @Data

@@ -87,7 +87,7 @@ public class OrderService {
                 thumbnail_url = product.getThumbnail_front().getUrl();
             }
             CartProductDto cartProductDto = new CartProductDto(cart.getId(), product.getId(), product.getName(), product.getPrice(),
-                    cart.getCount(), thumbnail_url);
+                    cart.getCount(), thumbnail_url, productSize.getSize());
             cartProductDtos.add(cartProductDto);
         }
         return cartProductDtos;
@@ -154,7 +154,8 @@ public class OrderService {
                 thumbnail_url = product.getThumbnail_front().getUrl();
             }
             CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getId(), product.getName(), product.getPrice(),
-                    cartForNonUser.getCount(), thumbnail_url);
+                    cartForNonUser.getCount(), thumbnail_url, productSize.getSize());
+
             cartProductDtos.add(cartProductDto);
         }
 
