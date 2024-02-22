@@ -11,7 +11,7 @@ IMP.init("imp18574515"); // 가맹점 식별코드
 
 // 원포트에 결재 요청 api 
 function requestPay(payment_server_req_path) {
-    console.log('requestPay')
+    // console.log('requestPay')
     IMP.request_pay(
         {
             // pg: "kakaopay",
@@ -46,13 +46,13 @@ function requestPay(payment_server_req_path) {
                 formData.append("detailAddress", document.getElementById('detailAddress').value);
                 formData.append("extraAddress", document.getElementById('extraAddress').value);
 
-                console.log('==============')
-                console.log('pg_provider = ' + rsp.pg_provider)
-                console.log('paid_at = ' + rsp.paid_at);
-                console.log('rsp.name = ' + rsp.name)
-                console.log('rsp.pay_method = ' + rsp.pay_method)
-                console.log('rsp.buyer_email = ' + rsp.buyer_email)   
-                console.log('rsp.buyer_tel = ' + rsp.buyer_tel)             
+                // console.log('==============')
+                // console.log('pg_provider = ' + rsp.pg_provider)
+                // console.log('paid_at = ' + rsp.paid_at);
+                // console.log('rsp.name = ' + rsp.name)
+                // console.log('rsp.pay_method = ' + rsp.pay_method)
+                // console.log('rsp.buyer_email = ' + rsp.buyer_email)   
+                // console.log('rsp.buyer_tel = ' + rsp.buyer_tel)             
 
 
                 // formData.append("pay_method", rsp.pay_method);
@@ -68,7 +68,7 @@ function requestPay(payment_server_req_path) {
                     if (payReqXML.status === 200) {
                         var orderLookUpNumber = payReqXML.responseText;                        
                         console.log("결재 요청 데이터 서버 전송 성공");
-                        console.log('orderLookUpNumber = ' + orderLookUpNumber)
+                        // console.log('orderLookUpNumber = ' + orderLookUpNumber)
                         window.location.href = '/payments/paymentSuccess?orderLookUpNumber='+orderLookUpNumber;
                     } else {
                         console.log("결재 요청 데이터 서버 전송 실패")
@@ -90,7 +90,7 @@ function requestPay(payment_server_req_path) {
 
 // 환불
 function cancelPayments(temp) {
-    console.log('cancelPayments()')
+    // console.log('cancelPayments()')
 
     let data = null;
 
