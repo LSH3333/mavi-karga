@@ -294,7 +294,7 @@ public class OrderController {
     @PostMapping("/order/cart")
     public String createOrder(@ModelAttribute CartProductDtoList cartProductDtoList, Principal principal, HttpSession session) {
         // 장바구니 수정 사항 업데이트
-        orderService.updateCart(cartProductDtoList.getCartProductDtoList());
+//        orderService.updateCart(cartProductDtoList.getCartProductDtoList());
         return "redirect:/payments/payment";
     }
 
@@ -311,7 +311,7 @@ public class OrderController {
     // 비회원 장바구니 폼에서 최종적으로 구매 결정 -> 구매 페이지로 이동
     @PostMapping("/order/cart/nonuser")
     public String createOrderNonUser(@ModelAttribute CartProductDtoList cartProductDtoList, HttpSession session) {
-        orderService.updateCartNonUser(cartProductDtoList.getCartProductDtoList(), session);
+//        orderService.updateCartNonUser(cartProductDtoList.getCartProductDtoList(), session);
         return "redirect:/payments/payment/nonuser";
     }
 
