@@ -9,42 +9,12 @@
     <!-- 비디오 -->
     <div class="container-fluid px-0 video-container">
         <button id="main_video_btn" onclick="toggleMute()">
-            <video id="main_video" src="/static/vid/shell_lug_reduced.mp4" th:src="@{/vid/shell_lug_reduced.mp4}" type="video/mp4"
-                class="w-100" autoplay loop muted>
+            <video id="main_video" src="/static/vid/shell_lug_reduced.mp4" th:src="@{/vid/shell_lug_reduced.mp4}"
+                type="video/mp4" class="w-100" autoplay loop muted>
             </video>
         </button>
     </div>
 </div>
-
-<!-- navbar -->
-<!-- <nav th:fragment="header-navBar" class="navbar navbar-expand-lg bg-body-tertiary sticky-top"
-    style="padding-top: 0; padding-bottom: 0;">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div style="font-size: 1.2em" class="navbar-nav">
-                <span style="width: 150px;"><a class="nav-link mx-4" href="/templates/index.html" th:href="@{/}"><img
-                            class="img-fluid" src="/static/image/logo.png" th:src="@{/image/logo.png}"
-                            alt=""></a></span>
-                <a class="nav-link mx-4" th:classappend="${menu} == 'info' ? 'fw-bold active'"
-                    href="/templates/info.html" th:href="@{/info}">Info</a>
-                <a class="nav-link mx-4" th:classappend="${menu} == 'clothing' ? 'fw-bold active'"
-                    href="/templates/clothing.html" th:href="@{/clothing}">Clothing</a>
-                <a class="nav-link mx-4" href="#">Film</a>
-                <a class="nav-link mx-4" href="#">Object</a>
-                <a sec:authorize="isAuthenticated()" class="nav-link mx-4"
-                    th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/index.html"
-                    th:href="@{/logout}">LogOut</a>
-                <a sec:authorize="isAnonymous()" class="nav-link mx-4"
-                    th:classappend="${menu} == 'login' ? 'fw-bold active'" href="/templates/login.html"
-                    th:href="@{/login}">Login</a>
-            </div>
-        </div>
-    </div>
-</nav> -->
 
 <!-- navbar -->
 <nav th:fragment="header-navBar" class="navbar sticky-top navbar-expand-lg bg-body-tertiary py-1">
@@ -74,6 +44,9 @@
                 </li>
                 <li class="nav-item mx-4">
                     <a class="nav-link">Object</a>
+                </li>
+                <li class="nav-item mx-1">
+                    <button class="nav-link" onclick="openOffCanvasCart()">C</button>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
                     <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
@@ -142,6 +115,69 @@
     </div>
 </nav>
 
+<!-- 장바구니 offcanvas -->
+<!-- OffCanvas content -->
+<div th:fragment="cart-offcanvas" style="width: 600px;" class="offcanvas offcanvas-end" tabindex="-1"
+    id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <!-- header -->
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <!-- body -->
+    <div id="offcanvas-body-container" class="offcanvas-body">
+        <!-- <div id="offcanvas-scroll-container" style="width: 100%;" class="offcanvas-scroll offcanvas-scroll2">
+        <div style="min-height: 230px;" class="row product-row">
+            <div class="product-col-left col-4 col-lg-4">
+                <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
+            </div>
+            <div class="product-col-right col-8 col-lg-8">
+                <p>The turtle shell vest</p>
+                <p>M</p>
+                <p>$448.00 USD</p>
+                <div class="count-input-container border border-3">
+                    <div class="row">
+                        <div class="col-xs-3 col-xs-offset-3">
+                            <div class="input-group number-spinner">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" data-dir="dwn"><i
+                                            class="fa-solid fa-minus"></i></button>
+                                </span>
+                                <input style="border: none;" type="text" class="form-control text-center"
+                                    value="1">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" data-dir="up"><i
+                                            class="fa-solid fa-plus"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="excludeBtn"><u>REMOVE</u></button>
+            </div>
+        </div>            
+    </div> -->
+    </div>
+    <!-- divider -->
+    <div class="container">
+        <hr style="margin: 10px 0;" class="">
+    </div>
+    <div class="container d-flex justify-content-between">
+        <p>TOTAL</p>
+        <p id="total-price">$100 <br>Tax included</p>
+    </div>
+    <div class="container mb-2">
+        <a style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem; width: 100%;"
+            id="offcanvas-checkout-btn" class="btn btn-outline-secondary"
+            th:href="@{/order/products/cart/checkout}">CHECK OUT</a>
+    </div>
+</div>
+<!-- End of offcanvas content -->
 
+<!-- ajax 요청 로딩 중 보여줄 스피너 -->
+<div th:fragment="ajax-spinner" id="spinner-div" class="pt-5">
+    <div class="spinner-border text-primary mt-5" role="status">
+    </div>
+</div>
 
 </html>

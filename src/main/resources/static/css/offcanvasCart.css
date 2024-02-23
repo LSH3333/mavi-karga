@@ -1,0 +1,63 @@
+.offcanvas-scroll {
+    /* width: 200px; */
+    height: 100%;
+    overflow: auto;
+    float: left;
+    /* margin: 0 10px; */
+}
+
+h1 {
+    text-align: center;
+    font-size: 2em;
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+.offcanvas-scroll2::-webkit-scrollbar {
+    width: 5px;
+}
+
+.offcanvas-scroll2::-webkit-scrollbar-thumb {
+    background: #666;
+}
+
+/* 상세 설명 커스텀 스크롤 높이 */
+.offcanvas-scroll {
+    height: 100%;
+}
+
+.offcanvas-header {
+    padding: 10px;
+}
+
+/* offcanvas */
+.offcanvas-body {
+    padding: 10px;
+}
+
+.product-row {
+    margin: 0;
+    margin-bottom: 10px;
+    min-height: 230px;
+}
+
+.product-col-left {
+    padding: 0;
+}
+
+.offcanvas p {
+    margin-bottom: 10px;
+}
+
+/* 갯수 증감 input 컨테이너 */
+.count-input-container {
+    width: 300px;
+}
+
+/* 제외 버튼 <button> 기본 디자인 제거 */
+.excludeBtn {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    font-size: 15px;
+}

@@ -52,10 +52,17 @@
         footer p {
             color: black;
         }
+
         footer p a {
             color: black;
         }
     </style>
+
+    <script src="https://kit.fontawesome.com/c39d59a5ec.js" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="/static/css/ajaxLoadingSpinner.css" th:href="@{/css/ajaxLoadingSpinner.css}">
+    <script src="/static/js/offcanvasCart.js" th:src="@{/js/offcanvasCart.js}"></script>
+    <link rel="stylesheet" href="/static/css/offcanvasCart.css" th:href="@{/css/offcanvasCart.css}">
 </head>
 
 <body>
@@ -65,12 +72,17 @@
 
     <div layout:fragment="content"></div>
 
+    <!-- offcanvas 장바구니 fragment -->
+    <div th:replace="~{fragments/header::cart-offcanvas}"></div>
+    <div th:replace="~{fragments/header::ajax-spinner}"></div>
+
     <div th:replace="~{fragments/footer::footer}"></div>
 
-    <!-- js -->
+    <!-- bootstrap -->
     <script src="/static/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"
         th:src="@{/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js}"></script>
-
+    <!-- offcanvs cart -->
+    <script src="/static/js/offcanvasCart.js" th:src="@{/js/offcanvasCart.js}"></script>
 </body>
 
 </html>
