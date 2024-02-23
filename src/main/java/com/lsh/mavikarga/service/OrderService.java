@@ -94,14 +94,14 @@ public class OrderService {
     }
 
     // 장바구니 폼에서 보내온 정보 토대로 장바구니 업데이트 (상품 제거, 갯수 변경)
-    public void updateCart(List<CartProductDto> cartProductDtoList) {
-
-        for (CartProductDto cartProductDto : cartProductDtoList) {
-            Cart cart = cartRepository.findById(cartProductDto.getCartId()).orElse(null);
-            if (cart == null) continue;
-            cart.setCount(cartProductDto.getCount());
-        }
-    }
+//    public void updateCart(List<CartProductDto> cartProductDtoList) {
+//
+//        for (CartProductDto cartProductDto : cartProductDtoList) {
+//            Cart cart = cartRepository.findById(cartProductDto.getCartId()).orElse(null);
+//            if (cart == null) continue;
+//            cart.setCount(cartProductDto.getCount());
+//        }
+//    }
 
     // 회원 장바구니 상품 제거
     public boolean removeCart(Long cartId) {
@@ -175,18 +175,19 @@ public class OrderService {
     /**
      * @param cartProductDtoList: 클라이언트에서 보내온 dto, 갯수 변경 정보 담겨있음
      */
-    public void updateCartNonUser(List<CartProductDto> cartProductDtoList, HttpSession session) {
-        // 세션에서 장바구니 가져옴
-        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+//    public void updateCartNonUser(List<CartProductDto> cartProductDtoList, HttpSession session) {
+//        // 세션에서 장바구니 가져옴
+//        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+//
+//        // DTO 를 기반으로 비회원의 세션에 저장되어 있는 cartList 수정함
+//        for (CartProductDto cartProductDto : cartProductDtoList) {
+//            int cartId = cartProductDto.getCartId().intValue();
+//            CartForNonUser cartForNonUser = findCartFromSession(cartId, cartList);
+//            if(cartForNonUser == null) continue;
+//            cartForNonUser.setCount(cartProductDto.getCount());
+//        }
+//    }
 
-        // DTO 를 기반으로 비회원의 세션에 저장되어 있는 cartList 수정함
-        for (CartProductDto cartProductDto : cartProductDtoList) {
-            int cartId = cartProductDto.getCartId().intValue();
-            CartForNonUser cartForNonUser = findCartFromSession(cartId, cartList);
-            if(cartForNonUser == null) continue;
-            cartForNonUser.setCount(cartProductDto.getCount());
-        }
-    }
     // 세션의 비회원 카트에서 cartId 에 해당하는 카트 찾음
     private CartForNonUser findCartFromSession(int cartId, List<CartForNonUser> cartList) {
         for (CartForNonUser cart : cartList) {
