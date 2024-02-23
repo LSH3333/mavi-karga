@@ -285,7 +285,8 @@
         </div>
         <div class="container mb-2">
             <a style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem; width: 100%;"
-                id="offcanvas-checkout-btn"  class="btn btn-outline-secondary" th:href="@{/order/products/cart/checkout}">CHECK OUT</a>
+                id="offcanvas-checkout-btn" class="btn btn-outline-secondary"
+                th:href="@{/order/products/cart/checkout}">CHECK OUT</a>
         </div>
     </div>
     <!-- End of offcanvas content -->
@@ -335,8 +336,12 @@
                 xhr.onload = function () {
                     if (xhr.readyState == XMLHttpRequest.DONE) {
                         if (xhr.status == 200) {
-                            // todo: 장바구니 추가 성공 팝업 띄우기 
                             console.log("order success");
+                            // offcanvas ajax 요청 
+                            offcanvsCartAjaxRequest();
+                            // offcanvas active
+                            const bsOffcanvas = new bootstrap.Offcanvas('#offcanvasExample')
+                            bsOffcanvas.toggle();
                         } else if (xhr.status == 302) {
                             console.log('302')
                         }

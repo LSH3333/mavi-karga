@@ -136,8 +136,14 @@ public class OrderController {
             // 사용자 장바구니 담긴 상품들 보여줄 dto
             // 비회원 세션 기반으로 장바구니 dto 에 정보 담음
             cartProductDtoList = orderService.createCartProductDtoListForNonUser(session);
-        } else {
-            cartProductDtoList = new ArrayList<>();
+        }
+        // 회원
+        else {
+            User user = userService.findByUsername(principal.getName()).orElse(null);
+            if(user == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            cartProductDtoList = orderService.createCartProductDtoList(user.getId());
         }
 
         return ResponseEntity.ok(cartProductDtoList);
