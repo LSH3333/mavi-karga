@@ -14,6 +14,8 @@ public class CartForNonUser {
     private ProductSize productSize;
     // 제품 갯수
     private int count;
+    // 비회원 장바구니에서 제거 여부
+    private boolean removed = false;
 
     public CartForNonUser(int id, ProductSize productSize, int count) {
         this.id = id;

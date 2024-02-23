@@ -125,7 +125,7 @@ public class OrderController {
         }
     }
 
-    // offcanvs 장바구니 ajax
+    // offcanvs 장바구니 ajax 요청
     @GetMapping("/order/products/cart")
     public ResponseEntity<List<CartProductDto>> offCanvasCartRequest(HttpSession session, Principal principal) {
 
@@ -140,8 +140,31 @@ public class OrderController {
             cartProductDtoList = new ArrayList<>();
         }
 
-
         return ResponseEntity.ok(cartProductDtoList);
+    }
+
+    // offcanvas 장바구니 물품 제거 ajax 요청
+    @PostMapping("/order/products/cart/remove")
+    public ResponseEntity<String> offCanvasCartRemoveRequest(Principal principal, HttpSession session, @RequestParam String cartId) {
+
+        log.info("offCanvasCartRemoveRequest = {}", cartId);
+
+        boolean result;
+
+        // 비회원
+        if(principal == null) {
+            result = orderService.removeCartNonUser(Integer.parseInt(cartId), session);
+        }
+        // 회원
+        else {
+            result = orderService.removeCart(Long.parseLong(cartId));
+        }
+
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body("success");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
+        }
     }
 
 

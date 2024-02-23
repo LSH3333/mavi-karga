@@ -147,6 +147,7 @@ public class OrderService {
         }
 
         for (CartForNonUser cartForNonUser : cartList) {
+            if(cartForNonUser.isRemoved()) continue; // removed=true 인 비회원 장바구니 제외
             ProductSize productSize = cartForNonUser.getProductSize();
             Product product = productSize.getProduct();
             String thumbnail_url = "https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg";
@@ -155,7 +156,7 @@ public class OrderService {
             }
             CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getId(), product.getName(), product.getPrice(),
                     cartForNonUser.getCount(), thumbnail_url, productSize.getSize());
-
+            log.info("cartForNonUser.getId() = {}", cartForNonUser.getId());
             cartProductDtos.add(cartProductDto);
         }
 
@@ -193,7 +194,9 @@ public class OrderService {
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
         if(cartList == null || cartId >= cartList.size()) return false;
-        cartList.remove(cartId);
+//        cartList.remove(cartId);
+        // removed = true 처리
+        cartList.get(cartId).setRemoved(true);
         return true;
     }
 

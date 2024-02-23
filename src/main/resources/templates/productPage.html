@@ -190,14 +190,6 @@
                                                                     class="btn btn-outline-secondary btn-sm" href=""
                                                                     disabled>ADD TO
                                                                     CART</button>
-                                                                <!-- Offcanvas btn -->
-                                                                <button class="btn btn-outline-secondary btn-sm"
-                                                                    style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
-                                                                    type="button" data-bs-toggle="offcanvas"
-                                                                    data-bs-target="#offcanvasExample"
-                                                                    aria-controls="offcanvasExample">
-                                                                    Button with data-bs-target
-                                                                </button>
                                                             </div>
                                                             <!-- 로그인 버튼 -->
                                                             <div class="d-grid gap-2">
@@ -207,7 +199,7 @@
                                                             </div>
                                                         </div>
                                                         <!-- 장바구니 추가 완료 알림 -->
-                                                        <div class="mt-3" id="liveAlertPlaceholder"></div>
+                                                        <!-- <div class="mt-3" id="liveAlertPlaceholder"></div> -->
                                                         <!-- 상품 설명 -->
                                                         <div class="scroll scroll2">
                                                             <div class="content"
@@ -245,8 +237,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <!-- body -->
-        <div class="offcanvas-body">
-            <div style="width: 100%;" class="offcanvas-scroll offcanvas-scroll2">
+        <div id="offcanvas-body-container" class="offcanvas-body">
+            <!-- <div id="offcanvas-scroll-container" style="width: 100%;" class="offcanvas-scroll offcanvas-scroll2">
                 <div style="min-height: 230px;" class="row product-row">
                     <div class="product-col-left col-4 col-lg-4">
                         <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
@@ -275,40 +267,8 @@
                         </div>
                         <button class="excludeBtn"><u>REMOVE</u></button>
                     </div>
-                </div>
-                <!--  -->
-                <div class="row product-row">
-                    <div class="product-col-left col-4 col-lg-4">
-                        <img class="img-fluid" src="KakaoTalk_20240207_105747721_19.jpg" alt="">
-                    </div>
-                    <div class="product-col-right col-8 col-lg-8">
-                        <p>The turtle shell vest</p>
-                        <p>M</p>
-                        <p>$448.00 USD</p>
-                        <div class="count-input-container border border-3">
-                            <div class="row">
-                                <div class="col-xs-3 col-xs-offset-3">
-                                    <div class="input-group number-spinner">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" data-dir="dwn"><i
-                                                    class="fa-solid fa-minus"></i></button>
-                                        </span>
-                                        <input style="border: none;" type="text" class="form-control text-center"
-                                            value="1">
-                                        <span class="input-group-btn">
-                                            <button class="btn btn-default" data-dir="up"><i
-                                                    class="fa-solid fa-plus"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="excludeBtn"><u>REMOVE</u></button>
-                    </div>
-                </div>
-
-
-            </div>
+                </div>            
+            </div> -->
         </div>
         <!-- divider -->
         <div class="container">
@@ -408,11 +368,11 @@
                 if (xhrNonUser.readyState == XMLHttpRequest.DONE) {
                     if (xhrNonUser.status == 200) {
                         console.log("order success");
-
-
                         // offcanvas ajax 요청 
                         offcanvsCartAjaxRequest();
-
+                        // offcanvas active
+                        const bsOffcanvas = new bootstrap.Offcanvas('#offcanvasExample')
+                        bsOffcanvas.toggle();
                     } else if (xhrNonUser.status == 302) {
                         console.log('302')
                     }
@@ -429,32 +389,32 @@
 
     <!-- alert bootstrap, 장바구니 추가 성공 알림 -->
     <script>
-        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
-        const appendAlert = (message, type) => {
-            const wrapper = document.createElement('div')
-            wrapper.innerHTML = [
-                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
-                `   <div>${message}</div>`,
-                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                '</div>'
-            ].join('')
+        // const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        // const appendAlert = (message, type) => {
+        //     const wrapper = document.createElement('div')
+        //     wrapper.innerHTML = [
+        //         `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+        //         `   <div>${message}</div>`,
+        //         '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+        //         '</div>'
+        //     ].join('')
 
-            alertPlaceholder.append(wrapper)
-        }
-        // 회원
-        const alertTrigger = document.getElementById('submitBtn')
-        if (alertTrigger) {
-            alertTrigger.addEventListener('click', () => {
-                appendAlert('상품이 장바구니에 담겼습니다. <a href="/order/cart">장바구니</a>', 'success')
-            })
-        }
-        // 비회원
-        const alertTriggerNonUser = document.getElementById('nonUserSubmitBtn')
-        if (alertTriggerNonUser) {
-            alertTriggerNonUser.addEventListener('click', () => {
-                appendAlert('상품이 장바구니에 담겼습니다. <a href="/order/cart/nonuser">장바구니</a>', 'success')
-            })
-        }
+        //     alertPlaceholder.append(wrapper)
+        // }
+        // // 회원
+        // const alertTrigger = document.getElementById('submitBtn')
+        // if (alertTrigger) {
+        //     alertTrigger.addEventListener('click', () => {
+        //         appendAlert('상품이 장바구니에 담겼습니다. <a href="/order/cart">장바구니</a>', 'success')
+        //     })
+        // }
+        // // 비회원
+        // const alertTriggerNonUser = document.getElementById('nonUserSubmitBtn')
+        // if (alertTriggerNonUser) {
+        //     alertTriggerNonUser.addEventListener('click', () => {
+        //         appendAlert('상품이 장바구니에 담겼습니다. <a href="/order/cart/nonuser">장바구니</a>', 'success')
+        //     })
+        // }
     </script>
 
     <!-- "SELECT SIZE" 선택시 submit 버튼 못 누르도록 -->
@@ -476,7 +436,7 @@
 
 
     <script>
-        // offcanvas 상품 갯수 input
+        // offcanvas 상품 갯수 input 갯수 조절 
         $(document).on('click', '.number-spinner button', function () {
             var btn = $(this),
                 oldValue = btn.closest('.number-spinner').find('input').val().trim(),
@@ -492,12 +452,14 @@
                 }
             }
             btn.closest('.number-spinner').find('input').val(newVal);
+            
+            // 서버에 상품 갯수 수정 요청 
+            
         });
     </script>
 
     <script>
-        // offcanvas 장바구니 ajax 요청 
-
+        // offcanvas 장바구니 렌더링 ajax 요청 
         function offcanvsCartAjaxRequest() {
             console.log('offcanvsCartAjaxRequest')
 
@@ -510,6 +472,17 @@
                     if (xhr.status === 200) {
                         var data = JSON.parse(xhr.responseText);
                         console.log(data);
+                        //// 서버에서 보내온 장바구니 데이터로 html 엘레먼트 생성 
+
+                        // offcanvas body container 내부 초기화 
+                        document.getElementById('offcanvas-body-container').innerHTML = "";
+
+                        // offcanvas scroll container
+                        var offcanvasScrollContainer = document.createElement('div');
+                        offcanvasScrollContainer.id = 'offcanvas-scroll-container';
+                        offcanvasScrollContainer.style.width = '100%';
+                        offcanvasScrollContainer.classList.add('offcanvas-scroll', 'offcanvas-scroll2');
+
 
                         data.forEach(function (dto) {
                             let cartId = dto.cartId;
@@ -526,7 +499,7 @@
                             var row = document.createElement('div');
                             row.classList.add('row', 'product-row');
 
-                            // left element 
+                            //// left element 
                             var leftElement = document.createElement('div');
                             leftElement.classList.add('product-col-left', 'col-4', 'col-lg-4')
 
@@ -541,14 +514,14 @@
                             imgAnchor.appendChild(img);
                             leftElement.appendChild(imgAnchor);
 
-                            // right element
+                            //// right element
                             var rightElement = document.createElement('div');
-                            leftElement.classList.add('product-col-right', 'col-8', 'col-lg-8')
+                            rightElement.classList.add('product-col-right', 'col-8', 'col-lg-8')
 
                             // name
                             var nameElement = document.createElement('p')
                             nameElement.textContent = name;
-                            rightElement.appendChild(name);
+                            rightElement.appendChild(nameElement);
 
                             // size
                             var sizeElement = document.createElement('p')
@@ -557,17 +530,33 @@
 
                             // price 
                             var priceElement = document.createElement('p')
-                            priceElement.textContent = price;
+                            priceElement.textContent = '₩ ' + price;
                             rightElement.appendChild(priceElement)
 
-                            // 
-                            
+                            // count input container 
+                            var countInputContainer = createCountInputContainerElement(count);
+                            rightElement.appendChild(countInputContainer);
 
+                            // remove btn 
+                            var button = document.createElement('button');
+                            button.className = 'excludeBtn';
+                            button.value = cartId;
+                            button.onclick = function () {
+                                removeBtnBehavior(this.value);
+                            };
+                            var u = document.createElement('u');
+                            u.textContent = 'REMOVE';
+                            button.appendChild(u);
+                            rightElement.appendChild(button);
+
+                            row.appendChild(leftElement);
+                            row.appendChild(rightElement);
+
+                            offcanvasScrollContainer.appendChild(row);
                         })
 
-                        // offcanvas active
-                        const bsOffcanvas = new bootstrap.Offcanvas('#offcanvasExample')
-                        bsOffcanvas.show();
+                        document.getElementById('offcanvas-body-container').appendChild(offcanvasScrollContainer)
+
                     } else {
                         console.error(xhr.responseText);
                         alert('invalid cart. try again.')
@@ -577,6 +566,90 @@
             };
             xhr.send();
         }
+
+        // offcanavs 상품 갯수 input element 생성 
+        function createCountInputContainerElement(count) {
+            var parentDiv = document.createElement('div');
+            parentDiv.className = 'count-input-container border border-3';
+
+            var rowDiv = document.createElement('div');
+            rowDiv.className = 'row';
+
+            var colDiv = document.createElement('div');
+            colDiv.className = 'col-xs-3 col-xs-offset-3';
+
+            var inputGroupDiv = document.createElement('div');
+            inputGroupDiv.className = 'input-group number-spinner';
+
+            var span1 = document.createElement('span');
+            span1.className = 'input-group-btn';
+
+            var button1 = document.createElement('button');
+            button1.className = 'btn btn-default';
+            button1.setAttribute('data-dir', 'dwn');
+
+            var i1 = document.createElement('i');
+            i1.className = 'fa-solid fa-minus';
+
+            button1.appendChild(i1);
+
+            span1.appendChild(button1);
+
+            var input = document.createElement('input');
+            input.className = 'form-control text-center';
+            input.setAttribute('style', 'border: none;');
+            input.setAttribute('value', count);
+
+            var span2 = document.createElement('span');
+            span2.className = 'input-group-btn';
+
+            var button2 = document.createElement('button');
+            button2.className = 'btn btn-default';
+            button2.setAttribute('data-dir', 'up');
+
+            var i2 = document.createElement('i');
+            i2.className = 'fa-solid fa-plus';
+
+            button2.appendChild(i2);
+
+            span2.appendChild(button2);
+
+            inputGroupDiv.appendChild(span1);
+            inputGroupDiv.appendChild(input);
+            inputGroupDiv.appendChild(span2);
+
+            colDiv.appendChild(inputGroupDiv);
+
+            rowDiv.appendChild(colDiv);
+
+            parentDiv.appendChild(rowDiv);
+
+            document.body.appendChild(parentDiv);
+
+            return parentDiv;
+        }
+
+        // remove 버튼 behavior
+        function removeBtnBehavior(cartId) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/order/products/cart/remove?cartId=' + cartId, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // 장바구니 물품 제거 성공 
+                        console.log('장바구니 물품 제거 성공')
+                        offcanvsCartAjaxRequest();
+                    } else {
+                        console.error(xhr.responseText);
+                        alert('invalid cart. try again.')
+                    }
+                }
+
+            };
+            xhr.send();
+        }
+
     </script>
 </body>
 
