@@ -11,9 +11,7 @@
     <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
         th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
 
-    <!-- Custom styles for this carousel template -->
-    <link href="/static/bootstrap-5.3.2-dist/carousel/carousel.css"
-        th:href="@{/bootstrap-5.3.2-dist/carousel/carousel.css}" rel="stylesheet">
+        
     <link href="/static/css/header.css" th:href="@{/css/header.css}" rel="stylesheet">
 
     <style>
@@ -26,7 +24,12 @@
 
         body {
             padding-top: 0;
+            padding-bottom: 3rem;
             font-family: 'Treegarden', sans-serif;
+        }
+
+        .featurette-divider {
+            margin: 5rem 0;
         }
     </style>
 
@@ -58,10 +61,13 @@
         }
     </style>
 
+    <!-- font awesome -->
     <script src="https://kit.fontawesome.com/c39d59a5ec.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- ajax loading spinner -->
     <link rel="stylesheet" href="/static/css/ajaxLoadingSpinner.css" th:href="@{/css/ajaxLoadingSpinner.css}">
-    <script src="/static/js/offcanvasCart.js" th:src="@{/js/offcanvasCart.js}"></script>
+    <!-- offcanvas cart -->
     <link rel="stylesheet" href="/static/css/offcanvasCart.css" th:href="@{/css/offcanvasCart.css}">
 </head>
 

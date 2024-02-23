@@ -11,9 +11,6 @@
     <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
         th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
 
-    <!-- Custom styles for this carousel template -->
-    <link href="/static/bootstrap-5.3.2-dist/carousel/carousel.css"
-        th:href="@{/bootstrap-5.3.2-dist/carousel/carousel.css}" rel="stylesheet">
 
     <style>
         @font-face {
@@ -36,7 +33,20 @@
         footer p a {
             color: black;
         }
+
+        .featurette-divider {
+            margin: 5rem 0;
+        }
     </style>
+
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/c39d59a5ec.js" crossorigin="anonymous"></script>
+    <!-- jquery -->
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- ajax loading spinner -->
+    <link rel="stylesheet" href="/static/css/ajaxLoadingSpinner.css" th:href="@{/css/ajaxLoadingSpinner.css}">
+    <!-- offcanvas cart -->
+    <link rel="stylesheet" href="/static/css/offcanvasCart.css" th:href="@{/css/offcanvasCart.css}">
 </head>
 
 <body>
@@ -45,11 +55,17 @@
 
     <div layout:fragment="content"></div>
 
+    <!-- offcanvas 장바구니 fragment -->
+    <div th:replace="~{fragments/header::cart-offcanvas}"></div>
+    <div th:replace="~{fragments/header::ajax-spinner}"></div>
+
     <div th:replace="~{fragments/footer::footer}"></div>
 
-    <!-- js -->
+    <!-- bootstrap -->
     <script src="/static/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"
         th:src="@{/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js}"></script>
+    <!-- offcanvs cart -->
+    <script src="/static/js/offcanvasCart.js" th:src="@{/js/offcanvasCart.js}"></script>
 
 </body>
 

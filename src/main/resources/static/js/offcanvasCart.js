@@ -62,7 +62,7 @@ function offcanvsCartAjaxRequest() {
 
                     // row
                     var row = document.createElement('div');
-                    row.classList.add('row', 'product-row');
+                    row.classList.add('row', 'offcanvas-cart-product-row');
 
                     //// left element 
                     var leftElement = document.createElement('div');
@@ -256,8 +256,8 @@ function ajaxLoadingSpinnerToggle(on) {
 // 전체 가격 계산, 랜더링 
 function calculateTotalPrice() {
     let totalPrice = 0;
-    // product-row 순회하면서 총액 계산 
-    $('.product-row').each(function () {
+    // offcanvas-cart-product-row 순회하면서 총액 계산 
+    $('.offcanvas-cart-product-row').each(function () {
         var price = $(this).find('.product-col-right p:nth-child(3)').text().trim();
         price = price.replace('₩', '').trim();
         var count = $(this).find('.count-input-container input').val().trim();

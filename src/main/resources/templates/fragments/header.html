@@ -20,15 +20,15 @@
 <nav th:fragment="header-navBar" class="navbar sticky-top navbar-expand-lg bg-body-tertiary py-1">
     <div class="container-fluid">
         <!-- 로고 -->
-        <a style="width: 150px;" class="nav-link mx-4" href="/templates/index.html" th:href="@{/}"><img
-                class="img-fluid" src="/static/image/logo.png" th:src="@{/image/logo.png}" alt=""></a>
+        <a class="nav-link mx-4" href="/templates/index.html" th:href="@{/}"><img style="width: 150px;" class=""
+                src="/static/image/logo.png" th:src="@{/image/logo.png}" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent2"
             aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <!-- 매뉴탭 -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent2">
-            <ul style="font-size: 1.2em" class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul style="font-size: 1.2em" class="navbar-nav mb-2 mb-lg-0">
                 <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가 -->
                 <li class="nav-item mx-4">
                     <a class="nav-link" th:classappend="${menu} == 'info' ? 'fw-bold active'"
@@ -45,14 +45,14 @@
                 <li class="nav-item mx-4">
                     <a class="nav-link">Object</a>
                 </li>
-                <li class="nav-item mx-1">
-                    <button class="nav-link" onclick="openOffCanvasCart()">C</button>
+                <li class="nav-item mx-4">
+                    <button class="nav-link" onclick="openOffCanvasCart()">Cart</button>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
                     <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
                         href="/templates/index.html" th:href="@{/logout}">LogOut</a>
                 </li>
-                <li sec:authorize="isAnonymous()" class="nav-item" style="margin-left: 3.5rem!important;">
+                <li sec:authorize="isAnonymous()" class="nav-item mx-4">
                     <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
                         href="/templates/login.html" th:href="@{/login}">Login</a>
                 </li>
@@ -69,8 +69,8 @@
 <nav th:fragment="header-navBar-clothing" class="navbar sticky-top navbar-expand-lg bg-body-tertiary py-1">
     <div class="container-fluid">
         <!-- 로고 -->
-        <a style="width: 150px;" class="nav-link mx-4" href="/templates/index.html" th:href="@{/}"><img
-                class="img-fluid" src="/static/image/logo.png" th:src="@{/image/logo.png}" alt=""></a>
+        <a class="nav-link mx-4" href="/templates/index.html" th:href="@{/}"><img style="width: 150px;" class=""
+                src="/static/image/logo.png" th:src="@{/image/logo.png}" alt=""></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -99,11 +99,14 @@
                     <a class="nav-link" th:classappend="${menu} == 'dye' ? 'fw-bold active'"
                         href="/templates/index.html" th:href="@{/}">ACC</a>
                 </li>
+                <li class="nav-item mx-4">
+                    <button class="nav-link" onclick="openOffCanvasCart()">Cart</button>
+                </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
                     <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
                         href="/templates/index.html" th:href="@{/logout}">LogOut</a>
                 </li>
-                <li sec:authorize="isAnonymous()" class="nav-item" style="margin-left: 3.5rem!important;">
+                <li sec:authorize="isAnonymous()" class="nav-item mx-4">
                     <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
                         href="/templates/login.html" th:href="@{/login}">Login</a>
                 </li>
@@ -164,7 +167,7 @@
     </div>
     <div class="container d-flex justify-content-between">
         <p>TOTAL</p>
-        <p id="total-price">$100 <br>Tax included</p>
+        <p id="total-price">₩0 <br>Tax included</p>
     </div>
     <div class="container mb-2">
         <a style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem; width: 100%;"
