@@ -111,6 +111,14 @@ public class OrderService {
         return true;
     }
 
+    // 회원 장바구니 상품 갯수 변경
+    public boolean changeProductCountCart(Long cartId, int count) {
+        Cart cart = cartRepository.findById(cartId).orElse(null);
+        if(cart == null) return false;
+        cart.setCount(count);
+        return true;
+    }
+
     //////////////////////////// 비회원 장바구니 ////////////////////////////
     // 비회원 장바구니 추가
     // 비회원의 세션 어트리뷰트 키 "cartList" 에 비회원 장바구니 객체 추가함
@@ -197,6 +205,16 @@ public class OrderService {
 //        cartList.remove(cartId);
         // removed = true 처리
         cartList.get(cartId).setRemoved(true);
+        return true;
+    }
+
+    // 비회원 장바구니 상품 갯수 변경
+    public boolean changeProductCountCartNonUser(int cartId, HttpSession session, int count) {
+        // 세션에서 장바구니 가져옴
+        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+        if(cartList == null || cartId >= cartList.size()) return false;
+        CartForNonUser cartForNonUser = cartList.get(cartId);
+        cartForNonUser.setCount(count);
         return true;
     }
 

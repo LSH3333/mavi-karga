@@ -125,7 +125,7 @@ public class OrderController {
         }
     }
 
-    // offcanvs 장바구니 ajax 요청
+    // offcanvs 장바구니 데이터 ajax 요청 (랜더링용)
     @GetMapping("/order/products/cart")
     public ResponseEntity<List<CartProductDto>> offCanvasCartRequest(HttpSession session, Principal principal) {
 
@@ -167,6 +167,26 @@ public class OrderController {
         }
     }
 
+    // offcanvas 상품 갯수 수정 ajax 요청
+    @PostMapping("/order/products/cart/count")
+    public ResponseEntity<String> offCanvasCartProductCountChangeRequest(Principal principal, HttpSession session, @RequestParam String cartId, @RequestParam int count) {
+        boolean result;
+
+        // 비회원
+        if(principal == null) {
+            result = orderService.changeProductCountCartNonUser(Integer.parseInt(cartId), session, count);
+        }
+        // 회원
+        else {
+            result = orderService.changeProductCountCart(Long.parseLong(cartId), count);
+        }
+
+        if(result) {
+            return ResponseEntity.status(HttpStatus.OK).body("success");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("fail");
+        }
+    }
 
     /////////////////////////////// 장바구니 ///////////////////////////////
 

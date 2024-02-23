@@ -85,6 +85,7 @@
     </style>
     <script src="https://kit.fontawesome.com/c39d59a5ec.js" crossorigin="anonymous"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="/static/css/ajaxLoadingSpinner.css" th:href="@{/css/ajaxLoadingSpinner.css}">
 </head>
 
 <body layout:fragment="content">
@@ -224,7 +225,11 @@
             <hr class="featurette-divider">
         </div>
 
-
+        <!-- ajax 요청 로딩 중 보여줄 스피너 -->
+        <div id="spinner-div" class="pt-5">
+            <div class="spinner-border text-primary mt-5" role="status">
+            </div>
+        </div>
     </main>
 
 
@@ -439,22 +444,24 @@
         // offcanvas 상품 갯수 input 갯수 조절 
         $(document).on('click', '.number-spinner button', function () {
             var btn = $(this),
-                oldValue = btn.closest('.number-spinner').find('input').val().trim(),
+                input = btn.closest('.number-spinner').find('input'),
+                cartId = input.data('cartid'),
+                count = input.val().trim(),
                 newVal = 0;
 
             if (btn.attr('data-dir') == 'up') {
-                newVal = parseInt(oldValue) + 1;
+                newVal = parseInt(count) + 1;
             } else {
-                if (oldValue > 1) {
-                    newVal = parseInt(oldValue) - 1;
+                if (count > 1) {
+                    newVal = parseInt(count) - 1;
                 } else {
                     newVal = 1;
                 }
             }
-            btn.closest('.number-spinner').find('input').val(newVal);
-            
-            // 서버에 상품 갯수 수정 요청 
-            
+            input.val(newVal);
+
+            // 상품 갯수 변경 ajax 요청 
+            offcanvasChangeProductCount(cartId, newVal);
         });
     </script>
 
@@ -534,7 +541,7 @@
                             rightElement.appendChild(priceElement)
 
                             // count input container 
-                            var countInputContainer = createCountInputContainerElement(count);
+                            var countInputContainer = createCountInputContainerElement(count, cartId);
                             rightElement.appendChild(countInputContainer);
 
                             // remove btn 
@@ -568,7 +575,7 @@
         }
 
         // offcanavs 상품 갯수 input element 생성 
-        function createCountInputContainerElement(count) {
+        function createCountInputContainerElement(count, cartId) {
             var parentDiv = document.createElement('div');
             parentDiv.className = 'count-input-container border border-3';
 
@@ -599,6 +606,7 @@
             input.className = 'form-control text-center';
             input.setAttribute('style', 'border: none;');
             input.setAttribute('value', count);
+            input.setAttribute('data-cartid', cartId);
 
             var span2 = document.createElement('span');
             span2.className = 'input-group-btn';
@@ -629,8 +637,9 @@
             return parentDiv;
         }
 
-        // remove 버튼 behavior
+        // offcanvas 장바구니 에서 상품 제거, 서버에 제거 요청
         function removeBtnBehavior(cartId) {
+            ajaxLoadingSpinnerToggle(true);
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/order/products/cart/remove?cartId=' + cartId, true);
 
@@ -645,9 +654,43 @@
                         alert('invalid cart. try again.')
                     }
                 }
-
+                ajaxLoadingSpinnerToggle(false);
             };
             xhr.send();
+        }
+
+        // offcanvas 에서 상품 갯수 조절, 서버에 갯수 수정 요청 
+        function offcanvasChangeProductCount(cartId, count) {
+            ajaxLoadingSpinnerToggle(true);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/order/products/cart/count?cartId=' + cartId + '&count=' + count, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log('장바구니 물품 갯수 변경 성공')
+                        offcanvsCartAjaxRequest();
+                    } else {
+                        console.error(xhr.responseText);
+                        alert('invalid cart. try again.')
+                    }
+                }
+                ajaxLoadingSpinnerToggle(false);
+            };
+            xhr.send();
+        }
+
+        // ajax loading spinner 보여주기, 안보여주기 
+        // on==true 면 보여줌
+        function ajaxLoadingSpinnerToggle(on) {
+            if (on) {
+                // ajax 요청중 보여줄 로딩 스피너
+                document.getElementById("spinner-div").style.display = "block";
+            } else {
+                // ajax 요청 끝났으니 스피너 안보이도록 함 
+                document.getElementById("spinner-div").style.display = "none";
+            }
         }
 
     </script>
