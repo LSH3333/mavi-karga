@@ -188,6 +188,16 @@ public class OrderController {
         }
     }
 
+    // offcanvas checkout 버튼 클릭, 구매 페이지로 이동
+    @GetMapping("/order/products/cart/checkout")
+    public String offCanvasProceedToCheckout(Principal principal) {
+        if(principal == null) {
+            return "redirect:/payments/payment/nonuser";
+        } else {
+            return "redirect:/payments/payment";
+        }
+    }
+
     /////////////////////////////// 장바구니 ///////////////////////////////
 
     //  you can't redirect user in ajax requests!
