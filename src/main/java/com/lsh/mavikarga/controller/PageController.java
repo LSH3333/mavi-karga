@@ -48,11 +48,15 @@ public class PageController {
         return "makingStory1";
     }
 
-    @GetMapping("/carouselTest")
-    public String carouselTest() {
-        return "test/carouselTest";
+    @GetMapping("/policy/privacyPolicy")
+    public String privacyPolicy() {
+        return "policy/privacyPolicy";
     }
 
+    @GetMapping("/policy/termsOfService")
+    public String termsOfService() {
+        return "policy/termsOfService";
+    }
 
     // USD/KOR 버튼 눌러서 Locale 변환
     @GetMapping("/locale")
