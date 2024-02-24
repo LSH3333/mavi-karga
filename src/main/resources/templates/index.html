@@ -7,10 +7,6 @@
 
     <link rel="stylesheet" href="/static/css/main_video.css" th:href="@{/css/main_video.css}">
 
-    <!-- bootstrap -->
-    <!-- <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
-        th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}"> -->
-
     <style>
         .navbar {
             margin-bottom: 0;
@@ -30,22 +26,8 @@
         </div>
     </main>
 
-    <script>
-        // 비디오 클릭으로 음소거 or 소리켜기 
-        function toggleMute() {
-            var video = document.getElementById("main_video");
-            var button = document.getElementById("main_video_btn");
-            video.volume = 0.5;
-            if (video.muted) {
-                video.muted = false;
-                button.classList.remove("muted");
-            } else {
-                video.muted = true;
-                button.classList.add("muted");
-            }
-            button.offsetWidth;
-        }
-    </script>
+    
+    <script src="/static/js/main_video.js" th:src="@{/js/main_video.js}"></script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 
 <head>
     <style>
-        footer p a{
+        footer p a {
             color: black;
         }
     </style>
@@ -13,14 +13,15 @@
     <!-- FOOTER -->
     <footer class="container">
         <p class="float-end"><a href="#">Back to top</a></p>
-        <p sec:authorize="isAnonymous()">2023–2024 Mavi-karga. &middot; <a
-                th:href="@{/order/cart/nonuser}">Cart</a> &middot;
+        <p sec:authorize="isAnonymous()">2023–2024 Mavi-karga. &middot;
+            <!-- <a th:href="@{/order/cart/nonuser}">Cart</a> &middot; -->
             <a th:href="@{/order/lookup}">order lookup</a>
             &middot; <a href="http://www.ftc.go.kr/bizCommPop.do?wrkr_no=6021833170">[사업자정보확인]</a>
         </p>
         <p sec:authorize="isAuthenticated()">
-            &copy; 2023–2024 Mavi-karga. &middot; <a th:href="@{/order/cart}">Cart</a> &middot;
-            <a th:href="@{/users/myPage}">MyPage</a> &middot;
+            &copy; 2023–2024 Mavi-karga. &middot;
+            <!-- <a th:href="@{/order/cart}">Cart</a> &middot; -->
+            <!-- <a th:href="@{/users/myPage}">MyPage</a> &middot; -->
             <a th:href="@{/order/lookup}">order lookup</a> &middot;
             <a href="http://www.ftc.go.kr/bizCommPop.do?wrkr_no=6021833170">[사업자정보확인]</a>
         </p>

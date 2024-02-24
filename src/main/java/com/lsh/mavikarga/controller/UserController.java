@@ -39,7 +39,7 @@ public class UserController {
         model.addAttribute("myPageDtoList", myPageDtoList);
         // current page
         model.addAttribute("page", page+1);
-
+        model.addAttribute("menu", "mypage");
 
         return "users/myPage";
     }
