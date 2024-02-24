@@ -107,7 +107,7 @@
                             </td>
                             <!-- 개당 가격  -->
                             <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                                <p class="price " th:text="${cartProductDto.price}"></p>
+                                <p class="price " th:text="'₩ ' + ${cartProductDto.price}"></p>
                             </td>
                             <!-- 갯수 -->
                             <td class="col-md-2 col-lg-2 col-xl-2 my-1">
@@ -115,7 +115,7 @@
                             </td>
                             <!-- 계산된 전체 가격 -->
                             <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                                <p class="total" th:text="${cartProductDto.price * cartProductDto.count}"></p>
+                                <p class="total" th:text="'₩ ' + ${cartProductDto.price * cartProductDto.count}"></p>
                             </td>
                             <td class="col-md-2 col-lg-2 col-xl-2 my-1">
                             </td>

@@ -52,7 +52,7 @@
                             <p class="" th:text="${myPageDto.count}"></p>
                         </td>
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                            <p th:text="${myPageDto.orderPrice}"></p>
+                            <p th:text="'₩ ' + ${myPageDto.orderPrice}"></p>
                         </td>
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">
                             <p th:text="${myPageDto.orderStatus}"></p>
