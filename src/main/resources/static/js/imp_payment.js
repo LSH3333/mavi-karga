@@ -9,6 +9,37 @@ let buyer_email_req;
 var IMP = window.IMP;
 IMP.init("imp18574515"); // 가맹점 식별코드 
 
+function requestStoreUserInputInfo(payment_server_req_path) {
+    const formData = new FormData();
+
+    // 입력받은 사용자 정보 
+    formData.append("name", document.getElementById('name').value);
+    formData.append("email", document.getElementById('email').value);
+    formData.append("phone", document.getElementById('phone').value);
+    // 배송 주소 
+    formData.append("postcode", document.getElementById('postcode').value);
+    formData.append("roadAddress", document.getElementById('roadAddress').value);
+    formData.append("jibunAddress", document.getElementById('jibunAddress').value);
+    formData.append("detailAddress", document.getElementById('detailAddress').value);
+    formData.append("extraAddress", document.getElementById('extraAddress').value);
+
+    const payReqXML = new XMLHttpRequest();
+    payReqXML.open("POST", payment_server_req_path, true);
+    payReqXML.onload = function () {
+        if (payReqXML.status === 200) {            
+            console.log("사용자 정보 데이터 서버 전송 성공");
+            requestPay(payment_server_req_path)
+            // console.log('orderLookUpNumber = ' + orderLookUpNumber)
+            // window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
+        } else {
+            console.log("사용자 정보 데이터 서버 전송 실패")
+            // window.location.href = '/payments/paymentFail';
+            // cancelPayments(rsp);
+        }
+    }
+    payReqXML.send(formData);
+}
+
 // 원포트에 결재 요청 api 
 function requestPay(payment_server_req_path) {
     // console.log('requestPay')
@@ -29,54 +60,55 @@ function requestPay(payment_server_req_path) {
         function (rsp) { // 결과 
             // 결재 요청 성공 -> 서버에서 검증 
             if (rsp.success) {
-                const formData = new FormData();
-                // 포트원 결재 정보 
-                formData.append("imp_uid", rsp.imp_uid);
-                formData.append("paid_amount", rsp.paid_amount);
-                formData.append("merchant_uid", rsp.merchant_uid);
+                // const formData = new FormData();
+                // // 포트원 결재 정보 
+                // formData.append("imp_uid", rsp.imp_uid);
+                // formData.append("paid_amount", rsp.paid_amount);
+                // formData.append("merchant_uid", rsp.merchant_uid);
 
-                // 입력받은 사용자 정보 
-                formData.append("name", document.getElementById('name').value);
-                formData.append("email", document.getElementById('email').value);
-                formData.append("phone", document.getElementById('phone').value);
-                // 배송 주소 
-                formData.append("postcode", document.getElementById('postcode').value);
-                formData.append("roadAddress", document.getElementById('roadAddress').value);
-                formData.append("jibunAddress", document.getElementById('jibunAddress').value);
-                formData.append("detailAddress", document.getElementById('detailAddress').value);
-                formData.append("extraAddress", document.getElementById('extraAddress').value);
+                // // 입력받은 사용자 정보 
+                // formData.append("name", document.getElementById('name').value);
+                // formData.append("email", document.getElementById('email').value);
+                // formData.append("phone", document.getElementById('phone').value);
+                // // 배송 주소 
+                // formData.append("postcode", document.getElementById('postcode').value);
+                // formData.append("roadAddress", document.getElementById('roadAddress').value);
+                // formData.append("jibunAddress", document.getElementById('jibunAddress').value);
+                // formData.append("detailAddress", document.getElementById('detailAddress').value);
+                // formData.append("extraAddress", document.getElementById('extraAddress').value);
 
-                // console.log('==============')
-                // console.log('pg_provider = ' + rsp.pg_provider)
-                // console.log('paid_at = ' + rsp.paid_at);
-                // console.log('rsp.name = ' + rsp.name)
-                // console.log('rsp.pay_method = ' + rsp.pay_method)
-                // console.log('rsp.buyer_email = ' + rsp.buyer_email)   
-                // console.log('rsp.buyer_tel = ' + rsp.buyer_tel)             
+                // // console.log('==============')
+                // // console.log('pg_provider = ' + rsp.pg_provider)
+                // // console.log('paid_at = ' + rsp.paid_at);
+                // // console.log('rsp.name = ' + rsp.name)
+                // // console.log('rsp.pay_method = ' + rsp.pay_method)
+                // // console.log('rsp.buyer_email = ' + rsp.buyer_email)   
+                // // console.log('rsp.buyer_tel = ' + rsp.buyer_tel)             
 
 
-                // formData.append("pay_method", rsp.pay_method);
-                // formData.append("name", rsp.name); // 주문자명 
-                // formData.append("pg_provider ", rsp.pg_provider); // PG사 구분코드
-                // formData.append("buyer_email", rsp.buyer_email);
-                // formData.append("buyer_tel", rsp.buyer_tel);
-                // formData.append("paid_at", rsp.paid_at);
+                // // formData.append("pay_method", rsp.pay_method);
+                // // formData.append("name", rsp.name); // 주문자명 
+                // // formData.append("pg_provider ", rsp.pg_provider); // PG사 구분코드
+                // // formData.append("buyer_email", rsp.buyer_email);
+                // // formData.append("buyer_tel", rsp.buyer_tel);
+                // // formData.append("paid_at", rsp.paid_at);
 
-                const payReqXML = new XMLHttpRequest();
-                payReqXML.open("POST", payment_server_req_path, true);
-                payReqXML.onload = function () {
-                    if (payReqXML.status === 200) {
-                        var orderLookUpNumber = payReqXML.responseText;                        
-                        console.log("결재 요청 데이터 서버 전송 성공");
-                        // console.log('orderLookUpNumber = ' + orderLookUpNumber)
-                        window.location.href = '/payments/paymentSuccess?orderLookUpNumber='+orderLookUpNumber;
-                    } else {
-                        console.log("결재 요청 데이터 서버 전송 실패")
-                        // window.location.href = '/payments/paymentFail';
-                        cancelPayments(rsp);
-                    }
-                }
-                payReqXML.send(formData);
+                // const payReqXML = new XMLHttpRequest();
+                // payReqXML.open("POST", payment_server_req_path, true);
+                // payReqXML.onload = function () {
+                //     if (payReqXML.status === 200) {
+                //         var orderLookUpNumber = payReqXML.responseText;
+                //         console.log("결재 요청 데이터 서버 전송 성공");
+                //         // console.log('orderLookUpNumber = ' + orderLookUpNumber)
+                //         window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
+                //     } else {
+                //         console.log("결재 요청 데이터 서버 전송 실패")
+                //         // window.location.href = '/payments/paymentFail';
+                //         cancelPayments(rsp);
+                //     }
+                // }
+                // payReqXML.send(formData);
+                console.log('결제 요청 성공')
             }
             // 결재 요청 실패 
             else {
