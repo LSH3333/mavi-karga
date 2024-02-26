@@ -67,7 +67,7 @@ public class PaymentController {
 
         log.info("orderLookUpNumber = {}", orderLookUpNumber);
         model.addAttribute("orderLookUpNumber", orderLookUpNumber);
-        return "/payments/paymentSuccess";
+        return "payments/paymentSuccess";
 
     }
 
