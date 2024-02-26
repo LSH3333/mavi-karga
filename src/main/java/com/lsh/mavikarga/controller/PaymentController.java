@@ -190,4 +190,9 @@ public class PaymentController {
     }
 
 
+    @PostMapping("/portone-webhook")
+    public ResponseEntity<String> portOneWebhook(@RequestParam String status, @RequestParam String imp_uid) {
+        log.info("portOneWebhook = {}", status);
+        return null;
+    }
 }
