@@ -146,20 +146,25 @@ public class PaymentController {
             return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
         }
 
-        log.info("============= /payment/validate/nonuser");
-        log.info("paymentRequestDto = {}", paymentRequestDto);
+        session.setAttribute("paymentRequestDto", paymentRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body("ok");
 
-        String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
-        int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
-        String merchant_uid = paymentRequestDto.getMerchant_uid();
+//        log.info("============= /payment/validate/nonuser");
+//        log.info("paymentRequestDto = {}", paymentRequestDto);
+//
+//        String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
+//        int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
+//        String merchant_uid = paymentRequestDto.getMerchant_uid();
+//
+//        IamportResponse<Payment> irsp = paymentLookup(impUid);
+//        String orderLookUpNumber = paymentService.validatePaymentNonUser(irsp, paymentRequestDto, session);
+//        if(orderLookUpNumber != null) {
+//            return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
+//        }
 
-        IamportResponse<Payment> irsp = paymentLookup(impUid);
-        String orderLookUpNumber = paymentService.validatePaymentNonUser(irsp, paymentRequestDto, session);
-        if(orderLookUpNumber != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
-        }
+
     }
 
     //// 결재 취소
@@ -191,8 +196,31 @@ public class PaymentController {
 
 
     @PostMapping("/portone-webhook")
-    public ResponseEntity<String> portOneWebhook(@RequestParam String status, @RequestParam String imp_uid) {
-        log.info("portOneWebhook = {}", status);
+    public ResponseEntity<String> portOneWebhook(@RequestParam String status, @RequestParam String imp_uid, @RequestParam String merchant_uid,
+                                                 @RequestParam String cancellation_id, HttpSession session) throws IamportResponseException, IOException {
+        log.info("portOneWebhook = {}, {}, {}", status, merchant_uid, imp_uid);
+
+        if (status.equals("paid")) {
+
+            PaymentRequestDto paymentRequestDto = (PaymentRequestDto) session.getAttribute("paymentRequestDto");
+            log.info("============= /payment/validate/nonuser");
+            log.info("paymentRequestDto = {}", paymentRequestDto);
+
+            //String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
+            //int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
+            //String merchant_uid = paymentRequestDto.getMerchant_uid();
+
+            IamportResponse<Payment> irsp = paymentLookup(imp_uid);
+            String orderLookUpNumber = paymentService.validatePaymentNonUser(irsp, paymentRequestDto, session);
+
+            if(orderLookUpNumber != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
+            }
+
+        }
+
         return null;
     }
 }
