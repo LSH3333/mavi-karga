@@ -146,6 +146,7 @@ public class PaymentController {
             return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
         }
 
+        log.info("validatePaymentNonUser = {}", paymentRequestDto);
         session.setAttribute("paymentRequestDto", paymentRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body("ok");
 
