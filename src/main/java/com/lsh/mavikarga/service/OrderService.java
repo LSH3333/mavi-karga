@@ -155,14 +155,14 @@ public class OrderService {
 
         for (CartForNonUser cartForNonUser : cartList) {
             if(cartForNonUser.isRemoved()) continue; // removed=true 인 비회원 장바구니 제외
-            ProductOption productSize = cartForNonUser.getProductSize();
-            Product product = productSize.getProduct();
+            ProductOption productOption = cartForNonUser.getProductSize();
+            Product product = productOption.getProduct();
             String thumbnail_url = "https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg";
             if(product.getThumbnail_front() != null) {
                 thumbnail_url = product.getThumbnail_front().getUrl();
             }
             CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getId(), product.getName(), product.getPrice(),
-                    cartForNonUser.getCount(), thumbnail_url, productSize.getSize());
+                    cartForNonUser.getCount(), thumbnail_url, productOption.getSize());
             log.info("cartForNonUser.getId() = {}", cartForNonUser.getId());
             cartProductDtos.add(cartProductDto);
         }

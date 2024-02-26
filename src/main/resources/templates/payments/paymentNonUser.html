@@ -19,6 +19,13 @@
     </script>
     <script type="text/javascript" src="/static/js/imp_payment.js" th:src="@{/js/imp_payment.js}"></script>
 
+    <style>
+        @media (max-width: 767px) {
+            .order-product-table thead {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body layout:fragment="content">
@@ -70,16 +77,16 @@
             </section>
 
             <!-- 주문 상품 목록 -->
-            <div class="mx-3" th:object="${cartProductDtoList}">
+            <div class="order-product-table mx-3" th:object="${cartProductDtoList}" style="width: 80%;">
                 <table class="mb-3 w-100">
                     <thead>
                         <tr class="row justify-content-between align-items-center thead-row">
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRODUCT</td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRICE</td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">QTY</td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">TOTAL</td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                            <td class="col-md-3 col-lg-3 col-xl-3 ">PRODUCT</td>
+                            <td class="col-md-3 col-lg-3 col-xl-3 "></td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">PRICE</td>
+                            <td class="col-md-2 col-lg-2 col-xl-2">QTY</td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">TOTAL</td>
+                            <td class="col-md-0 col-lg-0 col-xl-0"></td>
                             <td>
                                 <hr>
                             </td>
@@ -94,7 +101,7 @@
                                     style="display: none;">
                             </td>
                             <!-- 상품 이미지 -->
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <td class="col-md-3 col-lg-3 col-xl-3 ">
                                 <div style="width: 60%;">
                                     <img class="img-fluid"
                                         src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
@@ -102,22 +109,25 @@
                                 </div>
                             </td>
                             <!-- 상품 이름 -->
-                            <td class="name col-md-2 col-lg-2 col-xl-2 align-items-center my-1">
-                                <p class="name" th:text="${cartProductDto.name}"></p>
+                            <td class="name col-md-3 col-lg-3 col-xl-3 align-items-center">
+                                <p class="name productName" th:text="${cartProductDto.name}"></p>
+                                <p th:if="${cartProductDto.size != T(com.lsh.mavikarga.enums.Sizes).NONE}" class=""
+                                    th:text="'SIZE: ' + ${cartProductDto.size}"></p>
                             </td>
                             <!-- 개당 가격  -->
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                                <p class="price " th:text="'₩ ' + ${cartProductDto.price}"></p>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">
+                                <p class="price productPrice" th:text="'₩ ' + ${cartProductDto.price}"></p>
                             </td>
                             <!-- 갯수 -->
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                                <p class="count " th:text="${cartProductDto.count}"></p>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">
+                                <p class="count productCount" th:text="${cartProductDto.count}"></p>
                             </td>
                             <!-- 계산된 전체 가격 -->
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                                <p class="total" th:text="'₩ ' + ${cartProductDto.price * cartProductDto.count}"></p>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">
+                                <p class="total productTotal"
+                                    th:text="'₩ ' + ${cartProductDto.price * cartProductDto.count}"></p>
                             </td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <td class="col-md-0 col-lg-0 col-xl-0 ">
                             </td>
                             <td>
                                 <hr>
@@ -125,6 +135,11 @@
                         </tr>
                     </tbody>
                 </table>
+                <!-- subtotal -->
+                <div class="container d-flex justify-content-end">
+                    <p>SUBTOTAL: </p>
+                    <p style="margin-left: 30px;" id="subtotal">₩0 <br>Tax included</p>
+                </div>
                 <!-- 결제하기 버튼 -->
                 <button
                     style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
@@ -132,13 +147,92 @@
             </div>
         </form>
 
-
-
         <!-- divider -->
         <div class="container">
             <hr class="featurette-divider">
         </div>
     </main>
+
+
+    <script>
+        // 페이지 로드 시 함수 호출
+        document.addEventListener('DOMContentLoaded', function () {
+            calculateSubtotal(); // subtotal 계산 함수 
+            modifyTextContent(); // 모바일 화면에서 total, count 등 텍스트 표시 
+        });
+
+        
+        // subtotal 계산 
+        function calculateSubtotal() {
+            // 'productTotal' 클래스 이름을 가진 모든 요소 가져오기
+            var productTotalElements = document.querySelectorAll('.productTotal');
+
+            // 총액 변수 초기화
+            var subtotal = 0;
+
+            // 각 'productTotal' 요소를 반복
+            productTotalElements.forEach(function (productTotalElement) {
+                // 요소의 텍스트 내용을 가져와서 통화 기호 제거
+                var productTotalText = productTotalElement.textContent.replace('₩ ', '');
+
+                // 텍스트 내용을 숫자로 변환하고 총액에 더하기
+                subtotal += parseFloat(productTotalText);
+            });
+
+            // 총액 요소의 텍스트 내용을 계산된 총액으로 설정
+            document.getElementById('subtotal').textContent = '₩ ' + subtotal;
+        }
+
+
+
+        // 화면 너비 줄어들면 order-product-table 의 각 행의 가격,갯수,토탈 텍스트 표시 
+        // 텍스트가 추가되었는지 여부를 추적하는 플래그
+        var textAdded = false;
+
+        // 화면 너비가 768px 미만인지 확인하는 함수
+        function isMobile() {
+            return window.innerWidth < 768;
+        }
+
+        // 화면 너비에 따라 요소의 텍스트 내용을 수정하는 함수
+        function modifyTextContent() {
+            var productPrices = document.querySelectorAll('.productPrice');
+            var productCounts = document.querySelectorAll('.productCount');
+            var productTotals = document.querySelectorAll('.productTotal');
+
+            if (isMobile() && !textAdded) {
+                productPrices.forEach(function (productPrice) {
+                    productPrice.textContent = 'price: ' + productPrice.textContent;
+                });
+                productCounts.forEach(function (productCount) {
+                    productCount.textContent = 'count: ' + productCount.textContent;
+                });
+                productTotals.forEach(function (productTotal) {
+                    productTotal.textContent = 'total: ' + productTotal.textContent;
+                });
+
+                // 텍스트가 추가되었음을 나타내는 플래그를 true로 설정
+                textAdded = true;
+            } else if (!isMobile()) {
+                productPrices.forEach(function (productPrice) {
+                    productPrice.textContent = productPrice.textContent.replace('price: ', '');
+                });
+                productCounts.forEach(function (productCount) {
+                    productCount.textContent = productCount.textContent.replace('count: ', '');
+                });
+                productTotals.forEach(function (productTotal) {
+                    productTotal.textContent = productTotal.textContent.replace('total: ', '');
+                });
+
+                // 텍스트가 제거되었음을 나타내는 플래그를 false로 설정
+                textAdded = false;
+            }
+        }
+
+        // 화면 크기가 변경될 때 modifyTextContent 함수 호출
+        window.addEventListener('resize', modifyTextContent);
+    </script>
+
 
 
 
