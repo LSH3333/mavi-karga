@@ -18,7 +18,13 @@
     </script>
     <script type="text/javascript" src="/static/js/imp_payment.js" th:src="@{/js/imp_payment.js}"></script>
 
-
+    <style>
+        @media (max-width: 767px) {
+            .order-product-table thead {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body layout:fragment="content">
@@ -53,7 +59,8 @@
 
             <!-- 주소 (다음 우편번호 API) -->
             <section class="container mb-5">
-                <input style="width: 50%;" type="text" id="postcode" placeholder="우편번호" class="form-control mb-1" required>
+                <input style="width: 50%;" type="text" id="postcode" placeholder="우편번호" class="form-control mb-1"
+                    required>
                 <input
                     style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
                     type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"
@@ -69,16 +76,16 @@
             </section>
 
             <!-- 주문 상품 목록 -->
-            <div class="mx-3" th:object="${cartProductDtoList}">
+            <div class="order-product-table mx-3" th:object="${cartProductDtoList}" style="width: 80%;">
                 <table class="mb-3 w-100">
                     <thead>
                         <tr class="row justify-content-between align-items-center thead-row">
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRODUCT</td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRICE</td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">QTY</td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">TOTAL</td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                            <td class="col-md-3 col-lg-3 col-xl-3 ">PRODUCT</td>
+                            <td class="col-md-3 col-lg-3 col-xl-3 "></td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">PRICE</td>
+                            <td class="col-md-2 col-lg-2 col-xl-2">QTY</td>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">TOTAL</td>
+                            <td class="col-md-0 col-lg-0 col-xl-0"></td>
                             <td>
                                 <hr>
                             </td>
@@ -93,7 +100,7 @@
                                     style="display: none;">
                             </td>
                             <!-- 상품 이미지 -->
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <td class="col-md-3 col-lg-3 col-xl-3 ">
                                 <div style="width: 60%;">
                                     <img class="img-fluid"
                                         src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
@@ -101,22 +108,25 @@
                                 </div>
                             </td>
                             <!-- 상품 이름 -->
-                            <td class="name col-md-2 col-lg-2 col-xl-2 align-items-center my-1">
-                                <p class="name" th:text="${cartProductDto.name}"></p>
+                            <td class="name col-md-3 col-lg-3 col-xl-3 align-items-center">
+                                <p class="name productName" th:text="${cartProductDto.name}"></p>
+                                <p th:if="${cartProductDto.size != T(com.lsh.mavikarga.enums.Sizes).NONE}" class=""
+                                    th:text="'SIZE: ' + ${cartProductDto.size}"></p>
                             </td>
                             <!-- 개당 가격  -->
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                                <p class="price " th:text="'₩ ' + ${cartProductDto.price}"></p>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">
+                                <p class="price productPrice" th:text="'₩ ' + ${cartProductDto.price}"></p>
                             </td>
                             <!-- 갯수 -->
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                                <p class="count " th:text="${cartProductDto.count}"></p>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">
+                                <p class="count productCount" th:text="${cartProductDto.count}"></p>
                             </td>
                             <!-- 계산된 전체 가격 -->
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                                <p class="total" th:text="'₩ ' + ${cartProductDto.price * cartProductDto.count}"></p>
+                            <td class="col-md-2 col-lg-2 col-xl-2 ">
+                                <p class="total productTotal"
+                                    th:text="'₩ ' + ${cartProductDto.price * cartProductDto.count}"></p>
                             </td>
-                            <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                            <td class="col-md-0 col-lg-0 col-xl-0 ">
                             </td>
                             <td>
                                 <hr>
@@ -124,6 +134,11 @@
                         </tr>
                     </tbody>
                 </table>
+                <!-- subtotal -->
+                <div class="container d-flex justify-content-end">
+                    <p>SUBTOTAL: </p>
+                    <p style="margin-left: 30px;" id="subtotal">₩0 <br>Tax included</p>
+                </div>
                 <!-- 결제하기 버튼 -->
                 <button
                     style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
@@ -140,7 +155,7 @@
     </main>
 
 
-
+    <script src="/static/js/payment.js" th:src="@{/js/payment.js}"></script>
     <!-- 다음 우편번호 API -->
     <!-- https://postcode.map.daum.net/guide -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -200,57 +215,6 @@
                 }
             }).open();
         }
-    </script>
-
-    <!-- input 의 모든 required 필드 입력하지 않으면 submit 버튼 클릭해도 다음으로 넘어가지 않도록 함  -->
-    <script>
-        document.getElementById("paymentForm").addEventListener("submit", function (event) {
-            // Get all required input elements in the form
-            var requiredInputs = document.querySelectorAll('input[required]');
-
-            // Flag to track whether all required fields are filled
-            var allFieldsFilled = true;
-
-            // Check each required input field
-            requiredInputs.forEach(function (input) {
-                if (input.value.trim() === '') {
-                    allFieldsFilled = false;
-                }
-            });
-
-            // If any required field is empty, prevent form submission
-            if (!allFieldsFilled) {
-                // alert("Please fill in all required fields.");
-                event.preventDefault(); // Prevents the form from being submitted                
-            }
-            else {
-                event.preventDefault();
-                requestPay('/payments/validate'); // 모든 required 필드 입력됐다면 결재창 띄움 
-            }
-        });
-    </script>
-
-    <!-- bootstrap form validation -->
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (() => {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
     </script>
 
     <!-- 결재 함수에 필요한 값들 body 에서 할당함 -->
