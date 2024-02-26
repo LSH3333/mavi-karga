@@ -197,7 +197,7 @@ public class PaymentController {
 
     @PostMapping("/portone-webhook")
     public ResponseEntity<String> portOneWebhook(@RequestParam String status, @RequestParam String imp_uid, @RequestParam String merchant_uid,
-                                                 @RequestParam String cancellation_id, HttpSession session) throws IamportResponseException, IOException {
+                                                  HttpSession session) throws IamportResponseException, IOException {
         log.info("portOneWebhook = {}, {}, {}", status, merchant_uid, imp_uid);
 
         if (status.equals("paid")) {
