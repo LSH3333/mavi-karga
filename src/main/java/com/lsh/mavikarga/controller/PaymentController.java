@@ -147,7 +147,10 @@ public class PaymentController {
         }
 
         log.info("validatePaymentNonUser = {}", paymentRequestDto);
-        session.setAttribute("paymentRequestDto", paymentRequestDto);
+//        session.setAttribute("paymentRequestDto", paymentRequestDto);
+        session.setAttribute("name", paymentRequestDto.getName());
+        session.setAttribute("email", paymentRequestDto.getEmail());
+        session.setAttribute("phone", paymentRequestDto.getPhone());
         return ResponseEntity.status(HttpStatus.OK).body("ok");
 
 //        log.info("============= /payment/validate/nonuser");
@@ -203,9 +206,11 @@ public class PaymentController {
 
         if (status.equals("paid")) {
 
-            PaymentRequestDto paymentRequestDto = (PaymentRequestDto) session.getAttribute("paymentRequestDto");
             log.info("============= /payment/validate/nonuser");
-            log.info("paymentRequestDto = {}", paymentRequestDto.getDetailAddress());
+            PaymentRequestDto paymentRequestDto = (PaymentRequestDto) session.getAttribute("paymentRequestDto");
+//            log.info("paymentRequestDto = {}", paymentRequestDto.getDetailAddress());
+
+            log.info("paymentRequestDto = {}, {}, {}", session.getAttribute("name"), session.getAttribute("email"), session.getAttribute("phone"));
 
             //String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
             //int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
