@@ -42,6 +42,12 @@ public class PageController {
         return "film";
     }
 
+    @GetMapping("/object")
+    public String object(Model model) {
+        model.addAttribute("menu", "object");
+        return "object";
+    }
+
     @GetMapping("/makingStory/1")
     public String makingStory1(Model model) {
         model.addAttribute("menu", "clothing");

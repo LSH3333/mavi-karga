@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                                 //.anyRequest().authenticated() // 인증만 되면 접근 가능한 경로
 
-                                .requestMatchers("/", "/errors/**", "/info", "/login", "/locale", "/film", "/makingStory/**",
+                                .requestMatchers("/", "/errors/**", "/info", "/login", "/locale", "/film", "/object", "/makingStory/**",
                                         "/policy/privacyPolicy", "/policy/termsOfService").permitAll() // 인증없이 접근 가능 경로
                                 // Order
                                 .requestMatchers("/clothing", "/clothing/**", "/order/products", "/order/products/add/nonuser", "/order/lookup",

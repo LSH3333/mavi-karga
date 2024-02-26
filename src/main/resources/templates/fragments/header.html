@@ -43,7 +43,7 @@
                         href="/templates/film.html" th:href="@{/film}">Film</a>
                 </li>
                 <li class="nav-item mx-4">
-                    <a class="nav-link">Object</a>
+                    <a class="nav-link" th:classappend="${menu} == 'object' ? 'fw-bold active'" th:href="@{/object}">Object</a>
                 </li>
                 <li class="nav-item mx-4">
                     <button class="nav-link" onclick="openOffCanvasCart()">Cart</button>
