@@ -112,30 +112,30 @@ public class PaymentController {
     }
 
     // 클라이언트에서 회원 결재요청 성공 후 받는 end point
-//    @PostMapping("/payments/validate")
-//    private ResponseEntity<String> validatePayment(@ModelAttribute @Valid PaymentRequestDto paymentRequestDto, Principal principal, BindingResult bindingResult)
-//            throws IamportResponseException, IOException {
-//
-//        if (bindingResult.hasErrors()) {
-//            return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
-//        }
-//
-//        log.info("============= /payment/validate");
-//        log.info("paymentRequestDto = {}", paymentRequestDto);
-//
-//        String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
-//        int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
-//        String merchant_uid = paymentRequestDto.getMerchant_uid();
-//
-//        IamportResponse<Payment> irsp = paymentLookup(impUid);
-//        // 결제 성공 시 주문 조회 번호 클라이언트로 보냄
-//        String orderLookUpNumber = paymentService.validatePayment(irsp, paymentRequestDto, principal);
-//        if(orderLookUpNumber != null) {
-//            return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
-//        }
-//    }
+    @PostMapping("/payments/validate")
+    private ResponseEntity<String> validatePayment(@ModelAttribute @Valid PaymentRequestDto paymentRequestDto, Principal principal, BindingResult bindingResult)
+            throws IamportResponseException, IOException {
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
+        }
+
+        log.info("============= /payment/validate");
+        log.info("paymentRequestDto = {}", paymentRequestDto);
+
+        String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
+        int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
+        String merchant_uid = paymentRequestDto.getMerchant_uid();
+
+        IamportResponse<Payment> irsp = paymentLookup(impUid);
+        // 결제 성공 시 주문 조회 번호 클라이언트로 보냄
+        String orderLookUpNumber = paymentService.validatePayment(irsp, paymentRequestDto, principal);
+        if(orderLookUpNumber != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
+        }
+    }
 
     // 클라이언트에서 비회원 결재요청 성공 후 받는 end point
     @PostMapping("/payments/validate/nonuser")
@@ -204,7 +204,7 @@ public class PaymentController {
 
             PaymentRequestDto paymentRequestDto = (PaymentRequestDto) session.getAttribute("paymentRequestDto");
             log.info("============= /payment/validate/nonuser");
-            log.info("paymentRequestDto = {}", paymentRequestDto);
+            log.info("paymentRequestDto = {}", paymentRequestDto.getDetailAddress());
 
             //String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
             //int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
