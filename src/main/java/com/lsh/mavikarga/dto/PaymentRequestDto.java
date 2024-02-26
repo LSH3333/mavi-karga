@@ -10,9 +10,9 @@ import lombok.Data;
  */
 @Data
 public class PaymentRequestDto {
-    private String imp_uid;
-    private String paid_amount;
-    private String merchant_uid;
+//    private String imp_uid;
+//    private String paid_amount;
+//    private String merchant_uid;
 
 //    private String paid_amount;
 //    private String name;
