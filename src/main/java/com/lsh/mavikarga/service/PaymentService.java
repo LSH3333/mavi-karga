@@ -126,7 +126,7 @@ public class PaymentService {
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
         for (Cart cart : user.getCarts()) {
-            ProductSize productSize = cart.getProductSize();
+            ProductOption productSize = cart.getProductOption();
             OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, productSize.getProduct().getPrice(), cart.getCount());
             orderProductList.add(orderProduct);
         }
@@ -155,7 +155,7 @@ public class PaymentService {
         List<Cart> carts = user.getCarts();
         int priceToPay = 0;
         for (Cart cart : carts) {
-            int price = cart.getProductSize().getProduct().getPrice();
+            int price = cart.getProductOption().getProduct().getPrice();
             int count = cart.getCount();
             priceToPay += (price * count);
         }
@@ -234,7 +234,7 @@ public class PaymentService {
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
         for (CartForNonUser cartForNonUser : cartList) {
-            ProductSize productSize = cartForNonUser.getProductSize();
+            ProductOption productSize = cartForNonUser.getProductSize();
             OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, productSize.getProduct().getPrice(), cartForNonUser.getCount());
             orderProductList.add(orderProduct);
         }

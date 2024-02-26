@@ -1,14 +1,13 @@
 package com.lsh.mavikarga.service;
 
 import com.lsh.mavikarga.domain.Product;
-import com.lsh.mavikarga.domain.ProductSize;
+import com.lsh.mavikarga.domain.ProductOption;
 import com.lsh.mavikarga.dto.AddProductDto;
 import com.lsh.mavikarga.dto.ClothingDto;
 import com.lsh.mavikarga.dto.ClothingDtoList;
 import com.lsh.mavikarga.enums.ClothingCategory;
 import com.lsh.mavikarga.repository.ProductRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,21 +76,21 @@ public class ProductService {
         addProductDto.setDescription(product.getDescription());
         addProductDto.setClothingCategory(product.getClothingCategory());
 
-        updateSize(product.getSizes(), addProductDto);
-        updateColor(product.getSizes(), addProductDto);
+        updateSize(product.getProductOptions(), addProductDto);
+        updateColor(product.getProductOptions(), addProductDto);
 
         return addProductDto;
     }
     // addProductDto.sizes 리스트에 재고 있는 사이즈 추가
-    private void updateSize(List<ProductSize> sizes, AddProductDto addProductDto) {
-        for (ProductSize size : sizes) {
+    private void updateSize(List<ProductOption> sizes, AddProductDto addProductDto) {
+        for (ProductOption size : sizes) {
             if (size.isAvailable()) {
                 addProductDto.getSize().add(size.getSize());
             }
         }
     }
-    private void updateColor(List<ProductSize> sizes, AddProductDto addProductDto) {
-        for (ProductSize size : sizes) {
+    private void updateColor(List<ProductOption> sizes, AddProductDto addProductDto) {
+        for (ProductOption size : sizes) {
             if (size.isAvailable()) {
                 addProductDto.getProductColor().add(size.getProductColor());
             }

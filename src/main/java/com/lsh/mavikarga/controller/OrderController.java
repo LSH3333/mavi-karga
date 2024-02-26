@@ -104,7 +104,7 @@ public class OrderController {
         List<String> allProductImagesUrlInProduct = productImageService.getAllProductImagesUrlInProduct(productId);
 
         // 클라이언트로 보낼 DTO
-        OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getSizes(),
+        OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getProductOptions(),
                 allProductImagesUrlInProduct, getPriceByLocale(response, request, product));
 
         // 사이즈 정렬 (S,M,L ... )

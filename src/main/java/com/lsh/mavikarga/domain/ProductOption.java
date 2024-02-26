@@ -13,20 +13,20 @@ import java.util.List;
 
 @Entity
 @Data
-public class ProductSize implements Comparable<ProductSize> {
+public class ProductOption implements Comparable<ProductOption> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_size_id", nullable = false)
+    @Column(name = "product_option_id", nullable = false)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
-    @OneToMany(mappedBy = "productSize", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productOption", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "productSize")
+    @OneToMany(mappedBy = "productOption")
     private List<Cart> carts = new ArrayList<>();
 
     // 제품 사이즈
@@ -42,9 +42,9 @@ public class ProductSize implements Comparable<ProductSize> {
 
 
 
-    public ProductSize() {}
+    public ProductOption() {}
 
-    public ProductSize(Sizes size, ProductColor productColor, Product product) {
+    public ProductOption(Sizes size, ProductColor productColor, Product product) {
         this.size = size;
         this.productColor = productColor;
         this.product = product;
@@ -53,7 +53,7 @@ public class ProductSize implements Comparable<ProductSize> {
 
     // size 에 따라 S,M,L ... 순으로 정렬
     @Override
-    public int compareTo(@NotNull ProductSize productSize) {
+    public int compareTo(@NotNull ProductOption productSize) {
         List<String> customOrder = List.of("XS", "S", "M", "L", "XL", "XXL");
 
         int index1 = customOrder.indexOf(this.getSize());

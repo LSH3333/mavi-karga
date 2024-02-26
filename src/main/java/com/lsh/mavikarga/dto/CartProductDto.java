@@ -1,6 +1,5 @@
 package com.lsh.mavikarga.dto;
 
-import com.lsh.mavikarga.domain.ProductSize;
 import com.lsh.mavikarga.enums.Sizes;
 import lombok.Data;
 

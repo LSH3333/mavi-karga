@@ -24,7 +24,7 @@ public class Product {
     private UUID id;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ProductSize> sizes = new ArrayList<>();
+    private List<ProductOption> productOptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
@@ -84,8 +84,8 @@ public class Product {
         for (Sizes selectedSize : addProductDto.getSize()) {
             // 색상별
             for (ProductColor productColor : addProductDto.getProductColor()) {
-                ProductSize productSize = new ProductSize(selectedSize, productColor,this);
-                this.sizes.add(productSize);
+                ProductOption productSize = new ProductOption(selectedSize, productColor,this);
+                this.productOptions.add(productSize);
                 productSize.setAvailable(true);
             }
         }
@@ -93,7 +93,7 @@ public class Product {
 
     // 현재 DB에 존재하는 ProductSize 순회하면서 선택된 크기, 색상에 맞는 ProductSize 재고 있음 처리
     private boolean setAvailableSelectedProductSize(Sizes selectedSize, ProductColor selectedColor) {
-        for (ProductSize size : this.sizes) {
+        for (ProductOption size : this.productOptions) {
             if (size.getSize().equals(selectedSize) && size.getProductColor() == selectedColor) {
                 size.setAvailable(true);
                 return true;
@@ -105,7 +105,7 @@ public class Product {
     // 선택된 사이즈들은 available=true 처리, 나머지는 false 처리
     public void updateAvailableSizes(List<Sizes> selectedSizes, List<ProductColor> selectedProductColor) {
         // 먼저 모든 productSize.available=false 처리
-        for (ProductSize productSize : this.sizes) {
+        for (ProductOption productSize : this.productOptions) {
             productSize.setAvailable(false);
         }
 
@@ -125,8 +125,8 @@ public class Product {
                 // 현재 DB에 존재하는 ProductSize 순회하면서 선택된 크기, 색상에 맞는 ProductSize 재고 있음 처리
                 if(!setAvailableSelectedProductSize(selectedSize, selectedColor)) {
                     // 만약 기존 DB에 없던 새로운 크기,색상 조합이라면 새롭게 만듦
-                    ProductSize productSize = new ProductSize(selectedSize, selectedColor, this);
-                    this.sizes.add(productSize);
+                    ProductOption productSize = new ProductOption(selectedSize, selectedColor, this);
+                    this.productOptions.add(productSize);
                     productSize.setAvailable(true);
                 }
             }

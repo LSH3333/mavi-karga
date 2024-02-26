@@ -2,11 +2,9 @@ package com.lsh.mavikarga.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
- * OrderInfo 와 ProductSize 사이 다대다 관계 해소 위한 중간 클래스
+ * OrderInfo 와 ProductOption 사이 다대다 관계 해소 위한 중간 클래스
  */
 
 @Entity
@@ -18,8 +16,8 @@ public class OrderProduct {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_size_id")
-    private ProductSize productSize;
+    @JoinColumn(name = "product_option_id")
+    private ProductOption productOption;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_info_id")
@@ -33,9 +31,9 @@ public class OrderProduct {
     private int count;
 
 
-    public static OrderProduct createOrderProduct(ProductSize productSize, int orderPrice, int count) {
+    public static OrderProduct createOrderProduct(ProductOption productOption, int orderPrice, int count) {
         OrderProduct orderProduct = new OrderProduct();
-        orderProduct.setProductSize(productSize);
+        orderProduct.setProductOption(productOption);
         orderProduct.setOrderPrice(orderPrice);
         orderProduct.setCount(count);
         return orderProduct;

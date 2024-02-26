@@ -1,9 +1,7 @@
 package com.lsh.mavikarga.dto;
 
-import com.lsh.mavikarga.domain.ProductSize;
-import com.lsh.mavikarga.enums.ProductColor;
+import com.lsh.mavikarga.domain.ProductOption;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,7 @@ public class OrderProductDto  {
     // 사용자에게 보여줄 데이터들
     private String name;
     private String description;
-    private List<ProductSize> productSizeList = new ArrayList<>();
+    private List<ProductOption> productSizeList = new ArrayList<>();
     private int price;
 //    private int price_USD;
 
@@ -30,7 +28,7 @@ public class OrderProductDto  {
 
     public OrderProductDto() {}
 
-    public OrderProductDto(String name, String description, List<ProductSize> productSizeList, List<String> productImgUrlList,
+    public OrderProductDto(String name, String description, List<ProductOption> productSizeList, List<String> productImgUrlList,
                            int price) {
         // 상품명
         this.name = name;
@@ -39,7 +37,7 @@ public class OrderProductDto  {
         // 가격
         this.price = price;
         // available 한 ProductSize 만 담는다
-        for (ProductSize productSize : productSizeList) {
+        for (ProductOption productSize : productSizeList) {
             if (productSize.isAvailable()) {
                 this.productSizeList.add(productSize);
             }

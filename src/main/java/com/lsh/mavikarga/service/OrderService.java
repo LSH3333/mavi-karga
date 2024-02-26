@@ -20,7 +20,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,17 +31,17 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
-    private final ProductSizeRepository productSizeRepository;
+    private final ProductOptionRepository productOptionRepository;
     private final CartRepository cartRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository, UserRepository userRepository,
-                        ProductRepository productRepository, ProductSizeRepository productSizeRepository,
+                        ProductRepository productRepository, ProductOptionRepository productOptionRepository,
                         CartRepository cartRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
-        this.productSizeRepository = productSizeRepository;
+        this.productOptionRepository = productOptionRepository;
         this.cartRepository = cartRepository;
     }
 
@@ -52,8 +51,8 @@ public class OrderService {
     public boolean addCart(OrderProductDto orderProductDto, Long userId) {
 
         // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
-        Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
-        ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        Product product = productRepository.findByProductOptions_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        ProductOption productSize = productOptionRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
         // 사용자가 구매한 갯수
         int count = orderProductDto.getCount();
         User user = userRepository.findById(userId).orElse(null);
@@ -79,15 +78,15 @@ public class OrderService {
 
         List<Cart> carts = user.getCarts();
         for (Cart cart : carts) {
-            ProductSize productSize = cart.getProductSize();
-            Product product = productSize.getProduct();
+            ProductOption productOption = cart.getProductOption();
+            Product product = productOption.getProduct();
             // 기본 썸네일
             String thumbnail_url = "https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg";
             if(product.getThumbnail_front() != null) {
                 thumbnail_url = product.getThumbnail_front().getUrl();
             }
             CartProductDto cartProductDto = new CartProductDto(cart.getId(), product.getId(), product.getName(), product.getPrice(),
-                    cart.getCount(), thumbnail_url, productSize.getSize());
+                    cart.getCount(), thumbnail_url, productOption.getSize());
             cartProductDtos.add(cartProductDto);
         }
         return cartProductDtos;
@@ -125,8 +124,8 @@ public class OrderService {
     public boolean addCartForNonUser(OrderProductDto orderProductDto, List<CartForNonUser> cartList, HttpSession session) {
 
         // 사용자가 선택한 ProductSize 를 기반으로 Product 객체 가져옴
-        Product product = productRepository.findBySizes_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
-        ProductSize productSize = productSizeRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        Product product = productRepository.findByProductOptions_id(orderProductDto.getSelectedProductSizeId()).orElse(null);
+        ProductOption productSize = productOptionRepository.findById(orderProductDto.getSelectedProductSizeId()).orElse(null);
         // 사용자가 구매한 갯수
         int count = orderProductDto.getCount();
 
@@ -156,7 +155,7 @@ public class OrderService {
 
         for (CartForNonUser cartForNonUser : cartList) {
             if(cartForNonUser.isRemoved()) continue; // removed=true 인 비회원 장바구니 제외
-            ProductSize productSize = cartForNonUser.getProductSize();
+            ProductOption productSize = cartForNonUser.getProductSize();
             Product product = productSize.getProduct();
             String thumbnail_url = "https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg";
             if(product.getThumbnail_front() != null) {
@@ -306,12 +305,12 @@ public class OrderService {
             for (OrderProduct orderProduct : orderProducts) {
                 ShowUserOrderToAdminOrderProductDto showUserOrderToAdminOrderProductDto = new ShowUserOrderToAdminOrderProductDto();
 
-                ProductSize productSize = orderProduct.getProductSize();
-                Product product = orderProduct.getProductSize().getProduct();
+                ProductOption productOption = orderProduct.getProductOption();
+                Product product = orderProduct.getProductOption().getProduct();
 
                 showUserOrderToAdminOrderProductDto.setOrderPrice(orderProduct.getOrderPrice());
                 showUserOrderToAdminOrderProductDto.setCount(orderProduct.getCount());
-                showUserOrderToAdminOrderProductDto.setSize(productSize.getSize());
+                showUserOrderToAdminOrderProductDto.setSize(productOption.getSize());
                 showUserOrderToAdminOrderProductDto.setProductId(product.getId());
                 showUserOrderToAdminOrderProductDto.setName(product.getName());
                 showUserOrderToAdminOrderProductDto.setThumbnail_url(product.getThumbnail_front().getUrl());
@@ -358,7 +357,7 @@ public class OrderService {
                 // Dto
                 MyPageDto myPageDto = new MyPageDto();
 
-                Product product = orderProduct.getProductSize().getProduct();
+                Product product = orderProduct.getProductOption().getProduct();
 
                 // 상품 ID
                 myPageDto.setProductId(product.getId());
@@ -404,7 +403,7 @@ public class OrderService {
 
         for (OrderProduct orderProduct : orderProducts) {
             log.info("orderProduct = {}", orderProduct.getOrderPrice());
-            Product product = orderProduct.getProductSize().getProduct();
+            Product product = orderProduct.getProductOption().getProduct();
             // Dto
             MyPageDto myPageDto = new MyPageDto();
             // 상품 ID

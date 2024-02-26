@@ -17,8 +17,8 @@ public class Cart {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_size_id")
-    private ProductSize productSize;
+    @JoinColumn(name = "product_option_id")
+    private ProductOption productOption;
 
 
     // 제품 갯수
@@ -27,9 +27,9 @@ public class Cart {
 
     public Cart() {}
 
-    public Cart(ProductSize productSize, int count, User user) {
-        this.productSize = productSize;
-        this.productSize.getCarts().add(this);
+    public Cart(ProductOption productOption, int count, User user) {
+        this.productOption = productOption;
+        this.productOption.getCarts().add(this);
 
         this.user = user;
         this.user.getCarts().add(this);
