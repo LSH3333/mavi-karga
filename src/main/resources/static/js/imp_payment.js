@@ -30,9 +30,12 @@ function requestStoreUserInputInfo(payment_server_req_path) {
     payReqXML.onload = function () {
         if (payReqXML.status === 200) {
             console.log("사용자 정보 데이터 서버 전송 성공");
-            requestPay(payment_server_req_path)
+            var orderLookUpNumber = payReqXML.responseText;
             // console.log('orderLookUpNumber = ' + orderLookUpNumber)
-            // window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
+            window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
+
+            requestPay(orderLookUpNumber)
+            // console.log('orderLookUpNumber = ' + orderLookUpNumber)
         } else {
             console.log("사용자 정보 데이터 서버 전송 실패")
             // window.location.href = '/payments/paymentFail';
@@ -43,7 +46,7 @@ function requestStoreUserInputInfo(payment_server_req_path) {
 }
 
 // 원포트에 결재 요청 api 
-function requestPay(payment_server_req_path) {
+function requestPay(orderLookUpNumber) {
     console.log('requestPay')
     IMP.request_pay(
         {
@@ -111,6 +114,7 @@ function requestPay(payment_server_req_path) {
                 // }
                 // payReqXML.send(formData);
                 console.log('결제 요청 성공')
+                window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
             }
             // 결재 요청 실패 
             else {
