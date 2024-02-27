@@ -13,6 +13,7 @@ IMP.init("imp18574515"); // 가맹점 식별코드
 function requestStoreUserInputInfo(payment_server_req_path) {
     const formData = new FormData();
     // // 포트원 결재 정보 
+    formData.append("imp_uid", rsp.imp_uid);
     formData.append("merchant_uid", merchant_uid);  // 제품 번호 
     // 입력받은 사용자 정보 
     formData.append("name", document.getElementById('name').value);
@@ -35,7 +36,7 @@ function requestStoreUserInputInfo(payment_server_req_path) {
             // window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
         } else {
             console.log("사용자 정보 데이터 서버 전송 실패")
-            window.location.href = '/payments/paymentFail';
+            // window.location.href = '/payments/paymentFail';
             // cancelPayments(rsp);
         }
     }
@@ -44,7 +45,7 @@ function requestStoreUserInputInfo(payment_server_req_path) {
 
 // 원포트에 결재 요청 api 
 function requestPay(payment_server_req_path) {
-    // console.log('requestPay')
+    console.log('requestPay')
     IMP.request_pay(
         {
             // pg: "kakaopay",
