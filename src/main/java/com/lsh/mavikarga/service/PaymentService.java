@@ -301,7 +301,9 @@ public class PaymentService {
         }
 
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber(), paymentInfo.getMerchantUid());
+        String orderLookUpNumber = generateOrderInfoLookUpNumber();
+        log.info("orderLookUpNumber = {}", orderLookUpNumber);
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, orderLookUpNumber, paymentInfo.getMerchantUid());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);
@@ -346,6 +348,7 @@ public class PaymentService {
         );
 
 
+        log.info("orderInfo.getOrderLookUpNumber() = {}", orderInfo.getOrderLookUpNumber());
         return orderInfo.getOrderLookUpNumber();
     }
 }

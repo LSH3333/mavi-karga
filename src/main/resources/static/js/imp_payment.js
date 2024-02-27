@@ -31,10 +31,9 @@ function requestStoreUserInputInfo(payment_server_req_path) {
         if (payReqXML.status === 200) {
             console.log("사용자 정보 데이터 서버 전송 성공");
             var orderLookUpNumber = payReqXML.responseText;
-            // console.log('orderLookUpNumber = ' + orderLookUpNumber)
-
+            
             requestPay(orderLookUpNumber)
-            // console.log('orderLookUpNumber = ' + orderLookUpNumber)
+            console.log('orderLookUpNumber = ' + orderLookUpNumber)
         } else {
             console.log("사용자 정보 데이터 서버 전송 실패")
             // window.location.href = '/payments/paymentFail';
@@ -113,6 +112,7 @@ function requestPay(orderLookUpNumber) {
                 // }
                 // payReqXML.send(formData);
                 console.log('결제 요청 성공')
+                console.log('orderLookUpNumber = ' + orderLookUpNumber)
                 window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
             }
             // 결재 요청 실패 
