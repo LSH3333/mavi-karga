@@ -59,6 +59,12 @@ public class OrderInfo {
     @Column(length = 100, nullable = false)
     private String orderLookUpNumber;
 
+    // 제품 UID, 포트원에서 보내는 웹훅 처리할때 식별용
+    @Column(nullable = false, length = 100)
+    private String merchantUid;
+
+
+
 
     public void addOrderProduct(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);

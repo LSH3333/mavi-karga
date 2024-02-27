@@ -125,7 +125,7 @@ public class PaymentService {
         // 배송정보 생성
         Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
                 paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
-                paymentRequestDto.getExtraAddress(), paymentRequestDto.getMerchant_uid());
+                paymentRequestDto.getExtraAddress());
 
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
@@ -229,7 +229,7 @@ public class PaymentService {
         // 배송정보 생성
         Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
                 paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
-                paymentRequestDto.getExtraAddress(), paymentRequestDto.getMerchant_uid());
+                paymentRequestDto.getExtraAddress());
 
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
@@ -269,32 +269,11 @@ public class PaymentService {
         return uuid_string;
     }
 
-    // 배송 정보 저장
-    public void storeUserDelivery(PaymentRequestDto paymentRequestDto) {
-        // 배송정보 생성
-        Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
-                paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
-                paymentRequestDto.getExtraAddress(), paymentRequestDto.getMerchant_uid());
-
-        deliveryRepository.save(delivery);
-    }
-
-    // 포트원 웹훅, 결제 정보 검증
-    public String validateWebHook(IamportResponse<Payment> irsp, HttpSession session) {
+    //////////////////////////////////////
+    // order 정보 저장
+    public void storeOrder(PaymentRequestDto paymentRequestDto, IamportResponse<Payment> irsp, HttpSession session) {
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
-
-        int portOnePaidAmount = irsp.getResponse().getAmount().intValue(); // 포트원 서버에서 조회한 실제 결제 금액
-
-        //  DB에 저장된 물품의 실제금액과 비교
-        int priceToPay = calPriceToPayNonUser(cartList);
-        if (priceToPay != portOnePaidAmount) {
-            return null;
-        }
-
-        // 검증 완료 -> DB에 저장
-        log.info("irsp.getResponse().getAmount().intValue() = {}", irsp.getResponse().getAmount().intValue());
-        log.info("amount = {}", portOnePaidAmount);
 
         // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
@@ -308,7 +287,9 @@ public class PaymentService {
         );
 
         // 배송정보 생성
-        Delivery delivery = deliveryRepository.findByMerchantUid(irsp.getResponse().getMerchantUid());
+        Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
+                paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
+                paymentRequestDto.getExtraAddress());
 
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
@@ -324,9 +305,34 @@ public class PaymentService {
         // 주문정보 저장
         orderRepository.save(orderInfo);
 
-        // 장바구니에 있는 물품들 결재 완료됐으니 장바구니 비운다
-        session.removeAttribute("cart");
+    }
 
+    // 포트원 웹훅, 결제 정보 검증
+    public String validateWebHook(IamportResponse<Payment> irsp) {
+        // 세션에서 장바구니 가져옴
+//        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+
+        int portOnePaidAmount = irsp.getResponse().getAmount().intValue(); // 포트원 서버에서 조회한 실제 결제 금액
+        log.info("포트원 결제 금액 = {}", portOnePaidAmount);
+        //  DB에 저장된 물품의 실제금액과 비교
+        int priceToPay = 0;
+        PaymentInfo paymentInfo = paymentRepository.findByMerchantUid(irsp.getResponse().getMerchantUid());
+        OrderInfo orderInfo = paymentInfo.getOrderInfo();
+        List<OrderProduct> orderProductList = orderInfo.getOrderProducts();
+        for (OrderProduct orderProduct : orderProductList) {
+            priceToPay += orderProduct.getTotalPrice();
+        }
+        log.info("결제되어야 하는 금액 = {}", priceToPay);
+
+        // 검증 실패
+        if(priceToPay != portOnePaidAmount) {
+            log.info("검증 실패");
+            // db에 저장해놓은 OrderInfo 삭제 (연관된 것들도 모두 삭제)
+            orderRepository.delete(orderInfo);
+            return null;
+        }
+
+        log.info("검증 성공");
         return orderInfo.getOrderLookUpNumber();
     }
 }

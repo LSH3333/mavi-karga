@@ -2,7 +2,6 @@ package com.lsh.mavikarga.controller;
 
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.CartProductDtoList;
-import com.lsh.mavikarga.dto.MyPageDto;
 import com.lsh.mavikarga.dto.PaymentRequestDto;
 import com.lsh.mavikarga.service.OrderService;
 import com.lsh.mavikarga.service.PaymentService;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -146,8 +144,13 @@ public class PaymentController {
             return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
         }
 
+        String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
+        int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
+        String merchant_uid = paymentRequestDto.getMerchant_uid();
+
+        IamportResponse<Payment> irsp = paymentLookup(impUid);
         // 배송 정보 미리 저장
-        paymentService.storeUserDelivery(paymentRequestDto);
+        paymentService.storeOrder(paymentRequestDto, irsp, session);
 
         return ResponseEntity.status(HttpStatus.OK).body("ok");
 
@@ -207,7 +210,7 @@ public class PaymentController {
             log.info("============= /payment/validate/nonuser");
 
             IamportResponse<Payment> irsp = paymentLookup(imp_uid);
-            String orderLookUpNumber = paymentService.validateWebHook(irsp, session);
+            String orderLookUpNumber = paymentService.validateWebHook(irsp);
 
             if(orderLookUpNumber != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
