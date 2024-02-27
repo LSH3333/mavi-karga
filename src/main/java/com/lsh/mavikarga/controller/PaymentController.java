@@ -202,6 +202,7 @@ public class PaymentController {
     }
 
 
+    // 포트원 웹훅 엔드포인트 
     @PostMapping("/portone-webhook")
     public ResponseEntity<String> portOneWebhook(@RequestParam String status, @RequestParam String imp_uid, @RequestParam String merchant_uid,
                                                   HttpSession session) throws IamportResponseException, IOException {
