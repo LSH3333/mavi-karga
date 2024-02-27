@@ -148,10 +148,11 @@ public class PaymentController {
 
         log.info("validatePaymentNonUser = {}", paymentRequestDto);
 //        session.setAttribute("paymentRequestDto", paymentRequestDto);
+        log.info("session = {}", session);
         session.setAttribute("name", paymentRequestDto.getName());
         session.setAttribute("email", paymentRequestDto.getEmail());
         session.setAttribute("phone", paymentRequestDto.getPhone());
-        log.info("session check = {}", session.getAttribute("name"));
+        log.info("session attribute check = {}", session.getAttribute("name"));
         return ResponseEntity.status(HttpStatus.OK).body("ok");
 
 //        log.info("============= /payment/validate/nonuser");
@@ -208,6 +209,7 @@ public class PaymentController {
         if (status.equals("paid")) {
 
             log.info("============= /payment/validate/nonuser");
+            log.info("session = {}", session);
             PaymentRequestDto paymentRequestDto = (PaymentRequestDto) session.getAttribute("paymentRequestDto");
 //            log.info("paymentRequestDto = {}", paymentRequestDto.getDetailAddress());
 
