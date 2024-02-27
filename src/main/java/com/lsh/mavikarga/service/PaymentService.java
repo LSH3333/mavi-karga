@@ -135,7 +135,7 @@ public class PaymentService {
             orderProductList.add(orderProduct);
         }
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber());
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber(), paymentInfo.getMerchantUid());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);
@@ -240,7 +240,7 @@ public class PaymentService {
         }
 
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber());
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber(), paymentInfo.getMerchantUid());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);
@@ -280,7 +280,7 @@ public class PaymentService {
         PaymentInfo paymentInfo = new PaymentInfo(
                 "",
                 "",
-                "",
+                paymentRequestDto.getMerchant_uid(),
                 0,
                 "",
                 "",
@@ -301,7 +301,7 @@ public class PaymentService {
         }
 
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber());
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber(), paymentInfo.getMerchantUid());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);

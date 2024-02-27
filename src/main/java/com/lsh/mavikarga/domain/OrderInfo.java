@@ -76,7 +76,7 @@ public class OrderInfo {
      * @param user: 주문한 유저
      * @param orderProductList: 주문한 물품들
      */
-    public static OrderInfo createOrderInfo(User user, List<OrderProduct> orderProductList, PaymentInfo paymentInfo, Delivery delivery, String orderLookUpNumber) {
+    public static OrderInfo createOrderInfo(User user, List<OrderProduct> orderProductList, PaymentInfo paymentInfo, Delivery delivery, String orderLookUpNumber, String merchantUid) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setUser(user);
         for (OrderProduct orderProduct : orderProductList) {
@@ -91,6 +91,8 @@ public class OrderInfo {
         orderInfo.orderStatus = OrderStatus.PROCESSING;
         // 주문 조회 번호
         orderInfo.orderLookUpNumber = orderLookUpNumber;
+        //
+        orderInfo.merchantUid = merchantUid;
         return orderInfo;
     }
 
