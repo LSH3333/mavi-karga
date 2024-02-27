@@ -158,6 +158,7 @@ function cancelPayments(temp) {
             window.location.href = '/payments/paymentFail';
         } else {
             alert("결제 금액 환불 못함. 이유: " + xhr.responseText);
+            window.location.href = '/payments/paymentFail';
         }
     };
 
