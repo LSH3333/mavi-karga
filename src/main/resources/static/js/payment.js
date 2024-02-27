@@ -102,7 +102,7 @@ document.getElementById("paymentForm").addEventListener("submit", function (even
         event.preventDefault();
         // 모든 required 필드 입력됐다면 결재창 띄움
         // requestStoreUserInputInfo("/payments/validate/nonuser");  // 비회원 
-        requestPay("/payments/validate");  // 회원 
+        requestStoreUserInputInfo("/payments/validate");  // 회원 
     }
 });
 
