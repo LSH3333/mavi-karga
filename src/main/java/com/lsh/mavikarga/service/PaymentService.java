@@ -275,7 +275,7 @@ public class PaymentService {
         log.info("storeOrder");
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
-
+        log.info("merchant_uid = {}", paymentRequestDto.getMerchant_uid());
         // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
                 "",
@@ -315,6 +315,7 @@ public class PaymentService {
 
         int portOnePaidAmount = irsp.getResponse().getAmount().intValue(); // 포트원 서버에서 조회한 실제 결제 금액
         log.info("포트원 결제 금액 = {}", portOnePaidAmount);
+        log.info("merchant uid = {}", irsp.getResponse().getMerchantUid());
         //  DB에 저장된 물품의 실제금액과 비교
         int priceToPay = 0;
         PaymentInfo paymentInfo = paymentRepository.findByMerchantUid(irsp.getResponse().getMerchantUid());
