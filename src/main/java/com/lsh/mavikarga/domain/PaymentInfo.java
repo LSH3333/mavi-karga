@@ -25,7 +25,7 @@ public class PaymentInfo {
     @Column(nullable = false, length = 100)
     private String impUid;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String merchantUid;
 
     // 결재 금액
