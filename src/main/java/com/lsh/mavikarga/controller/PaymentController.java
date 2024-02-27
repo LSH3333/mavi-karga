@@ -137,40 +137,21 @@ public class PaymentController {
 
     // 클라이언트에서 비회원 결재요청 성공 후 받는 end point
     @PostMapping("/payments/validate/nonuser")
-    private ResponseEntity<String> validatePaymentNonUser(@ModelAttribute @Valid PaymentRequestDto paymentRequestDto, HttpSession session, BindingResult bindingResult)
+    private ResponseEntity<String> validatePaymentNonUser(@ModelAttribute @Valid PaymentRequestDto paymentRequestDto,
+                                                          HttpSession session, BindingResult bindingResult, Principal principal)
             throws IamportResponseException, IOException {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
         }
 
-        String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
-
-//        IamportResponse<Payment> irsp = paymentLookup(impUid);
         // 배송 정보 미리 저장
-        String orderLookUpNumber = paymentService.storeOrder(paymentRequestDto, session);
+        String orderLookUpNumber = paymentService.storeOrder(paymentRequestDto, session, principal);
         if(orderLookUpNumber != null) {
             return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보 저장 실패");
         }
-
-
-//        log.info("============= /payment/validate/nonuser");
-//        log.info("paymentRequestDto = {}", paymentRequestDto);
-//
-//        String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
-//        int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
-//        String merchant_uid = paymentRequestDto.getMerchant_uid();
-//
-//        IamportResponse<Payment> irsp = paymentLookup(impUid);
-//        String orderLookUpNumber = paymentService.validatePaymentNonUser(irsp, paymentRequestDto, session);
-//        if(orderLookUpNumber != null) {
-//            return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
-//        }
-
 
     }
 
@@ -202,7 +183,7 @@ public class PaymentController {
     }
 
 
-    // 포트원 웹훅 엔드포인트 
+    // 포트원 웹훅 엔드포인트
     @PostMapping("/portone-webhook")
     public ResponseEntity<String> portOneWebhook(@RequestParam String status, @RequestParam String imp_uid, @RequestParam String merchant_uid,
                                                   HttpSession session) throws IamportResponseException, IOException {

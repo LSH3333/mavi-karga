@@ -270,12 +270,21 @@ public class PaymentService {
     }
 
     //////////////////////////////////////
+    public String storeOrder(PaymentRequestDto paymentRequestDto, HttpSession session, Principal principal) {
+        if(principal == null) {
+            return storeOrderNonUser(paymentRequestDto, session);
+        } else {
+            return storeOrderUser(paymentRequestDto, principal);
+        }
+    }
+
     // order 정보 저장
-    public String storeOrder(PaymentRequestDto paymentRequestDto, HttpSession session) {
+    public String storeOrderNonUser(PaymentRequestDto paymentRequestDto, HttpSession session) {
         log.info("storeOrder");
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
         log.info("merchant_uid = {}", paymentRequestDto.getMerchant_uid());
+
         // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
                 "",
@@ -303,10 +312,52 @@ public class PaymentService {
         // 주문정보 생성
         String orderLookUpNumber = generateOrderInfoLookUpNumber();
         log.info("orderLookUpNumber = {}", orderLookUpNumber);
+
         OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, orderLookUpNumber, paymentInfo.getMerchantUid());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);
+
+        return orderInfo.getOrderLookUpNumber();
+    }
+
+    public String storeOrderUser(PaymentRequestDto paymentRequestDto, Principal principal) {
+        User user = userService.findByUsername(principal.getName()).orElse(null);
+        if (user == null) {
+            return null;
+        }
+
+        // 결제정보 생성
+        PaymentInfo paymentInfo = new PaymentInfo(
+                "",
+                "",
+                paymentRequestDto.getMerchant_uid(),
+                0,
+                "",
+                "",
+                LocalDateTime.now()
+        );
+
+        // 배송정보 생성
+        Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
+                paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
+                paymentRequestDto.getExtraAddress());
+
+        // 주문제품 생성
+        List<OrderProduct> orderProductList = new ArrayList<>();
+        for (Cart cart : user.getCarts()) {
+            ProductOption productSize = cart.getProductOption();
+            OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, productSize.getProduct().getPrice(), cart.getCount());
+            orderProductList.add(orderProduct);
+        }
+        // 주문정보 생성
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber(), paymentInfo.getMerchantUid());
+
+        // 주문정보 저장
+        orderRepository.save(orderInfo);
+
+        // 장바구니에 있는 물품들 결재 완료됐으니 장바구니 비운다
+        clearCart(user);
 
         return orderInfo.getOrderLookUpNumber();
     }
