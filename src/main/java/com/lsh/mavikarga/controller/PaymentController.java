@@ -145,8 +145,6 @@ public class PaymentController {
         }
 
         String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
-        int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
-        String merchant_uid = paymentRequestDto.getMerchant_uid();
 
         IamportResponse<Payment> irsp = paymentLookup(impUid);
         // 배송 정보 미리 저장

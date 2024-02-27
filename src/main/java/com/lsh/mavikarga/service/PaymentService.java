@@ -272,6 +272,7 @@ public class PaymentService {
     //////////////////////////////////////
     // order 정보 저장
     public void storeOrder(PaymentRequestDto paymentRequestDto, IamportResponse<Payment> irsp, HttpSession session) {
+        log.info("storeOrder");
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
 

@@ -31,12 +31,12 @@ function requestStoreUserInputInfo(payment_server_req_path) {
         if (payReqXML.status === 200) {
             console.log("사용자 정보 데이터 서버 전송 성공");
             requestPay(payment_server_req_path)
-            console.log('orderLookUpNumber = ' + orderLookUpNumber)
-            window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
+            // console.log('orderLookUpNumber = ' + orderLookUpNumber)
+            // window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
         } else {
             console.log("사용자 정보 데이터 서버 전송 실패")
             window.location.href = '/payments/paymentFail';
-            cancelPayments(rsp);
+            // cancelPayments(rsp);
         }
     }
     payReqXML.send(formData);
