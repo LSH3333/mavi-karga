@@ -5,7 +5,8 @@ let buyer_addr_req;
 let buyer_postcode_req;
 let buyer_email_req;
 
-let merchant_uid = "mavikarga_merchant_" + crypto.randomUUID();
+const merchant_uid = "mavikarga_merchant_" + crypto.randomUUID();
+const imp_uid = 'imp18574515';
 
 var IMP = window.IMP;
 IMP.init("imp18574515"); // 가맹점 식별코드 
@@ -13,7 +14,7 @@ IMP.init("imp18574515"); // 가맹점 식별코드
 function requestStoreUserInputInfo(payment_server_req_path) {
     const formData = new FormData();
     // // 포트원 결재 정보 
-    formData.append("imp_uid", rsp.imp_uid);
+    formData.append("imp_uid", imp_uid);
     formData.append("merchant_uid", merchant_uid);  // 제품 번호 
     // 입력받은 사용자 정보 
     formData.append("name", document.getElementById('name').value);
