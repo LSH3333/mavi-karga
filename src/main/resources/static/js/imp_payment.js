@@ -32,7 +32,6 @@ function requestStoreUserInputInfo(payment_server_req_path) {
             console.log("사용자 정보 데이터 서버 전송 성공");
             var orderLookUpNumber = payReqXML.responseText;
             // console.log('orderLookUpNumber = ' + orderLookUpNumber)
-            window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
 
             requestPay(orderLookUpNumber)
             // console.log('orderLookUpNumber = ' + orderLookUpNumber)
