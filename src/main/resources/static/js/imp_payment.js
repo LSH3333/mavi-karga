@@ -5,7 +5,7 @@ let buyer_addr_req;
 let buyer_postcode_req;
 let buyer_email_req;
 
-const merchant_uid = "mavikarga_merchant_" + crypto.randomUUID();
+const merchant_uid = crypto.randomUUID();
 
 var IMP = window.IMP;
 IMP.init("imp18574515"); // 가맹점 식별코드 
