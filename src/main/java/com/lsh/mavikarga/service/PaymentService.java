@@ -271,7 +271,7 @@ public class PaymentService {
 
     //////////////////////////////////////
     // order 정보 저장
-    public void storeOrder(PaymentRequestDto paymentRequestDto, HttpSession session) {
+    public String storeOrder(PaymentRequestDto paymentRequestDto, HttpSession session) {
         log.info("storeOrder");
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
@@ -308,6 +308,7 @@ public class PaymentService {
         // 주문정보 저장
         orderRepository.save(orderInfo);
 
+        return orderInfo.getOrderLookUpNumber();
     }
 
     // 포트원 웹훅, 결제 정보 검증

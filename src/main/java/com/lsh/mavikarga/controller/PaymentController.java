@@ -148,9 +148,13 @@ public class PaymentController {
 
 //        IamportResponse<Payment> irsp = paymentLookup(impUid);
         // 배송 정보 미리 저장
-        paymentService.storeOrder(paymentRequestDto, session);
+        String orderLookUpNumber = paymentService.storeOrder(paymentRequestDto, session);
+        if(orderLookUpNumber != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보 저장 실패");
+        }
 
-        return ResponseEntity.status(HttpStatus.OK).body("ok");
 
 //        log.info("============= /payment/validate/nonuser");
 //        log.info("paymentRequestDto = {}", paymentRequestDto);
