@@ -3,6 +3,7 @@ package com.lsh.mavikarga.service;
 import com.lsh.mavikarga.domain.*;
 import com.lsh.mavikarga.dto.PaymentRequestDto;
 import com.lsh.mavikarga.repository.CartRepository;
+import com.lsh.mavikarga.repository.DeliveryRepository;
 import com.lsh.mavikarga.repository.OrderRepository;
 import com.lsh.mavikarga.repository.PaymentRepository;
 import com.siot.IamportRestClient.request.CancelData;
@@ -32,13 +33,16 @@ public class PaymentService {
     private final UserService userService;
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
+    private final DeliveryRepository deliveryRepository;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository, UserService userService, OrderRepository orderRepository, CartRepository cartRepository) {
+    public PaymentService(PaymentRepository paymentRepository, UserService userService, OrderRepository orderRepository, CartRepository cartRepository,
+                          DeliveryRepository deliveryRepository) {
         this.paymentRepository = paymentRepository;
         this.userService = userService;
         this.orderRepository = orderRepository;
         this.cartRepository = cartRepository;
+        this.deliveryRepository = deliveryRepository;
     }
 
     /**
@@ -121,7 +125,7 @@ public class PaymentService {
         // 배송정보 생성
         Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
                 paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
-                paymentRequestDto.getExtraAddress());
+                paymentRequestDto.getExtraAddress(), paymentRequestDto.getMerchant_uid());
 
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
@@ -198,22 +202,18 @@ public class PaymentService {
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
 
-        int paid_amount = Integer.parseInt(paymentRequestDto.getPaid_amount());
-        // 포트원 서버에서 조회된 결재금액과 실제 사용자 결재 금액이 다름
-        // getAmount() 결과는 BigDecimal
-        if (irsp.getResponse().getAmount().intValue() != paid_amount) {
-            return null;
-        }
+
+        int portOnePaidAmount = irsp.getResponse().getAmount().intValue(); // 포트원 서버에서 조회한 실제 결제 금액
 
         //  DB에 저장된 물품의 실제금액과 비교
         int priceToPay = calPriceToPayNonUser(cartList);
-        if (priceToPay != paid_amount) {
+        if (priceToPay != portOnePaidAmount) {
             return null;
         }
 
         // 검증 완료 -> DB에 저장
         log.info("irsp.getResponse().getAmount().intValue() = {}", irsp.getResponse().getAmount().intValue());
-        log.info("amount = {}", paid_amount);
+        log.info("amount = {}", portOnePaidAmount);
 
         // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
@@ -229,7 +229,7 @@ public class PaymentService {
         // 배송정보 생성
         Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
                 paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
-                paymentRequestDto.getExtraAddress());
+                paymentRequestDto.getExtraAddress(), paymentRequestDto.getMerchant_uid());
 
         // 주문제품 생성
         List<OrderProduct> orderProductList = new ArrayList<>();
@@ -269,4 +269,64 @@ public class PaymentService {
         return uuid_string;
     }
 
+    // 배송 정보 저장
+    public void storeUserDelivery(PaymentRequestDto paymentRequestDto) {
+        // 배송정보 생성
+        Delivery delivery = new Delivery(paymentRequestDto.getName(), paymentRequestDto.getEmail(), paymentRequestDto.getPhone(),
+                paymentRequestDto.getPostcode(), paymentRequestDto.getRoadAddress(), paymentRequestDto.getJibunAddress(), paymentRequestDto.getDetailAddress(),
+                paymentRequestDto.getExtraAddress(), paymentRequestDto.getMerchant_uid());
+
+        deliveryRepository.save(delivery);
+    }
+
+    // 포트원 웹훅, 결제 정보 검증
+    public String validateWebHook(IamportResponse<Payment> irsp, HttpSession session) {
+        // 세션에서 장바구니 가져옴
+        List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
+
+        int portOnePaidAmount = irsp.getResponse().getAmount().intValue(); // 포트원 서버에서 조회한 실제 결제 금액
+
+        //  DB에 저장된 물품의 실제금액과 비교
+        int priceToPay = calPriceToPayNonUser(cartList);
+        if (priceToPay != portOnePaidAmount) {
+            return null;
+        }
+
+        // 검증 완료 -> DB에 저장
+        log.info("irsp.getResponse().getAmount().intValue() = {}", irsp.getResponse().getAmount().intValue());
+        log.info("amount = {}", portOnePaidAmount);
+
+        // 결제정보 생성
+        PaymentInfo paymentInfo = new PaymentInfo(
+                irsp.getResponse().getPayMethod(),
+                irsp.getResponse().getImpUid(),
+                irsp.getResponse().getMerchantUid(),
+                irsp.getResponse().getAmount().intValue(),
+                irsp.getResponse().getBuyerAddr(),
+                irsp.getResponse().getBuyerPostcode(),
+                LocalDateTime.now()
+        );
+
+        // 배송정보 생성
+        Delivery delivery = deliveryRepository.findByMerchantUid(irsp.getResponse().getMerchantUid());
+
+        // 주문제품 생성
+        List<OrderProduct> orderProductList = new ArrayList<>();
+        for (CartForNonUser cartForNonUser : cartList) {
+            ProductOption productSize = cartForNonUser.getProductSize();
+            OrderProduct orderProduct = OrderProduct.createOrderProduct(productSize, productSize.getProduct().getPrice(), cartForNonUser.getCount());
+            orderProductList.add(orderProduct);
+        }
+
+        // 주문정보 생성
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(null, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber());
+
+        // 주문정보 저장
+        orderRepository.save(orderInfo);
+
+        // 장바구니에 있는 물품들 결재 완료됐으니 장바구니 비운다
+        session.removeAttribute("cart");
+
+        return orderInfo.getOrderLookUpNumber();
+    }
 }

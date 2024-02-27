@@ -146,13 +146,9 @@ public class PaymentController {
             return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
         }
 
-        log.info("validatePaymentNonUser = {}", paymentRequestDto);
-//        session.setAttribute("paymentRequestDto", paymentRequestDto);
-        log.info("session = {}", session);
-        session.setAttribute("name", paymentRequestDto.getName());
-        session.setAttribute("email", paymentRequestDto.getEmail());
-        session.setAttribute("phone", paymentRequestDto.getPhone());
-        log.info("session attribute check = {}", session.getAttribute("name"));
+        // 배송 정보 미리 저장
+        paymentService.storeUserDelivery(paymentRequestDto);
+
         return ResponseEntity.status(HttpStatus.OK).body("ok");
 
 //        log.info("============= /payment/validate/nonuser");
@@ -209,18 +205,9 @@ public class PaymentController {
         if (status.equals("paid")) {
 
             log.info("============= /payment/validate/nonuser");
-            log.info("session = {}", session);
-            PaymentRequestDto paymentRequestDto = (PaymentRequestDto) session.getAttribute("paymentRequestDto");
-//            log.info("paymentRequestDto = {}", paymentRequestDto.getDetailAddress());
-
-            log.info("paymentRequestDto = {}, {}, {}", session.getAttribute("name"), session.getAttribute("email"), session.getAttribute("phone"));
-
-            //String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
-            //int amount = Integer.parseInt(paymentRequestDto.getPaid_amount());  // 실제로 유저가 결제한 금액
-            //String merchant_uid = paymentRequestDto.getMerchant_uid();
 
             IamportResponse<Payment> irsp = paymentLookup(imp_uid);
-            String orderLookUpNumber = paymentService.validatePaymentNonUser(irsp, paymentRequestDto, session);
+            String orderLookUpNumber = paymentService.validateWebHook(irsp, session);
 
             if(orderLookUpNumber != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);

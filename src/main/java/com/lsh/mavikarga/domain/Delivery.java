@@ -38,13 +38,15 @@ public class Delivery {
     private String detailAddress;
     // 참고항목
     private String extraAddress;
-
+    // 제품 UID, 포트원에서 보내는 웹훅 처리할때 식별용
+    @Column(nullable = false, length = 100)
+    private String merchantUid;
 
 
     public Delivery() {}
 
     public Delivery(String name, String email, String phone, String postcode, String roadAddress, String jibunAddress,
-                       String detailAddress, String extraAddress) {
+                       String detailAddress, String extraAddress, String merchantUid) {
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -53,5 +55,6 @@ public class Delivery {
         this.jibunAddress = jibunAddress;
         this.detailAddress = detailAddress;
         this.extraAddress = extraAddress;
+        this.merchantUid = merchantUid;
     }
 }

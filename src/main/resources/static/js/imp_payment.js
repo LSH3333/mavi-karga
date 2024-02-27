@@ -11,7 +11,10 @@ IMP.init("imp18574515"); // 가맹점 식별코드
 
 function requestStoreUserInputInfo(payment_server_req_path) {
     const formData = new FormData();
-
+    // // 포트원 결재 정보 
+    formData.append("imp_uid", rsp.imp_uid);
+    formData.append("paid_amount", rsp.paid_amount);
+    formData.append("merchant_uid", rsp.merchant_uid);
     // 입력받은 사용자 정보 
     formData.append("name", document.getElementById('name').value);
     formData.append("email", document.getElementById('email').value);
@@ -26,15 +29,15 @@ function requestStoreUserInputInfo(payment_server_req_path) {
     const payReqXML = new XMLHttpRequest();
     payReqXML.open("POST", payment_server_req_path, true);
     payReqXML.onload = function () {
-        if (payReqXML.status === 200) {            
+        if (payReqXML.status === 200) {
             console.log("사용자 정보 데이터 서버 전송 성공");
             requestPay(payment_server_req_path)
-            // console.log('orderLookUpNumber = ' + orderLookUpNumber)
-            // window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
+            console.log('orderLookUpNumber = ' + orderLookUpNumber)
+            window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
         } else {
             console.log("사용자 정보 데이터 서버 전송 실패")
-            // window.location.href = '/payments/paymentFail';
-            // cancelPayments(rsp);
+            window.location.href = '/payments/paymentFail';
+            cancelPayments(rsp);
         }
     }
     payReqXML.send(formData);
