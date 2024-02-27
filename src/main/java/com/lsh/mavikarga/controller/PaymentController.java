@@ -151,6 +151,7 @@ public class PaymentController {
         session.setAttribute("name", paymentRequestDto.getName());
         session.setAttribute("email", paymentRequestDto.getEmail());
         session.setAttribute("phone", paymentRequestDto.getPhone());
+        log.info("session check = {}", session.getAttribute("name"));
         return ResponseEntity.status(HttpStatus.OK).body("ok");
 
 //        log.info("============= /payment/validate/nonuser");
