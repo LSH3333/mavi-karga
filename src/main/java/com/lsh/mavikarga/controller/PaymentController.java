@@ -146,9 +146,9 @@ public class PaymentController {
 
         String impUid = paymentRequestDto.getImp_uid(); // 결재 고유번호
 
-        IamportResponse<Payment> irsp = paymentLookup(impUid);
+//        IamportResponse<Payment> irsp = paymentLookup(impUid);
         // 배송 정보 미리 저장
-        paymentService.storeOrder(paymentRequestDto, irsp, session);
+        paymentService.storeOrder(paymentRequestDto, session);
 
         return ResponseEntity.status(HttpStatus.OK).body("ok");
 

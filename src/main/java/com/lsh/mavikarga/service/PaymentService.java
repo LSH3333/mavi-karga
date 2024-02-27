@@ -271,20 +271,13 @@ public class PaymentService {
 
     //////////////////////////////////////
     // order 정보 저장
-    public void storeOrder(PaymentRequestDto paymentRequestDto, IamportResponse<Payment> irsp, HttpSession session) {
+    public void storeOrder(PaymentRequestDto paymentRequestDto, HttpSession session) {
         log.info("storeOrder");
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
 
         // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
-                irsp.getResponse().getPayMethod(),
-                irsp.getResponse().getImpUid(),
-                irsp.getResponse().getMerchantUid(),
-                irsp.getResponse().getAmount().intValue(),
-                irsp.getResponse().getBuyerAddr(),
-                irsp.getResponse().getBuyerPostcode(),
-                LocalDateTime.now()
         );
 
         // 배송정보 생성
@@ -334,6 +327,17 @@ public class PaymentService {
         }
 
         log.info("검증 성공");
+        paymentInfo.setInfos(
+                irsp.getResponse().getPayMethod(),
+                irsp.getResponse().getImpUid(),
+                irsp.getResponse().getMerchantUid(),
+                irsp.getResponse().getAmount().intValue(),
+                irsp.getResponse().getBuyerAddr(),
+                irsp.getResponse().getBuyerPostcode(),
+                LocalDateTime.now()
+        );
+        
+
         return orderInfo.getOrderLookUpNumber();
     }
 }
