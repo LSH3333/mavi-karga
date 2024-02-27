@@ -36,8 +36,7 @@ function requestStoreUserInputInfo(payment_server_req_path) {
             console.log('orderLookUpNumber = ' + orderLookUpNumber)
         } else {
             console.log("사용자 정보 데이터 서버 전송 실패")
-            // window.location.href = '/payments/paymentFail';
-            // cancelPayments(rsp);
+            window.location.href = '/payments/paymentFail';
         }
     }
     payReqXML.send(formData);
@@ -113,6 +112,7 @@ function requestPay(orderLookUpNumber) {
                 // payReqXML.send(formData);
                 console.log('결제 요청 성공')
                 console.log('orderLookUpNumber = ' + orderLookUpNumber)
+                // 결제 성공 페이지로 이동 
                 window.location.href = '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber;
             }
             // 결재 요청 실패 
