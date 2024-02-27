@@ -88,12 +88,20 @@ public class PaymentController {
 
     // 회원 결제 페이지
     @GetMapping("/payments/payment")
-    public String paymentForm(Principal principal, Model model) {
-        User user = userService.findByUsername(principal.getName()).orElse(null);
+    public String paymentForm(Principal principal, Model model, HttpSession session) {
 
-        // 사용자 장바구니 담긴 상품들 보여주기
-        CartProductDtoList cartProductDtoList = CartProductDtoList.createForPaymentForm(orderService.createCartProductDtoList(user.getId()));
-        model.addAttribute("cartProductDtoList", cartProductDtoList);
+        if(principal != null) {
+            User user = userService.findByUsername(principal.getName()).orElse(null);
+
+            // 사용자 장바구니 담긴 상품들 보여주기
+            CartProductDtoList cartProductDtoList = CartProductDtoList.createForPaymentForm(orderService.createCartProductDtoList(user.getId()));
+            model.addAttribute("cartProductDtoList", cartProductDtoList);
+        } else {
+            // 비회원 장바구니 담긴 상품들 보여주기
+            CartProductDtoList cartProductDtoList = CartProductDtoList.createForPaymentForm(orderService.createCartProductDtoListForNonUser(session));
+            model.addAttribute("cartProductDtoList", cartProductDtoList);
+        }
+
 
         return "payments/payment";
     }
@@ -102,9 +110,7 @@ public class PaymentController {
 //    @GetMapping("/payments/payment/nonuser")
 //    public String paymentFormNonUser(Model model, HttpSession session) {
 //
-//        // 비회원 장바구니 담긴 상품들 보여주기
-//        CartProductDtoList cartProductDtoList = CartProductDtoList.createForPaymentForm(orderService.createCartProductDtoListForNonUser(session));
-//        model.addAttribute("cartProductDtoList", cartProductDtoList);
+
 //
 //        return "payments/paymentNonUser";
 //    }
