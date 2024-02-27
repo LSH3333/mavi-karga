@@ -5,6 +5,7 @@ let buyer_addr_req;
 let buyer_postcode_req;
 let buyer_email_req;
 
+let merchant_uid = "mavikarga_merchant_" + crypto.randomUUID();
 
 var IMP = window.IMP;
 IMP.init("imp18574515"); // 가맹점 식별코드 
@@ -12,9 +13,7 @@ IMP.init("imp18574515"); // 가맹점 식별코드
 function requestStoreUserInputInfo(payment_server_req_path) {
     const formData = new FormData();
     // // 포트원 결재 정보 
-    formData.append("imp_uid", rsp.imp_uid);
-    formData.append("paid_amount", rsp.paid_amount);
-    formData.append("merchant_uid", rsp.merchant_uid);
+    formData.append("merchant_uid", merchant_uid);  // 제품 번호 
     // 입력받은 사용자 정보 
     formData.append("name", document.getElementById('name').value);
     formData.append("email", document.getElementById('email').value);
@@ -51,7 +50,7 @@ function requestPay(payment_server_req_path) {
             // pg: "kakaopay",
             pg: 'html5_inicis', // KG이니시스
             pay_method: "card",
-            merchant_uid: "mavikarga_merchant_" + crypto.randomUUID(), // 제품 번호 
+            merchant_uid: merchant_uid, // 제품 번호 
             name: name_req,
             amount: amount_req,
             buyer_email: buyer_email_req,
