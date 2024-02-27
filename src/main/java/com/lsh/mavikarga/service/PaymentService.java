@@ -278,6 +278,13 @@ public class PaymentService {
 
         // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
+                "",
+                "",
+                "",
+                0,
+                "",
+                "",
+                LocalDateTime.now()
         );
 
         // 배송정보 생성
@@ -336,7 +343,7 @@ public class PaymentService {
                 irsp.getResponse().getBuyerPostcode(),
                 LocalDateTime.now()
         );
-        
+
 
         return orderInfo.getOrderLookUpNumber();
     }
