@@ -99,12 +99,11 @@ public class AdminController {
             @RequestParam UUID productId,
             @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
         log.info("IMG AJAX");
-        if(files != null) {
-            // 기존에 있는 모든 상품 이미지 삭제
-            productImageService.deleteAllProductImages(productId);
-            // ProductImage 저장
-            productImageService.saveAllProductImages(files, productId);
-        }
+
+        // 기존에 있는 모든 상품 이미지 삭제
+        productImageService.deleteAllProductImages(productId);
+        // ProductImage 저장
+        productImageService.saveAllProductImages(files, productId);
 
         // 클라이언트에서 응답 받고 이동할 경로
         return ResponseEntity.ok("/admins/products/view");
