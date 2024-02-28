@@ -66,6 +66,7 @@ public class ProductImageService {
 
     // 제품의 이미지들 저장
     public void saveAllProductImages(List<MultipartFile> files, UUID productId) throws IOException {
+        log.info("saveAllProductImages = {}", productId);
         Product product = productRepository.findById(productId).orElse(null);
         if(product == null) return;
 
@@ -92,15 +93,30 @@ public class ProductImageService {
 
     // 제품에 저장된 모든 제품 이미지 삭제
     public void deleteAllProductImages(UUID productId) {
+
         Product product = productRepository.findById(productId).orElse(null);
+        if(product == null) return;
 
         List<ProductImage> productImages = product.getProductImages();
         if(productImages == null) return;
 
+        // 이미지 삭제, Product 와 ProductImage 연관관계 제거
+        product.getProductImages().clear();
         for (ProductImage productImage : productImages) {
             productImage.setProduct(null);
         }
-        product.getProductImages().clear();
+
+        // 썸네일 이미지 삭제
+        if(product.getThumbnail_front() != null) {
+            product.getThumbnail_front().setProduct(null);
+            product.setThumbnail_front(null);
+        }
+        if (product.getThumbnail_back() != null) {
+            product.getThumbnail_back().setProduct(null);
+            product.setThumbnail_back(null);
+        }
+
+
     }
 
     // 상품의 모든 이미지들의 url 을 리스트로 만들어서 리턴
