@@ -4,15 +4,22 @@
 <head>
 </head>
 
-<!-- 대문 -->
+<!-- 비디오 헤더 -->
 <div th:fragment="header">
     <!-- 비디오 -->
     <div class="container-fluid px-0 video-container">
-        <button id="main_video_btn" onclick="toggleMute()">
+        <button id="main_video_btn" onclick="toggleMute()" class="muted">
             <video id="main_video" src="/static/vid/shell_lug_reduced.mp4" th:src="@{/vid/shell_lug_reduced.mp4}"
                 type="video/mp4" class="w-100" autoplay loop muted>
             </video>
         </button>
+    </div>
+</div>
+
+<!-- 이미지 헤더 -->
+<div th:fragment="header-image(src)">
+    <div class="container-fluid header-image-container">
+        <img class="img-fluid" th:src="${src}" alt="">
     </div>
 </div>
 
@@ -43,13 +50,15 @@
                         href="/templates/film.html" th:href="@{/film}">Film</a>
                 </li>
                 <li class="nav-item mx-4">
-                    <a class="nav-link" th:classappend="${menu} == 'object' ? 'fw-bold active'" th:href="@{/object}">Object</a>
+                    <a class="nav-link" th:classappend="${menu} == 'object' ? 'fw-bold active'"
+                        th:href="@{/object}">Object</a>
                 </li>
                 <li class="nav-item mx-4">
                     <button class="nav-link" onclick="openOffCanvasCart()">Cart</button>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
-                    <a class="nav-link" th:classappend="${menu} == 'mypage' ? 'fw-bold active'" th:href="@{/users/myPage}">MyPage</a>
+                    <a class="nav-link" th:classappend="${menu} == 'mypage' ? 'fw-bold active'"
+                        th:href="@{/users/myPage}">MyPage</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
                     <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
@@ -106,7 +115,8 @@
                     <button class="nav-link" onclick="openOffCanvasCart()">Cart</button>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
-                    <a class="nav-link" th:classappend="${menu} == 'mypage' ? 'fw-bold active'" th:href="@{/users/myPage}">MyPage</a>
+                    <a class="nav-link" th:classappend="${menu} == 'mypage' ? 'fw-bold active'"
+                        th:href="@{/users/myPage}">MyPage</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item mx-4">
                     <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
