@@ -69,6 +69,7 @@
             <!-- 메인 -->
             <div class="mb-3 color-checkboxes">
                 <label for="mainProduct" class="form-label">메인화면 디스플레이 여부</label>
+                <br>
                 <input class="form-check-input" th:field="*{mainProduct}" type="checkbox"/>                
             </div>
             <!-- 카테고리 -->
@@ -79,6 +80,11 @@
                     <option th:each="category : ${addProductDto.clothingCategories}" th:value="${category}"
                         th:text="${category}">카테고리</option>
                 </select>
+            </div>
+            <!-- 상품 배치 순서 -->
+            <div class="mb-3">
+                <label for="displayOrder" class="form-label">상품 배치 순서 (이 값이 작을수록 상품 화면 상단에 배치됩니다)</label>
+                <input th:field="*{displayOrder}" type="number" class="form-control">
             </div>
             <!-- 색상 -->
             <div class="mb-3 color-checkboxes">

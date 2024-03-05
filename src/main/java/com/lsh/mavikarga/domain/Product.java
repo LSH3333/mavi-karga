@@ -64,6 +64,9 @@ public class Product {
     // 메인에 디스플레이할 상품인지 여부
     private boolean mainProduct;
 
+    // 이 값이 작을수록 상품 화면 상단에 디스플레이됨
+    private int displayOrder;
+
 
 
     public Product() {
@@ -78,6 +81,7 @@ public class Product {
         this.detailsAndCare = addProductDto.getDetailsAndCare();
         this.clothingCategory = addProductDto.getClothingCategory();
         this.mainProduct = addProductDto.isMainProduct();
+        this.displayOrder = addProductDto.getDisplayOrder();
 
         // ProductSize 생성, 재고 있음 처리
         // 크기별 색상별로 제품크기 생성.

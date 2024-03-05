@@ -49,6 +49,7 @@ public class AddProductDto {
     private ClothingCategory[] clothingCategories = ClothingCategory.values();
     // 메인 화면 디스플레이 여부
     private boolean mainProduct;
-
+    // 이 값이 작을수록 상품 화면 상단에 디스플레이됨
+    private int displayOrder;
 
 }

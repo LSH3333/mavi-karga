@@ -45,16 +45,16 @@ public class ProductService {
 
     // product.removed=false 인 product 들 찾아 리턴
     public List<Product> findNotRemovedProducts() {
-        return productRepository.findByRemovedFalse();
+        return productRepository.findByRemovedFalseOrderByDisplayOrderAsc();
     }
 
     // 관리자가 제외하지 않은 제품들중 카테고리로 찾음
     public List<Product> findByClothingCategoryAndRemovedFalse(ClothingCategory clothingCategory) {
-        return productRepository.findByClothingCategoryAndRemovedFalse(clothingCategory);
+        return productRepository.findByClothingCategoryAndRemovedFalseOrderByDisplayOrderAsc(clothingCategory);
     }
 
-    public List<Product> findByMainProductAndRemovedFalse(boolean isMainProduct) {
-        return productRepository.findByMainProductAndRemovedFalse(isMainProduct);
+    public List<Product> findByMainProductAndRemovedFalseOrderByDisplayOrderAsc(boolean isMainProduct) {
+        return productRepository.findByMainProductAndRemovedFalseOrderByDisplayOrderAsc(isMainProduct);
     }
 
 
@@ -80,6 +80,7 @@ public class ProductService {
         addProductDto.setDescription(product.getDescription());
         addProductDto.setClothingCategory(product.getClothingCategory());
         addProductDto.setMainProduct(product.isMainProduct());
+        addProductDto.setDisplayOrder(product.getDisplayOrder());
 
         updateSize(product.getProductOptions(), addProductDto);
         updateColor(product.getProductOptions(), addProductDto);
@@ -116,6 +117,7 @@ public class ProductService {
         product.setClothingCategory(addProductDto.getClothingCategory());
         product.updateAvailableSizes(addProductDto.getSize(), addProductDto.getProductColor());
         product.setMainProduct(addProductDto.isMainProduct());
+        product.setDisplayOrder(addProductDto.getDisplayOrder());
 
         return true;
     }

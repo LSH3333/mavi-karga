@@ -49,7 +49,7 @@ public class OrderController {
     @GetMapping("/clothing")
     public String clothingMain(Model model, HttpServletRequest request) {
         // 메인에 디스플레이할 상품들
-        List<Product> products = productService.findByMainProductAndRemovedFalse(true);
+        List<Product> products = productService.findByMainProductAndRemovedFalseOrderByDisplayOrderAsc(true);
         ClothingDtoList clothingDtoList = productService.createClothingDto(products, request);
 
         model.addAttribute("clothingDtoList", clothingDtoList);
