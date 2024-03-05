@@ -1,0 +1,33 @@
+ /* 화면 크기에 따라 navbar nav-item 의 마진 조절함 */
+ 
+ /* xxl 이상 */
+ @media (min-width: 1400px) {
+    .nav-item {
+        margin: 0 1.5rem;
+    }
+}
+
+
+@media (max-width: 1400px) {
+    .nav-item {
+        margin: 0 1.5rem;
+    }
+}
+
+@media (max-width: 1330px) {
+    .nav-item {
+        margin: 0 1rem;
+    }
+}
+
+@media (max-width: 1165px) {
+    .nav-item {
+        margin: 0 .5rem;
+    }
+}
+
+@media (max-width: 1000px) {
+    .nav-item {
+        margin: 0 .5rem;
+    }
+}
