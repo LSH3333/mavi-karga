@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -77,6 +78,7 @@ public class PaymentController {
 
     /**
      * impUid 로 결재내역 조회
+     *
      * @param impUid
      * @return
      * @throws IamportResponseException
@@ -90,7 +92,7 @@ public class PaymentController {
     @GetMapping("/payments/payment")
     public String paymentForm(Principal principal, Model model, HttpSession session) {
 
-        if(principal != null) {
+        if (principal != null) {
             User user = userService.findByUsername(principal.getName()).orElse(null);
 
             // 사용자 장바구니 담긴 상품들 보여주기
@@ -107,10 +109,10 @@ public class PaymentController {
     }
 
     // 클라이언트에서 결재요청 성공 후 받는 end point
+    // 사용자가 결제 페이지에서 입력한 배송 정보들 저장
     @PostMapping("/payments/validate")
     private ResponseEntity<String> validatePayment(@ModelAttribute @Valid PaymentRequestDto paymentRequestDto,
-                                                          HttpSession session, BindingResult bindingResult, Principal principal)
-            {
+                                                   HttpSession session, BindingResult bindingResult, Principal principal) {
 
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body("Validation errors: " + bindingResult.getAllErrors());
@@ -118,7 +120,7 @@ public class PaymentController {
 
         // 배송 정보 미리 저장
         String orderLookUpNumber = paymentService.storeOrder(paymentRequestDto, session, principal);
-        if(orderLookUpNumber != null) {
+        if (orderLookUpNumber != null) {
             return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 정보 저장 실패");
@@ -127,54 +129,67 @@ public class PaymentController {
     }
 
     //// 결재 취소
+
     /**
      * 결제한 금액을 취소요청이 들어오면 실행되는 메서드
      * 환불될 금액과 아임포트 서버에서 조회한 결제 금액이 다르면 환불 or 취소 안됨.
+     *
      * @param map
      * @return
      * @throws IamportResponseException
      * @throws IOException
      */
     @PostMapping("/payments/cancel")
-    public IamportResponse<Payment> cancelPayments(@RequestBody Map<String,String> map) throws IamportResponseException, IOException{
+    public IamportResponse<Payment> cancelPayments(@RequestBody Map<String, String> map) throws IamportResponseException, IOException {
 
         //조회
         IamportResponse<Payment> lookUp = null;
-        if(map.containsKey("impUid")) lookUp = paymentLookup(map.get("impUid"));//들어온 정보에 imp_uid가 있을때
-        else if(map.containsKey("paymentsNo")) lookUp = paymentLookup(map.get("paymentsNo"));//imp_uid가 없을때
-        if(lookUp == null) {
+        if (map.containsKey("impUid")) lookUp = paymentLookup(map.get("impUid"));//들어온 정보에 imp_uid가 있을때
+        else if (map.containsKey("paymentsNo")) lookUp = paymentLookup(map.get("paymentsNo"));//imp_uid가 없을때
+        if (lookUp == null) {
             throw new IOException();
         }
 
         String code = paymentService.code(map.get("refund_bank"));//은행코드
-        CancelData data = paymentService.cancelData(map,lookUp,code);//취소데이터 셋업
+        CancelData data = paymentService.cancelData(map, lookUp, code);//취소데이터 셋업
         IamportResponse<Payment> cancel = iamportClientApi.cancelPaymentByImpUid(data);//취소
 
         return cancel;
     }
 
+    // 결제 취소되었을때 호출됨
+    // 저장되어 있는 사용자 배송 정보들 삭제함
+    @PostMapping("/payments/cancelUserInfo")
+    public ResponseEntity<String> cancelUserInfo(@RequestParam String merchant_uid) {
+        if (paymentService.deleteStoredUserInfo(merchant_uid)) {
+            return ResponseEntity.status(HttpStatus.OK).body("사용자 배송 정보 제거 성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("사용자 배송 정보 제거 실패");
+        }
+    }
 
     // 포트원 웹훅 엔드포인트
     @PostMapping("/portone-webhook")
     public ResponseEntity<String> portOneWebhook(@RequestParam String status, @RequestParam String imp_uid, @RequestParam String merchant_uid,
-                                                  HttpSession session, Principal principal) throws IamportResponseException, IOException {
+                                                 HttpSession session, Principal principal) throws IamportResponseException, IOException {
         log.info("portOneWebhook = {}, {}, {}", status, merchant_uid, imp_uid);
 
         if (status.equals("paid")) {
 
-            log.info("============= /payment/validate/nonuser");
-
             IamportResponse<Payment> irsp = paymentLookup(imp_uid);
             String orderLookUpNumber = paymentService.validateWebHook(irsp, principal, session);
 
-            if(orderLookUpNumber != null) {
+            if (orderLookUpNumber != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
             } else {
+                // todo: cancelPayment
+
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
             }
 
         }
 
-        return null;
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
     }
+
 }

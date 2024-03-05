@@ -31,7 +31,7 @@ function requestStoreUserInputInfo(payment_server_req_path) {
         if (payReqXML.status === 200) {
             console.log("사용자 정보 데이터 서버 전송 성공");
             var orderLookUpNumber = payReqXML.responseText;
-            
+
             requestPay(orderLookUpNumber)
             console.log('orderLookUpNumber = ' + orderLookUpNumber)
         } else {
@@ -118,8 +118,8 @@ function requestPay(orderLookUpNumber) {
             // 결재 요청 실패 
             else {
                 alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
-                // 결재 실패 시 결재 환불 
-                cancelPayments(rsp);
+                // 저장한 사용자 배송 정보 삭제 
+                cancelUserInfo(rsp);
             }
         }
     );
@@ -127,7 +127,8 @@ function requestPay(orderLookUpNumber) {
 
 // 환불
 function cancelPayments(temp) {
-    // console.log('cancelPayments()')
+    console.log('cancelPayments()')
+    console.log('checksum = ' + temp.paid_amount)
 
     let data = null;
 
@@ -139,11 +140,11 @@ function cancelPayments(temp) {
             reason: "결제 금액 위/변조. 결제 금액이 일치 안 함",
             checksum: temp.paid_amount,
             refundHolder: temp.buyer_name,
-            refund_bank: "우리은행"
+            refund_bank: "우리은행",
+            merchant_uid: temp.merchant_uid
         };
     } else {
-        // todo: 유저가 환불을 요청했을 때 데이터
-
+        // todo: 유저가 환불을 요청했을 때 데이터        
     }
 
     const xhr = new XMLHttpRequest();
@@ -169,5 +170,23 @@ function cancelPayments(temp) {
     xhr.send(JSON.stringify(data));
 }
 
+function cancelUserInfo(rsp) {
+    console.log('cancelUserInfo')
+    const formData = new FormData();    
+    // 포트원 결재 정보 
+    formData.append("merchant_uid", rsp.merchant_uid);
 
+    const payReqXML = new XMLHttpRequest();
+    payReqXML.open("POST", "/payments/cancelUserInfo", true);
+    payReqXML.onload = function () {
+        if (payReqXML.status === 200) {
+            console.log('사용자 배송 정보 제거 성공')
+            window.location.href = '/payments/paymentFail';
+        } else {
+            console.log('사용자 배송 정보 제거 실패')
+            window.location.href = '/payments/paymentFail';
+        }
+    }
+    payReqXML.send(formData);
+}
 

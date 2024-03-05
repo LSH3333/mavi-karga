@@ -87,10 +87,7 @@ public class PaymentService {
 
 
 
-    /**
-     * 결제 취소할때 필요한 파라미터들을
-     * CancelData에 셋업해주고 반환함.
-     */
+    // 결제 취소할때 필요한 파라미터들을 CancelData에 셋업해주고 반환함.
     @Transactional
     public CancelData cancelData(Map<String,String> map,
                                  IamportResponse<Payment> lookUp, String code) throws IOException {
@@ -115,6 +112,16 @@ public class PaymentService {
         return data;
     }
 
+    // 결제 취소되었을때 호출됨
+    // 저장되어 있는 사용자 배송 정보들 삭제함
+    public boolean deleteStoredUserInfo(String merchant_uid) {
+        PaymentInfo paymentInfo = paymentRepository.findByMerchantUid(merchant_uid);
+        if(paymentInfo == null) return false;
+        OrderInfo orderInfo = paymentInfo.getOrderInfo();
+        // db에 저장해놓은 OrderInfo 삭제 (연관된 것들도 모두 삭제)
+        orderRepository.delete(orderInfo);
+        return true;
+    }
 
     ////////////////////////// 비회원 //////////////////////////
 
@@ -128,7 +135,7 @@ public class PaymentService {
         return uuid_string;
     }
 
-    //////////////////////////////////////
+    //////////////////////// 결제창에서 유저가 입력한 배송 정보들 저장 ////////////////////////
     public String storeOrder(PaymentRequestDto paymentRequestDto, HttpSession session, Principal principal) {
         log.info("================== storeOrder");
         if(principal == null) {
