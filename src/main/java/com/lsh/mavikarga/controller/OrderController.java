@@ -48,8 +48,8 @@ public class OrderController {
     /////////////////////////////// 전체 상품 페이지 ///////////////////////////////
     @GetMapping("/clothing")
     public String clothingMain(Model model, HttpServletRequest request) {
-        // 카테고리가 메인인 상품들
-        List<Product> products = productService.findByClothingCategoryAndRemovedFalse(ClothingCategory.MAIN);
+        // 메인에 디스플레이할 상품들
+        List<Product> products = productService.findByMainProductAndRemovedFalse(true);
         ClothingDtoList clothingDtoList = productService.createClothingDto(products, request);
 
         model.addAttribute("clothingDtoList", clothingDtoList);

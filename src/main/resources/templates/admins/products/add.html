@@ -66,6 +66,11 @@
                     <label th:for="${'size-' + s}" th:text="${s}"></label><br />
                 </div>
             </div>
+            <!-- 메인 -->
+            <div class="mb-3 color-checkboxes">
+                <label for="mainProduct" class="form-label">메인화면 디스플레이 여부</label>
+                <input class="form-check-input" th:field="*{mainProduct}" type="checkbox"/>                
+            </div>
             <!-- 카테고리 -->
             <div class="mb-3">
                 <label for="clothingCategory" class="form-label">카테고리</label>

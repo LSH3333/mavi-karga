@@ -53,6 +53,10 @@ public class ProductService {
         return productRepository.findByClothingCategoryAndRemovedFalse(clothingCategory);
     }
 
+    public List<Product> findByMainProductAndRemovedFalse(boolean isMainProduct) {
+        return productRepository.findByMainProductAndRemovedFalse(isMainProduct);
+    }
+
 
     ////////// 상품 추가 ////////////
     // 클라이언트에서 보낸 addProductDto 로 Product 를 만듦
@@ -75,6 +79,7 @@ public class ProductService {
         addProductDto.setDetailsAndCare(product.getDetailsAndCare());
         addProductDto.setDescription(product.getDescription());
         addProductDto.setClothingCategory(product.getClothingCategory());
+        addProductDto.setMainProduct(product.isMainProduct());
 
         updateSize(product.getProductOptions(), addProductDto);
         updateColor(product.getProductOptions(), addProductDto);
@@ -110,7 +115,7 @@ public class ProductService {
         product.setDetailsAndCare(addProductDto.getDetailsAndCare());
         product.setClothingCategory(addProductDto.getClothingCategory());
         product.updateAvailableSizes(addProductDto.getSize(), addProductDto.getProductColor());
-
+        product.setMainProduct(addProductDto.isMainProduct());
 
         return true;
     }

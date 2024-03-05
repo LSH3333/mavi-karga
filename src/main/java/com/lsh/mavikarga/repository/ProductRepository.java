@@ -17,4 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
 
     // 관리자가 제외하지 않은 제품들중 카테고리로 찾음
     List<Product> findByClothingCategoryAndRemovedFalse(ClothingCategory clothingCategory);
+
+    List<Product> findByMainProductAndRemovedFalse(boolean isMainProduct);
 }

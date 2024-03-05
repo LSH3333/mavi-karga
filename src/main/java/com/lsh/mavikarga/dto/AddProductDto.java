@@ -47,7 +47,8 @@ public class AddProductDto {
     private ClothingCategory clothingCategory;
     // 상품 카테고리 enum 목록
     private ClothingCategory[] clothingCategories = ClothingCategory.values();
-
+    // 메인 화면 디스플레이 여부
+    private boolean mainProduct;
 
 
 }

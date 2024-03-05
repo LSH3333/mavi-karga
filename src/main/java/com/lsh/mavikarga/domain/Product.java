@@ -61,7 +61,8 @@ public class Product {
     // 카테고리
     @Enumerated(EnumType.STRING)
     private ClothingCategory clothingCategory;
-
+    // 메인에 디스플레이할 상품인지 여부
+    private boolean mainProduct;
 
 
 
@@ -76,6 +77,7 @@ public class Product {
         this.description = addProductDto.getDescription();
         this.detailsAndCare = addProductDto.getDetailsAndCare();
         this.clothingCategory = addProductDto.getClothingCategory();
+        this.mainProduct = addProductDto.isMainProduct();
 
         // ProductSize 생성, 재고 있음 처리
         // 크기별 색상별로 제품크기 생성.
