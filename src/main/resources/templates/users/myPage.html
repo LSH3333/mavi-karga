@@ -183,8 +183,9 @@
     </script>
 
     <script>
+        let username = '[[${username}]]'
         function confirmDelete() {
-            return confirm('Are you sure you want to delete your account?');
+            return confirm('Are you sure you want to delete your account? (username = ' + username + ')');
         }
     </script>
 </body>

@@ -40,6 +40,7 @@ public class UserController {
         // current page
         model.addAttribute("page", page+1);
         model.addAttribute("menu", "mypage");
+        model.addAttribute("username", user.getUsername());
 
         return "users/myPage";
     }
