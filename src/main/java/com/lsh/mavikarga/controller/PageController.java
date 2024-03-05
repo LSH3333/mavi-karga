@@ -48,10 +48,12 @@ public class PageController {
         return "object";
     }
 
-    @GetMapping("/makingStory/1")
-    public String makingStory1(Model model) {
+
+
+    @GetMapping("/collection/collection1")
+    public String collection1(Model model) {
         model.addAttribute("menu", "clothing");
-        return "makingStory1";
+        return "collection/collection1";
     }
 
     @GetMapping("/policy/privacyPolicy")
