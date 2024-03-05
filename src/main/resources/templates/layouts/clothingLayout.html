@@ -12,32 +12,8 @@
         th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
 
 
-    <style>
-        @font-face {
-            font-family: 'Treegarden';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+    <link rel="stylesheet" href="/static/css/universal.css" th:href="@{/css/universal.css}">
 
-        body {
-            padding-top: 0;
-            font-family: 'Treegarden', sans-serif;
-        }
-
-        /* footer */
-        footer p {
-            color: black;
-        }
-
-        footer p a {
-            color: black;
-        }
-
-        .featurette-divider {
-            margin: 5rem 0;
-        }
-    </style>
     <!-- header navBar 스타일 -->
     <link rel="stylesheet" href="/static/css/navbarHeader.css" th:href="@{/css/navbarHeader.css}">
     <!-- font awesome -->
@@ -60,6 +36,7 @@
     <div th:replace="~{fragments/header::cart-offcanvas}"></div>
     <div th:replace="~{fragments/header::ajax-spinner}"></div>
 
+    <div th:replace="~{fragments/footer::footer-divider}"></div>
     <div th:replace="~{fragments/footer::footer}"></div>
 
     <!-- bootstrap -->

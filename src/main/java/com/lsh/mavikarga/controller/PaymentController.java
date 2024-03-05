@@ -182,7 +182,6 @@ public class PaymentController {
             if (orderLookUpNumber != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(orderLookUpNumber);
             } else {
-                // todo: cancelPayment
 
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결재 정보 검증 실패");
             }

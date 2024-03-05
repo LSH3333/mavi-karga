@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'Treegarden';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    padding-top: 0;
+    padding-bottom: 3rem;
+    font-family: 'Treegarden', sans-serif;
+}
+
+footer {
+    margin-top: 3rem;
+}
+
+footer a {
+    color: black;
+}
+
+.featurette-divider {
+    margin: 5rem 0;
+}
+
+.footer-divider {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}
