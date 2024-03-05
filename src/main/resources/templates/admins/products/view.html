@@ -22,23 +22,42 @@
             <h1 class="h2">상품 목록</h1>
         </div>
 
-        <table class="table table-hover">
+        <table class="mb-3 w-100 order-table">
             <thead>
-                <tr>
-                    <th scope="col">상품명</th>
-                    <th scope="col">가격</th>
-                    <th scope="col">상품 수정</th>
-                    <th scope="col">상품 이미지 수정</th>
-                    <!-- <th scope="col">사이즈</th> -->
-                    <!-- <th scope="col">재고</th> -->
+                <tr class="row justify-content-between align-items-center thead-row">
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1">상품</td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1">가격</td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1">상품 수정</td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1">상품 이미지 수정</td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                    <td>
+                        <hr>
+                    </td>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="product: ${products}">
-                    <td><p th:text="${product.name}"></p></td>
-                    <td><p th:text="${product.price}"></p></td>
-                    <td><a th:href="@{/admins/products/edit/{productId}(productId=${product.id})}">클릭</a></td>
-                    <td><a th:href="@{/admins/products/images/{productId}(productId=${product.id})}">클릭</a></td>
+                <tr th:each="product: ${products}" class="row justify-content-between align-items-center tbody-row">
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                        <div style="width: 60%;">
+                            <a th:href="@{/order/products?productId={productId}(productId=${product.id})}">
+                                <img class="img-fluid"
+                                    src="https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg"
+                                    th:src="${product.thumbnail_url}" alt="product thumbnail img">
+                            </a>
+                        </div>
+                    </td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                        <p th:text="${product.name}"></p>
+                    </td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                        <p th:text="'₩ ' + ${product.price}"></p>
+                    </td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1"><a
+                            th:href="@{/admins/products/edit/{productId}(productId=${product.id})}">클릭</a></td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1"><a
+                            th:href="@{/admins/products/images/{productId}(productId=${product.id})}">클릭</a></td>
+                    <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
                     <!-- <td><a th:text="${product.size}" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td> -->
                     <!-- <td><a th:text="${product.available} ? 'O' : 'X'" th:href="@{/admins/products/edit/{productId}(productId=${product.id})}"></a></td> -->
                 </tr>

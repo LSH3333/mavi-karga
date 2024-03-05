@@ -21,11 +21,10 @@ public class ViewProductDto {
     // 금액
     private int price;
 
-    // Product size (if applicable)
-//    private String size;
-
     // 재고 여부
     private boolean available;
+
+    private String thumbnail_url;
 
     // 관리자 페이지에 보낼 상품 DTO 생성
     public static List<ViewProductDto> createViewProductDtoList(List<Product> allProducts) {
@@ -35,6 +34,7 @@ public class ViewProductDto {
             viewProductDto.setId(product.getId());
             viewProductDto.setName(product.getName());
             viewProductDto.setPrice(product.getPrice());
+            viewProductDto.setThumbnail_url(product.getThumbnail_front().getUrl());
 
             viewProductDtoList.add(viewProductDto);
         }
