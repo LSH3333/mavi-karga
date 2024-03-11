@@ -4,6 +4,8 @@ package com.lsh.mavikarga.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class CustomerInquiryReturnDto {
 
@@ -15,8 +17,16 @@ public class CustomerInquiryReturnDto {
     // 사유
     private String reason;
 
+    private LocalDateTime createdTime;
 
 
     public CustomerInquiryReturnDto() {}
 
+    public CustomerInquiryReturnDto(String name, String phone, String orderLookUpNumber, String reason, LocalDateTime createdTime) {
+        this.name = name;
+        this.phone = phone;
+        this.orderLookUpNumber = orderLookUpNumber;
+        this.reason = reason;
+        this.createdTime = createdTime;
+    }
 }

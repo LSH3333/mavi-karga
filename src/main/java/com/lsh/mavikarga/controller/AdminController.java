@@ -3,15 +3,13 @@ package com.lsh.mavikarga.controller;
 import com.lsh.mavikarga.domain.Product;
 import com.lsh.mavikarga.domain.User;
 import com.lsh.mavikarga.dto.AddProductDto;
+import com.lsh.mavikarga.dto.CustomerInquiryReturnDtoList;
 import com.lsh.mavikarga.dto.ShowUserToAdminDtoList;
 import com.lsh.mavikarga.dto.ViewProductDto;
 import com.lsh.mavikarga.dto.admin.showUserOrderToAdmin.ShowUserOrderToAdminDtoList;
 import com.lsh.mavikarga.enums.ProductColor;
 import com.lsh.mavikarga.enums.Sizes;
-import com.lsh.mavikarga.service.OrderService;
-import com.lsh.mavikarga.service.ProductImageService;
-import com.lsh.mavikarga.service.ProductService;
-import com.lsh.mavikarga.service.UserService;
+import com.lsh.mavikarga.service.*;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +36,15 @@ public class AdminController {
     private final ProductService productService;
     private final ProductImageService productImageService;
     private final OrderService orderService;
+    private final CustomerInquiryService customerInquiryService;
 
     @Autowired
-    public AdminController(ProductService productService, UserService userService, ProductImageService productImageService, OrderService orderService) {
+    public AdminController(ProductService productService, UserService userService, ProductImageService productImageService, OrderService orderService, CustomerInquiryService customerInquiryService) {
         this.productService = productService;
         this.userService = userService;
         this.productImageService = productImageService;
         this.orderService = orderService;
+        this.customerInquiryService = customerInquiryService;
     }
 
     //////////////////// 상품 추가 ////////////////
@@ -244,6 +244,19 @@ public class AdminController {
         return "redirect:/admins/orders";
     }
 
+
+    //////////////////// 고객 문의 ////////////////
+    @GetMapping("/admins/customerCenter/returns")
+    public String customerCenterReturns(Model model, @RequestParam(name = "page", defaultValue = "0") int page) {
+        int pageSize = 10;
+
+        CustomerInquiryReturnDtoList customerInquiryReturnDtoList = customerInquiryService.makeCustomerInquiryReturnDtoList(page, pageSize);
+        model.addAttribute("customerInquiryReturnDtoList", customerInquiryReturnDtoList);
+        // current page
+        model.addAttribute("page", page+1);
+
+        return "/admins/inquiries/returns";
+    }
 
 
 //    @GetMapping("/admins/testCreateUsers")
