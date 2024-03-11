@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
+
+<head>
+    <title>mavi karga</title>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
+        th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
+
+    <link rel="stylesheet" href="/static/css/universal.css" th:href="@{/css/universal.css}">
+
+</head>
+
+<body layout:fragment="content">
+    <main>
+        <div class="container mt-5" >
+            <div class="row ">
+                <div class="col-md-2 col-lg-2 col-xl-2" >
+                    <a>취소/반품/교환</a>
+                </div>
+                <div class="col-md-8 col-lg-8 col-xl-8">
+                    <section style="width: 70%; margin-left: 50px;">
+                        <form action="">
+                            <!-- 이름 -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">구매자 이름</label>
+                                <input th:field="*{name}" type="text" class="form-control" 
+                                    placeholder="구매자의 이름을 입력해주세요">
+                            </div>
+                            <!-- 전화번호 -->
+                            <div class="mb-3">
+                                <label for="price" class="form-label">전화번호</label>
+                                <input th:field="*{price}" type="number" class="form-control" 
+                                    placeholder="연락 가능한 전화번호를 입력해주세요">
+                            </div>
+                            <!-- 주문조회번호 -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">주문조회번호</label>
+                                <input th:field="*{name}" type="text" class="form-control" 
+                                    placeholder="상품 구매 시 안내해드린 주문조회번호를 입력해주세요">
+                            </div>
+                            <!-- 사유 -->
+                            <div class="mb-3">
+                                <label for="description" class="form-label">취소/반품/교환 사유</label>
+                                <textarea th:field="*{description}" class="form-control"  rows="3"></textarea>
+                            </div>
+                            <!-- submit 버튼 -->
+                            <button
+                                style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                                id="submitBtn" type="submit" class="btn btn-outline-secondary btn-sm">신청</button>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- bootstrap -->
+    <script src="/static/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"
+        th:src="@{/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js}"></script>
+    <!-- offcanvs cart -->
+    <script src="/static/js/offcanvasCart.js" th:src="@{/js/offcanvasCart.js}"></script>
+</body>
+
+</html>

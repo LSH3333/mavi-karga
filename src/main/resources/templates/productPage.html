@@ -6,8 +6,8 @@
     <title>mavi karga</title>
 
     <!-- 커스텀 스크롤 디자인 -->
-    <link rel="stylesheet" href="/static/css/scroll_box.css" th:href="@{/css/scroll_box.css}">    
-    <link rel="stylesheet" href="/static/css/productPage.css" th:href="@{/css/productPage.css}">    
+    <link rel="stylesheet" href="/static/css/scroll_box.css" th:href="@{/css/scroll_box.css}">
+    <link rel="stylesheet" href="/static/css/productPage.css" th:href="@{/css/productPage.css}">
 
     <script src="https://kit.fontawesome.com/c39d59a5ec.js" crossorigin="anonymous"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -17,7 +17,7 @@
 <body layout:fragment="content">
 
     <main>
-        <section >
+        <section>
             <div class="container-fluid" style="padding-left: 0; padding-right: 0;">
                 <div class="row">
                     <!-- LEFT SIDE -->
@@ -125,12 +125,26 @@
                                                                     th:href="@{/login}">SIGN IN</a>
                                                             </div>
                                                         </div>
-                                                        <!-- 장바구니 추가 완료 알림 -->
-                                                        <!-- <div class="mt-3" id="liveAlertPlaceholder"></div> -->
-                                                        <!-- 상품 설명 -->
-                                                        <div class="scroll scroll2">
-                                                            <div class="content"
-                                                                th:text="${orderProductDto.description}"></div>
+                                                        <div class="my-3">
+                                                            <!-- 상품 설명 -->
+                                                            <div class="scroll scroll2">
+                                                                <div class="content"
+                                                                    th:text="${orderProductDto.description}"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <!-- Delivery & returns -->
+                                                            <div class="d-flex">
+                                                                <!-- Button trigger modal -->
+                                                                <button type="button"
+                                                                    class="ms-auto btn btn-outline-secondary btn-sm"
+                                                                    id="delivery-return-btn"
+                                                                    style="border-radius: 0; font-weight: bolder; color: black; --bs-btn-padding-y: 0; --bs-btn-padding-x: .5rem;"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#delivery-return-modal">
+                                                                    Delivery & returns
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -146,7 +160,7 @@
             </div>
         </section>
 
-        
+
 
         <!-- ajax 요청 로딩 중 보여줄 스피너 -->
         <div id="spinner-div" class="pt-5">
@@ -214,7 +228,7 @@
     </div>
     <!-- End of offcanvas content -->
 
-    <!-- Modal -->
+    <!-- 상품 이미지 Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-scrollable modal-fullscreen">
             <div class="modal-content ">
@@ -239,6 +253,55 @@
     </div>
     <!-- End of Modal -->
 
+    <!-- Delivery & returns Modal -->
+    <div class="modal fade" id="delivery-return-modal" tabindex="-1" aria-labelledby="deliveryReturnModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modal-header-overlap" style="border-bottom: none; height: 1rem;">
+                    <!-- <h1 class="modal-title fs-5" id="deliveryReturnModalLabel">Delivery & returns</h1> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <section>
+                        <p><u>배송&반품</u></p>
+                        <p>배송&반품 배송비 :무료</p>
+                        <p>교환&반품비 : 6,000원</p>
+                        <p>배송기간 : 주문 제작 방식이므로 3~4주 정도 소요.</p>
+                        <p>(지역 택배사 사정에 따라 약간의 지연 될 수 있음.)</p>
+                    </section>
+                    <section>
+                        <p><u>교환/반품이 가능한 경우</u></p>
+                        <ul class="modal-ul">
+                            <li>단순 변심, 착오 구매에 따른 교환/반품은 상품을 공급받은 날부터 7일 이내에 가능합니다. (배송비 고객 부담)</li>
+                            <li>단, 일부 제품의 경우 포장을 개봉하였거나 포장이 훼손되어 상품가치가 상실된 경우에는 교환 및 반품이 불가능합니다. (상품 확인을 위하여 포장 훼손한 경우는
+                                제외)</li>
+                            <li>공급 받으신 상품 내용이 표시, 광고내용과 다르거나 다르게 이행된 경우에는 그 상품을 공급받은 날부터 3개월 이내, 그 사실을 안 날 또는 알 수 있었던
+                                날부터 30일 이내 청약철회가 가능합니다. (배송비 회사 부담)</li>
+                            <li>교환 및 반품 신청에는 사유에 따라 배송비 3,000~6,000원이 부과됩니다. 이 때 무료배송 혜택을 받은 주문일 경우 왕복 금액을, 배송비를 부담하신 경우
+                                편도 금액을 산정하여 환불 금액에서 차감될 수 있습니다.</li>
+                            물품 하자에 의한 반송을 제외하고 고객변심에 의한 반품, 교환인 경우 배송비는 고객 부담이며(교환 시 6,000원 / 반품 시 3,000원), 접수 완료일로부터 평일
+                            기준 2~3일 내에 수거가 이루어집니다.
+                            구매수량 단위로 배송비가 부과된 상품은 교환 및 반품을 희망하실 경우 주문시와 동일하게 구매수량 단위로 회수비를 부과합니다.
+                            <li>반품 시, 상품대금 환불은 상품 회수 및 청약철회가 확정된 날로부터 3영업일 이내 진행되며, 기한을 초과한 경우 지연 기간에 대하여 「전자상거래 등에서의
+                                소비자보호에
+                                관한 법률 시행령」 에서 정하는 이율을 곱하여 산정한 지연이자를 지급합니다.</li>
+                            <li>주문취소 및 교환/반품은 [마이페이지 > 주문/배송조회] 또는 고객센터를 통해 신청하실 수 있습니다.</li>
+                        </ul>
+                        <p><u>교환/반품이 불가능한 경우</u></p>
+                        <ul class="modal-ul">
+                            <li>소비자에게 책임이 있는 사유로 재화등이 멸실되거나 훼손된 경우(재화의 내용을 확인하기 위하여 포장을 훼손한 경우는 제외)</li>
+                            <li>소비자의 사용 또는 일부 소비로 재화등의 가치가 현저히 감소한 경우</li>
+                            <li>시간이 지나 다시 판매하기 곤란할 정도로 재화등의 가치가 현저히 감소한 경우</li>
+                            <li>복제가 가능한 재화등의 포장을 훼손한 경우</li>
+                            <li>소비자의 주문에 따라 개별적으로 생산되는 재화등 또는 이와 유사한 재화등에 대하여 청약철회등을 인정하는 경우 통신판매업자에게 회복할 수 없는 중대한 피해가
+                                예상되는 경우로서 사전에 해당 거래에 대하여 별도로 그 사실을 고지하고 소비자의 서면(전자문서 포함)에 의한 동의를 받은 경우</li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="/static/js/productPage.js" th:src="@{/js/productPage.js}"></script>
 </body>
