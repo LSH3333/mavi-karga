@@ -58,6 +58,7 @@ function requestPay(orderLookUpNumber) {
             buyer_tel: buyer_tel_req,
             buyer_addr: buyer_addr_req,
             buyer_postcode: buyer_postcode_req,
+            m_redirect_url: '/payments/paymentSuccess?orderLookUpNumber=' + orderLookUpNumber,
         },
         function (rsp) { // 결과 
             // 결재 요청 성공 -> 서버에서 검증 
