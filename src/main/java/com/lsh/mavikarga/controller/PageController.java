@@ -1,5 +1,6 @@
 package com.lsh.mavikarga.controller;
 
+import com.lsh.mavikarga.dto.CustomerInquiryReturnDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.Locale;
@@ -66,10 +68,7 @@ public class PageController {
         return "policy/termsOfService";
     }
 
-    @GetMapping("/customerCenter/returns")
-    public String customerCenter() {
-        return "customerCenter/returns";
-    }
+
 
     // USD/KOR 버튼 눌러서 Locale 변환
     @GetMapping("/locale")
