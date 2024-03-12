@@ -18,25 +18,25 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">유저명</th>
-                        <th scope="col">이메일</th>
-                        <th scope="col">가입시간</th>
-                        <th scope="col">주문목록</th>
+                        <td class="col-md-6 col-lg-6 col-xl-6">유저명</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2">이메일</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2">가입시간</td>
+                        <td class="col-md-2 col-lg-2 col-xl-2">주문목록</td>
                     </tr>
                 </thead>
                 <tbody th:object="${showUserToAdminDtoList}">
                     <tr th:each="showUserToAdminDto : *{showUserToAdminDtoList}">
-                        <td>
+                        <td class="col-md-6 col-lg-6 col-xl-6">
                             <p th:text="${showUserToAdminDto.username}"></p>
                         </td>
-                        <td>
+                        <td class="col-md-2 col-lg-2 col-xl-2">
                             <!-- <p th:text="${showUserToAdminDto.email}"></p> -->
                             <p>email</p>
                         </td>
-                        <td>
+                        <td class="col-md-2 col-lg-2 col-xl-2">
                             <p th:text="${showUserToAdminDto.createdTime}"></p>
                         </td>
-                        <td>
+                        <td class="col-md-2 col-lg-2 col-xl-2">
                             <a href=""
                                 th:href="@{/admins/users/orders?userId={userId}(userId=${showUserToAdminDto.userId})}">클릭</a>
                         </td>
