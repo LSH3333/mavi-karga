@@ -105,7 +105,7 @@ public class OrderController {
 
         // 클라이언트로 보낼 DTO
         OrderProductDto orderProductDto = new OrderProductDto(product.getName(), product.getDescription(), product.getProductOptions(),
-                allProductImagesUrlInProduct, getPriceByLocale(response, request, product));
+                allProductImagesUrlInProduct, getPriceByLocale(response, request, product), product.getDetailsAndCare());
 
         // 사이즈 정렬 (S,M,L ... )
         Collections.sort(orderProductDto.getProductSizeList());

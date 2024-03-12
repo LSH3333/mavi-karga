@@ -16,6 +16,7 @@ public class OrderProductDto  {
     private List<ProductOption> productSizeList = new ArrayList<>();
     private int price;
 //    private int price_USD;
+    private String detailsAndCare;
 
     // 상품 이미지 url (aws s3 버킷)
     private List<String> productImgUrlList = new ArrayList<>();
@@ -29,19 +30,22 @@ public class OrderProductDto  {
     public OrderProductDto() {}
 
     public OrderProductDto(String name, String description, List<ProductOption> productSizeList, List<String> productImgUrlList,
-                           int price) {
+                           int price, String detailsAndCare) {
         // 상품명
         this.name = name;
         // 상품 상세
         this.description = description;
         // 가격
         this.price = price;
+        // 디테일 & 케어
+        this.detailsAndCare = detailsAndCare;
         // available 한 ProductSize 만 담는다
         for (ProductOption productSize : productSizeList) {
             if (productSize.isAvailable()) {
                 this.productSizeList.add(productSize);
             }
         }
+
         // 상품 이미지
         this.productImgUrlList = productImgUrlList;
     }
