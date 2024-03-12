@@ -19,12 +19,12 @@
             <table class="mb-3 w-100 order-table">
                 <thead>
                     <tr class="row justify-content-between align-items-center thead-row">
-                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRODUCT</td>
-                        <td class="col-md-2 col-lg-2 col-xl-2 my-1"></td>
+                        <td class="col-md-3 col-lg-3 col-xl-3 my-1">PRODUCT<br>(ORDER LOOKUP NUMBER)</td>
+                        <td class="col-md-3 col-lg-3 col-xl-3 my-1"></td>
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">ORDER DATE</td>
-                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">QTY</td>
+                        <td class="col-md-1 col-lg-1 col-xl-1 my-1">QTY</td>
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">PRICE</td>
-                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">STATUS</td>
+                        <td class="col-md-1 col-lg-1 col-xl-1 my-1">STATUS</td>
                         <td>
                             <hr>
                         </td>
@@ -42,19 +42,19 @@
                                 </a>
                             </div>
                         </td>
-                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
-                            <p class="name" th:text="${myPageDto.name}"></p>
+                        <td class="col-md-4 col-lg-4 col-xl-4 my-1">
+                            <p class="name" th:text="${myPageDto.name} + ' (' + ${myPageDto.orderLookUpNumber} + ')'"></p>
                         </td>
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">
                             <p class="orderDate" th:text="${#temporals.format(myPageDto.orderDate, 'yyyy-MM-dd')}"></p>
                         </td>
-                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                        <td class="col-md-1 col-lg-1 col-xl-1 my-1">
                             <p class="" th:text="${myPageDto.count}"></p>
                         </td>
                         <td class="col-md-2 col-lg-2 col-xl-2 my-1">
                             <p th:text="'₩ ' + ${myPageDto.orderPrice}"></p>
                         </td>
-                        <td class="col-md-2 col-lg-2 col-xl-2 my-1">
+                        <td class="col-md-1 col-lg-1 col-xl-1 my-1">
                             <p th:text="${myPageDto.orderStatus}"></p>
                         </td>
                     </tr>

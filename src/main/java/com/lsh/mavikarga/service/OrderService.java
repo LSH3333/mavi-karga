@@ -80,6 +80,7 @@ public class OrderService {
         for (Cart cart : carts) {
             ProductOption productOption = cart.getProductOption();
             Product product = productOption.getProduct();
+            if(product.isRemoved()) continue; // 관리자에 의해 제거된 상품이면 제외
             // 기본 썸네일
             String thumbnail_url = "https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg";
             if(product.getThumbnail_front() != null) {
@@ -157,6 +158,7 @@ public class OrderService {
             if(cartForNonUser.isRemoved()) continue; // removed=true 인 비회원 장바구니 제외
             ProductOption productOption = cartForNonUser.getProductSize();
             Product product = productOption.getProduct();
+            if(product.isRemoved()) continue; // 관리자에 의해 제거된 상품이면 제외
             String thumbnail_url = "https://mavikarga-bucket.s3.ap-northeast-2.amazonaws.com/images/thumbnail_front_default.jpg";
             if(product.getThumbnail_front() != null) {
                 thumbnail_url = product.getThumbnail_front().getUrl();
@@ -371,6 +373,8 @@ public class OrderService {
                 myPageDto.setCount(orderProduct.getCount());
                 // 처리 상태
                 myPageDto.setOrderStatus(orderInfo.getOrderStatus());
+                // 주문 조회 번호
+                myPageDto.setOrderLookUpNumber(orderInfo.getOrderLookUpNumber());
                 // 썸네일 이미지 url
                 String thumbnail_url = "";
                 if(product.getThumbnail_front() != null) {
