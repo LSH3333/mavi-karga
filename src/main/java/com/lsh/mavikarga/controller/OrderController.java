@@ -153,7 +153,7 @@ public class OrderController {
     @PostMapping("/order/products/cart/remove")
     public ResponseEntity<String> offCanvasCartRemoveRequest(Principal principal, HttpSession session, @RequestParam String cartId) {
 
-        log.info("offCanvasCartRemoveRequest = {}", cartId);
+//        log.info("offCanvasCartRemoveRequest = {}", cartId);
 
         boolean result;
 
@@ -214,8 +214,8 @@ public class OrderController {
             @ModelAttribute OrderProductDto orderProductDto,
             Principal principal) {
 
-        log.info("orderProductDto.getSelectedProductSizeId() = {}", orderProductDto.getSelectedProductSizeId());
-        log.info("orderProductDto.count() = {}", orderProductDto.getCount());
+//        log.info("orderProductDto.getSelectedProductSizeId() = {}", orderProductDto.getSelectedProductSizeId());
+//        log.info("orderProductDto.count() = {}", orderProductDto.getCount());
 
         User user = userService.findByUsername(principal.getName()).orElse(null);
         // user 세션에 문제 있거나, 사이즈 선택 안했을 경우 BAD_REQUEST
@@ -235,7 +235,7 @@ public class OrderController {
     // 비회원 장바구니 추가 ajax
     @PostMapping("/order/products/add/nonuser")
     public ResponseEntity<String> addProductToOrderNonUser(HttpSession session, @ModelAttribute OrderProductDto orderProductDto) {
-        log.info("addProductToOrderNonUser");
+
         // 사이즈 선택 안했을 경우 BAD_REQUEST
         if (orderProductDto.getSelectedProductSizeId() == -1) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("BAD_REQUEST");

@@ -165,7 +165,7 @@ public class OrderService {
             }
             CartProductDto cartProductDto = new CartProductDto((long) cartForNonUser.getId(), product.getId(), product.getName(), product.getPrice(),
                     cartForNonUser.getCount(), thumbnail_url, productOption.getSize());
-            log.info("cartForNonUser.getId() = {}", cartForNonUser.getId());
+//            log.info("cartForNonUser.getId() = {}", cartForNonUser.getId());
             cartProductDtos.add(cartProductDto);
         }
 
@@ -406,7 +406,7 @@ public class OrderService {
         List<OrderProduct> orderProducts = orderInfo.getOrderProducts();
 
         for (OrderProduct orderProduct : orderProducts) {
-            log.info("orderProduct = {}", orderProduct.getOrderPrice());
+//            log.info("orderProduct = {}", orderProduct.getOrderPrice());
             Product product = orderProduct.getProductOption().getProduct();
             // Dto
             MyPageDto myPageDto = new MyPageDto();

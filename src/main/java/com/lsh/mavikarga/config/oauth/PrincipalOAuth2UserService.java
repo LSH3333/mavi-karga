@@ -46,14 +46,14 @@ public class PrincipalOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         log.info("userRequest = {}", userRequest);
         // ClientRegistration{registrationId='google', clientId='', clientSecret='', clientAuthenticationMethod=client_secret_basic, authorizationGrantType=org.springframework.security.oauth2.core.AuthorizationGrantType@5da5e9f3, redirectUri='{baseUrl}/{action}/oauth2/code/{registrationId}', scopes=[profile, email], providerDetails=org.springframework.security.oauth2.client.registration.ClientRegistration$ProviderDetails@1eac847c, clientName='Google'}
-        log.info("userRequest.getClientRegistration() = {}", userRequest.getClientRegistration());
-        log.info("userRequest.getAccessToken().getTokenValue() = {}", userRequest.getAccessToken().getTokenValue());
-        log.info("userRequest.getClientRegistration() = {}", userRequest.getClientRegistration());
+//        log.info("userRequest.getClientRegistration() = {}", userRequest.getClientRegistration());
+//        log.info("userRequest.getAccessToken().getTokenValue() = {}", userRequest.getAccessToken().getTokenValue());
+//        log.info("userRequest.getClientRegistration() = {}", userRequest.getClientRegistration());
 
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
         // {sub=113278514104204816500, name=이세현, given_name=세현, family_name=이, picture=https://lh3.googleusercontent.com/a/ACg8ocLjmyFdD4xwZx25hfhq4DEzJ7HpOiEH11PvmGg6RD-c=s96-c, email=dltpgustpgus@gmail.com, email_verified=true, locale=ko}
-        log.info("super.loadUser(userRequest).getAttributes() = {}", oAuth2User.getAttributes());
+//        log.info("super.loadUser(userRequest).getAttributes() = {}", oAuth2User.getAttributes());
 
         OAuth2UserInfo oAuth2UserInfo = null;
         // GOOGLE

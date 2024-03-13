@@ -64,7 +64,7 @@ public class PaymentController {
     @GetMapping("/payments/paymentSuccess")
     public String paymentSuccessForm(Principal principal, Model model, @RequestParam String orderLookUpNumber) {
 
-        log.info("orderLookUpNumber = {}", orderLookUpNumber);
+        log.info("paymentSuccessForm orderLookUpNumber = {}", orderLookUpNumber);
         model.addAttribute("orderLookUpNumber", orderLookUpNumber);
         return "payments/paymentSuccess";
 
@@ -141,7 +141,6 @@ public class PaymentController {
      */
     @PostMapping("/payments/cancel")
     public IamportResponse<Payment> cancelPayments(@RequestBody Map<String, String> map) throws IamportResponseException, IOException {
-
         //조회
         IamportResponse<Payment> lookUp = null;
         if (map.containsKey("impUid")) lookUp = paymentLookup(map.get("impUid"));//들어온 정보에 imp_uid가 있을때
@@ -149,6 +148,7 @@ public class PaymentController {
         if (lookUp == null) {
             throw new IOException();
         }
+        log.info("cancelPayments {}", lookUp.getCode());
 
         String code = paymentService.code(map.get("refund_bank"));//은행코드
         CancelData data = paymentService.cancelData(map, lookUp, code);//취소데이터 셋업

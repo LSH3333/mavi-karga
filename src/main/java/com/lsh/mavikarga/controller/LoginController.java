@@ -16,7 +16,7 @@ public class LoginController {
         model.addAttribute("menu", "login");
 
         String prevPage = request.getHeader("Referer");
-        log.info("loginForm prevPage = {}", prevPage);
+//        log.info("loginForm prevPage = {}", prevPage);
         if(prevPage != null && !prevPage.contains("/login")) {
             request.getSession().setAttribute("prevPage", prevPage);
         }

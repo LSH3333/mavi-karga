@@ -62,7 +62,7 @@ public class S3Controller {
     public ResponseEntity<String> createMany(@RequestPart(value = "multipartFiles", required = false) MultipartFile[] multipartFiles) {
         // Process each file in the files array
         for (MultipartFile file : multipartFiles) {
-            log.info("file = {}", file.getOriginalFilename());
+//            log.info("file = {}", file.getOriginalFilename());
             // todo: productImageService 로 이미지 db 에 저장
         }
 

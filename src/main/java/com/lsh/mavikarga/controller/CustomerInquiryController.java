@@ -34,7 +34,7 @@ public class CustomerInquiryController {
 
     @PostMapping("/customerCenter/returns")
     public String customerCenterReturns(@ModelAttribute CustomerInquiryReturnDto customerInquiryReturnDto) {
-        log.info("customerCenterReturns = {}", customerInquiryReturnDto);
+//        log.info("customerCenterReturns = {}", customerInquiryReturnDto);
 
         customerInquiryService.saveCustomerInquiryReturnForm(customerInquiryReturnDto);
         return "redirect:/customerCenter/customerInquiryReceivedSuccess";

@@ -66,7 +66,7 @@ public class ProductImageService {
 
     // 제품의 이미지들 저장
     public void saveAllProductImages(List<MultipartFile> files, UUID productId) throws IOException {
-        log.info("saveAllProductImages = {}", productId);
+//        log.info("saveAllProductImages = {}", productId);
         Product product = productRepository.findById(productId).orElse(null);
         if(product == null) return;
 

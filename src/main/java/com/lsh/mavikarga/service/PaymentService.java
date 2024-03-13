@@ -137,12 +137,10 @@ public class PaymentService {
 
     //////////////////////// 결제창에서 유저가 입력한 배송 정보들 저장 ////////////////////////
     public String storeOrder(PaymentRequestDto paymentRequestDto, HttpSession session, Principal principal) {
-        log.info("================== storeOrder");
+        log.info("storeOrder");
         if(principal == null) {
-            log.info("NonUser");
             return storeOrderNonUser(paymentRequestDto, session);
         } else {
-            log.info("User");
             return storeOrderUser(paymentRequestDto, principal);
         }
     }
@@ -151,7 +149,7 @@ public class PaymentService {
     public String storeOrderNonUser(PaymentRequestDto paymentRequestDto, HttpSession session) {
         // 세션에서 장바구니 가져옴
         List<CartForNonUser> cartList = (List<CartForNonUser>) session.getAttribute("cart");
-        log.info("merchant_uid = {}", paymentRequestDto.getMerchant_uid());
+        log.info("storeOrderNonUser merchant_uid = {}", paymentRequestDto.getMerchant_uid());
 
         // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
@@ -194,6 +192,7 @@ public class PaymentService {
         if (user == null) {
             return null;
         }
+        log.info("storeOrderUser merchant_uid = {}", paymentRequestDto.getMerchant_uid());
 
         // 결제정보 생성
         PaymentInfo paymentInfo = new PaymentInfo(
@@ -219,7 +218,9 @@ public class PaymentService {
             orderProductList.add(orderProduct);
         }
         // 주문정보 생성
-        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery, generateOrderInfoLookUpNumber(), paymentInfo.getMerchantUid());
+        String orderLookUpNumber = generateOrderInfoLookUpNumber();
+        log.info("orderLookUpNumber = {}", orderLookUpNumber);
+        OrderInfo orderInfo = OrderInfo.createOrderInfo(user, orderProductList, paymentInfo, delivery, orderLookUpNumber, paymentInfo.getMerchantUid());
 
         // 주문정보 저장
         orderRepository.save(orderInfo);

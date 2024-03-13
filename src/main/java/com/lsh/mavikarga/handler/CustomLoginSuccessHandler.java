@@ -32,19 +32,19 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        log.info("onAuthenticationSuccess");
+        log.info("onAuthenticationSuccess {}", authentication.getName());
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
         // 접근 권한 없는 경로 접근해서 스프링 시큐리티가 인터셉트해서 로그인폼으로 이동 후 로그인 성공한 경우
         if (savedRequest != null) {
             String targetUrl = savedRequest.getRedirectUrl();
-            log.info("targetUrl = {}", targetUrl);
+//            log.info("targetUrl = {}", targetUrl);
             redirectStrategy.sendRedirect(request, response, targetUrl);
         }
         // 로그인 버튼 눌러서 로그인한 경우 기존에 있던 페이지로 리다이렉트
         else {
             String prevPage = (String) request.getSession().getAttribute("prevPage");
-            log.info("prevPage = {}", prevPage);
+//            log.info("prevPage = {}", prevPage);
             redirectStrategy.sendRedirect(request, response, prevPage);
         }
 

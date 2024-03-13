@@ -75,7 +75,7 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessageBuilder.toString());
         }
 
-        log.info("AddProductDto = {}", addProductDto);
+//        log.info("AddProductDto = {}", addProductDto);
 
         // 에러 없으면 저장 처리
         Product product = productService.save(productService.createProductFromDto(addProductDto));
@@ -98,7 +98,6 @@ public class AdminController {
     public ResponseEntity<String> uploadAjax(
             @RequestParam UUID productId,
             @RequestPart(value = "multipartFiles", required = false) List<MultipartFile> files) throws IOException {
-        log.info("IMG AJAX");
 
         // 기존에 있는 모든 상품 이미지 삭제
         productImageService.deleteAllProductImages(productId);
@@ -117,7 +116,7 @@ public class AdminController {
         List<ViewProductDto> viewProductDtoList = ViewProductDto.createViewProductDtoList(allProducts);
         model.addAttribute("products", viewProductDtoList);
 
-        log.info("products = {}", viewProductDtoList);
+//        log.info("products = {}", viewProductDtoList);
 
         return "admins/products/view";
     }
@@ -154,7 +153,7 @@ public class AdminController {
             // URL에 {productId} 경로 변수가 자동으로 포함.
             return "admins/products/edit";
         }
-        log.info("editProduct addProductDto = {}", addProductDto);
+//        log.info("editProduct addProductDto = {}", addProductDto);
         // product 수정
         productService.updateWithAddProductDto(productId, addProductDto);
 

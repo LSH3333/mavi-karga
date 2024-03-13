@@ -51,6 +51,7 @@ public class UserController {
         User user = userService.findByUsername(principal.getName()).orElse(null);
         if(user != null) {
             userService.deleteUser(user.getId());
+            log.info("deleteUser {}", user.getId());
         }
 
         return "redirect:/logout";
