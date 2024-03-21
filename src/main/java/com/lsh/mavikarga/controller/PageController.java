@@ -95,6 +95,13 @@ public class PageController {
         return "makingStory/manInTheMobile";
     }
 
+    @GetMapping("/makingStory/ignite")
+    public String ignite(Model model) {
+        model.addAttribute("menu", "object");
+        return "makingStory/ignite";
+    }
+
+
 
 
 
