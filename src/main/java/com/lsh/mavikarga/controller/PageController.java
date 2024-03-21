@@ -89,6 +89,17 @@ public class PageController {
         return "makingStory/rug";
     }
 
+    @GetMapping("/makingStory/manInTheMobile")
+    public String manInTheMobile(Model model) {
+        model.addAttribute("menu", "object");
+        return "makingStory/manInTheMobile";
+    }
+
+
+
+
+
+
 
     @GetMapping("/policy/privacyPolicy")
     public String privacyPolicy() {
