@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
+
+<head>
+    <title>mavi karga</title>
+</head>
+
+<body layout:fragment="content">
+    <main>
+        <div class="container mt-3 mb-3">
+            <div class="row">
+                <div class="col-lg-8">
+                    <video src="/static/vid/introducing_mavi_karga.mp4" th:src="@{/vid/introducing_mavi_karga.mp4}"
+                        class="w-100" muted controls></video>
+                </div>
+                <div class="col-lg-4">
+                    <div class="scroll scroll2">
+                        <div class="content">
+                            <p class="text-end">
+                                “Hand-written poster”<br>
+                                <br>
+                                On a sunny and warm autumn day,<br>
+                                The postman is delivering important news.<br>
+                                Then he goes on his way to spread this news to other places.
+                            </p>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <!--  -->
+            <div class="row ">
+                <div class="col-md-4 col-lg-4 col-xl-4"></div>
+                <div class="col-md-7 col-lg-7 col-xl-7">
+                    <p class="">
+                        The first video announcing the opening of Mavi Karga was released on September 16, 2023. The
+                        model featured in the video is wearing Mavi Karga's debut collection clothing. The central role
+                        was a postman tasked with conveying important news. To express the antique and medieval
+                        atmosphere of the first collection, adopted the concept of “the postman delivers news” in an
+                        analog and vintage way rather than a digital method.
+                    </p>
+                    <p>
+                        The notice postman posted on the wall, with what can be considered as Mavi Karga's logo – the
+                        shape of <a href="" style="text-decoration: none;">"man on the hat mobile."</a> The dimensions
+                        are 00x00, and the material used is recycled
+                        from the fabric attached to Mavi Karga's clothing tag. The letter written on the tag “mavi
+                        karga” and the logo drawn on the notice both represent mavi karga, justifying using the same
+                        fabric.
+                    </p>
+                    <p>
+                        To accentuate a vintage texture, a camcorder was utilized for filming, and both the shooting and
+                        color correction were conducted by Mavi Karga.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="mt-5">
+                <div class=" d-flex justify-content-center">
+                    <div class="img-container m-1" style="width: 600px;">
+                        <img src="/static/image/introducing/introducing1.jpg"
+                            th:src="@{/image/introducing/introducing1.jpg}" class="img-fluid" alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p>drawing mavi karga logo</p>
+                        </div>
+                    </div>
+
+                    <div class="img-container m-1" style="width: 400px;">
+                        <img src="/static/image/introducing/introducing2.jpg"
+                            th:src="@{/image/introducing/introducing2.jpg}" class="img-fluid" alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p>draft of mavi karga logo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <div class=" d-flex justify-content-end">
+                    <div class="img-container m-1" style="width: 600px;">
+                        <img src="/static/image/introducing/introducing3.jpg"
+                            th:src="@{/image/introducing/introducing3.jpg}" class="img-fluid" alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p>same fabric with the logo drawn notice
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <div class=" d-flex justify-content-center align-items-end">
+                    <div class="img-container m-1" style="width: 500px;">
+                        <img src="/static/image/introducing/introducing4.png"
+                            th:src="@{/image/introducing/introducing4.png}" class="img-fluid" alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p>candidate filming location
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="img-container m-1" style="width: 500px;">
+                        <img src="/static/image/introducing/introducing5.jpg"
+                            th:src="@{/image/introducing/introducing5.jpg}" class="img-fluid" alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p>candidate filming location
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <div class=" d-flex justify-content-center align-items-center">
+                    <div class="img-container m-1" style="">
+                        <img src="/static/image/introducing/introducing6.jpg"
+                            th:src="@{/image/introducing/introducing6.jpg}" class="img-fluid" alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p  class="text-end">candidate filming location: Filmed in an alley in Malli-dong.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>

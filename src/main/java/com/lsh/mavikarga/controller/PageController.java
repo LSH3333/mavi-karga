@@ -50,13 +50,39 @@ public class PageController {
         return "object";
     }
 
+    @GetMapping("/photography")
+    public String photography(Model model) {
+        model.addAttribute("menu", "photography");
+        return "photography";
+    }
 
+    ///////////////////// collection /////////////////////
 
     @GetMapping("/collection/collection1")
     public String collection1(Model model) {
         model.addAttribute("menu", "clothing");
         return "collection/collection1";
     }
+
+    ///////////////////// making story /////////////////////
+    @GetMapping("/makingStory/theLine")
+    public String theLine(Model model) {
+        model.addAttribute("menu", "photography");
+        return "makingStory/theLine";
+    }
+
+    @GetMapping("/makingStory/introducing")
+    public String introducing(Model model) {
+        model.addAttribute("menu", "film");
+        return "makingStory/introducing";
+    }
+
+    @GetMapping("/makingStory/blackhole")
+    public String blackhole(Model model) {
+        model.addAttribute("menu", "film");
+        return "makingStory/blackhole";
+    }
+
 
     @GetMapping("/policy/privacyPolicy")
     public String privacyPolicy() {

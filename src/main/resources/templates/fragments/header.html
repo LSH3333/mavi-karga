@@ -46,6 +46,10 @@
                         href="/templates/clothing.html" th:href="@{/clothing}">Clothing</a>
                 </li>
                 <li class="nav-item ">
+                    <a class="nav-link" th:classappend="${menu} == 'photography' ? 'fw-bold active'"
+                        href="/templates/photography.html" th:href="@{/photography}">Photography</a>
+                </li>
+                <li class="nav-item ">
                     <a class="nav-link" th:classappend="${menu} == 'film' ? 'fw-bold active'"
                         href="/templates/film.html" th:href="@{/film}">Film</a>
                 </li>
