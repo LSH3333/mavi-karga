@@ -698,3 +698,90 @@
 [2024-03-21 14:23:31:9520][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
 [2024-03-21 14:23:31:9546][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
 [2024-03-21 14:23:31:9559][main] INFO  c.l.mavikarga.MaviKargaApplication - Started MaviKargaApplication in 9.179 seconds (process running for 9.825)
+[2024-03-21 14:24:51:1109][background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+[2024-03-21 14:24:51:1285][main] INFO  c.l.mavikarga.MaviKargaApplication - Starting MaviKargaApplication using Java 17.0.3.1 with PID 7856 (D:\Works\IdeaProjectsCommunity\mavi-karga\build\classes\java\main started by dltpg in D:\Works\IdeaProjectsCommunity\mavi-karga)
+[2024-03-21 14:24:51:1293][main] INFO  c.l.mavikarga.MaviKargaApplication - No active profile set, falling back to 1 default profile: "default"
+[2024-03-21 14:24:54:4028][main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2024-03-21 14:24:54:4106][main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 69 ms. Found 9 JPA repository interfaces.
+[2024-03-21 14:24:55:5029][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+[2024-03-21 14:24:55:5038][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2024-03-21 14:24:55:5040][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2024-03-21 14:24:55:5040][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+[2024-03-21 14:24:55:5184][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2024-03-21 14:24:55:5186][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2999 ms
+[2024-03-21 14:24:55:5354][main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2024-03-21 14:24:55:5415][main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+[2024-03-21 14:24:55:5458][main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2024-03-21 14:24:56:5733][main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2024-03-21 14:24:56:5762][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2024-03-21 14:24:56:5980][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1ff542a3
+[2024-03-21 14:24:56:5981][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2024-03-21 14:24:57:7261][main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2024-03-21 14:24:57:7404][main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2024-03-21 14:24:58:8186][main] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+[2024-03-21 14:25:00:10253][main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[2024-03-21 14:25:00:10490][main] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@57832650, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@71b3c2a7, org.springframework.security.web.context.SecurityContextHolderFilter@550a78ed, org.springframework.security.web.header.HeaderWriterFilter@22ef1086, org.springframework.web.filter.CorsFilter@46724526, org.springframework.security.web.authentication.logout.LogoutFilter@78cb1a92, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@775429c8, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@a95807f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@b8f6500, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@58968733, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@30b0d271, org.springframework.security.web.access.ExceptionTranslationFilter@7dcbcede, org.springframework.security.web.access.intercept.AuthorizationFilter@2cfde5a4]
+[2024-03-21 14:25:01:10810][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2024-03-21 14:25:01:10831][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[2024-03-21 14:25:01:10844][main] INFO  c.l.mavikarga.MaviKargaApplication - Started MaviKargaApplication in 10.557 seconds (process running for 11.12)
+[2024-03-21 14:25:54:63996][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2024-03-21 14:25:54:63997][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2024-03-21 14:25:54:63999][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+[2024-03-21 14:32:23:1242][background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+[2024-03-21 14:32:23:1420][main] INFO  c.l.mavikarga.MaviKargaApplication - Starting MaviKargaApplication using Java 17.0.3.1 with PID 3848 (D:\Works\IdeaProjectsCommunity\mavi-karga\build\classes\java\main started by dltpg in D:\Works\IdeaProjectsCommunity\mavi-karga)
+[2024-03-21 14:32:23:1428][main] INFO  c.l.mavikarga.MaviKargaApplication - No active profile set, falling back to 1 default profile: "default"
+[2024-03-21 14:32:27:4650][main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2024-03-21 14:32:27:4796][main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 138 ms. Found 9 JPA repository interfaces.
+[2024-03-21 14:32:28:5722][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+[2024-03-21 14:32:28:5731][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2024-03-21 14:32:28:5733][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2024-03-21 14:32:28:5733][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+[2024-03-21 14:32:28:5821][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2024-03-21 14:32:28:5823][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3274 ms
+[2024-03-21 14:32:28:6030][main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2024-03-21 14:32:28:6096][main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+[2024-03-21 14:32:28:6129][main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2024-03-21 14:32:28:6359][main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2024-03-21 14:32:28:6401][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2024-03-21 14:32:28:6580][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6ed691fd
+[2024-03-21 14:32:28:6581][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2024-03-21 14:32:30:7728][main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2024-03-21 14:32:30:7875][main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2024-03-21 14:32:31:8754][main] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+[2024-03-21 14:32:33:11052][main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[2024-03-21 14:32:33:11307][main] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@23038621, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ff2ac2d, org.springframework.security.web.context.SecurityContextHolderFilter@16c2c396, org.springframework.security.web.header.HeaderWriterFilter@4f042c70, org.springframework.web.filter.CorsFilter@41862a32, org.springframework.security.web.authentication.logout.LogoutFilter@5a0d25ba, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@731ccdfc, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@56c75b4f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7e9e73, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@39c78cf9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2a654167, org.springframework.security.web.access.ExceptionTranslationFilter@4098a6b0, org.springframework.security.web.access.intercept.AuthorizationFilter@195267c8]
+[2024-03-21 14:32:34:11608][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2024-03-21 14:32:34:11652][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[2024-03-21 14:32:34:11669][main] INFO  c.l.mavikarga.MaviKargaApplication - Started MaviKargaApplication in 11.299 seconds (process running for 11.925)
+[2024-03-21 14:33:10:48146][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2024-03-21 14:33:10:48147][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2024-03-21 14:33:10:48148][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[2024-03-21 14:37:53:973][background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+[2024-03-21 14:37:54:1126][main] INFO  c.l.mavikarga.MaviKargaApplication - Starting MaviKargaApplication using Java 17.0.3.1 with PID 24240 (D:\Works\IdeaProjectsCommunity\mavi-karga\build\classes\java\main started by dltpg in D:\Works\IdeaProjectsCommunity\mavi-karga)
+[2024-03-21 14:37:54:1132][main] INFO  c.l.mavikarga.MaviKargaApplication - No active profile set, falling back to 1 default profile: "default"
+[2024-03-21 14:37:55:2343][main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2024-03-21 14:37:55:2481][main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 129 ms. Found 9 JPA repository interfaces.
+[2024-03-21 14:37:56:3231][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+[2024-03-21 14:37:56:3240][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2024-03-21 14:37:56:3243][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2024-03-21 14:37:56:3243][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+[2024-03-21 14:37:56:3344][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2024-03-21 14:37:56:3346][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1837 ms
+[2024-03-21 14:37:56:3545][main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+[2024-03-21 14:37:56:3627][main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+[2024-03-21 14:37:56:3663][main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+[2024-03-21 14:37:56:3919][main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+[2024-03-21 14:37:56:3960][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2024-03-21 14:37:57:4122][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4e96cb04
+[2024-03-21 14:37:57:4123][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2024-03-21 14:37:58:5477][main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+[2024-03-21 14:37:58:5624][main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2024-03-21 14:37:59:6108][main] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+[2024-03-21 14:38:00:8035][main] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[2024-03-21 14:38:01:8430][main] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7375e6c1, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@596c6c3e, org.springframework.security.web.context.SecurityContextHolderFilter@5cbb2b1d, org.springframework.security.web.header.HeaderWriterFilter@6e8e1a98, org.springframework.web.filter.CorsFilter@541c7857, org.springframework.security.web.authentication.logout.LogoutFilter@4a1bb556, org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter@22796ead, org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter@5e0e97b6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@54139bd3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@19a652cd, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@13c02cec, org.springframework.security.web.access.ExceptionTranslationFilter@200cdb37, org.springframework.security.web.access.intercept.AuthorizationFilter@1bb6b0f3]
+[2024-03-21 14:38:01:8714][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2024-03-21 14:38:01:8745][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+[2024-03-21 14:38:01:8757][main] INFO  c.l.mavikarga.MaviKargaApplication - Started MaviKargaApplication in 8.509 seconds (process running for 9.014)
+[2024-03-21 14:38:57:64332][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2024-03-21 14:38:57:64332][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2024-03-21 14:38:57:64334][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms

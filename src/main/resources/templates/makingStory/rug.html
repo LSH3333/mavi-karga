@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html data-bs-theme="auto" xmlns:th="http//www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/default-without-header}">
+
+<head>
+    <title>mavi karga</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/static/bootstrap-5.3.2-dist/css/bootstrap.min.css"
+        th:href="@{/bootstrap-5.3.2-dist/css/bootstrap.min.css}">
+
+    <link rel="stylesheet" href="/static/css/universal.css" th:href="@{/css/universal.css}">
+</head>
+
+<body layout:fragment="content">
+    <main>
+        <div class="container mt-3 mb-3">
+            <div class="row">
+                <div class="col-lg-8">
+                    <video src="/static/vid/shell_lug_reduced.mp4" th:src="@{/vid/shell_lug_reduced.mp4}" class="w-100"
+                        muted controls></video>
+                </div>
+                <div class="col-lg-4">
+                    <div class="scroll scroll2">
+                        <div class="content">
+                            <p class="text-end">
+                                The snail wrapped itself in thread,<br>
+                                spun around and created a forest.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-5">
+            <!--  -->
+            <div class="row ">
+                <div class="col-md-4 col-lg-4 col-xl-4"></div>
+                <div class="col-md-7 col-lg-7 col-xl-7">
+                    <p class="">
+                        This video work uses the <a href="" style="text-decoration: none;">Germination, Ignite rug</a>
+                        produced by Mavi Karga as the main prop. While
+                        planning for this video, what Mavi Karga particularly focused on was the liveliness and
+                        originality of the video.
+                    </p>
+                    <p>
+                        The content of the video is as follows: The camera follows a mysterious purple thread. While
+                        digging through the forest, arrived at a forest made of thread. The purple thread was the
+                        remnants of a snail that was making a purple tree and all the other forest composition.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="mt-5">
+                <div class=" d-flex justify-content-center">
+                    <div class="img-container m-2" style="width: 400px;">
+                        <img src="/static/image/rug/rug1.jpg" th:src="@{/image/rug/rug1.jpg}" class="img-fluid"
+                            alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p>lighting setup and props for filming
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="img-container m-2" style="width: 500px;">
+                        <img src="/static/image/rug/rug2.jpg" th:src="@{/image/rug/rug2.jpg}" class="img-fluid"
+                            alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p>snail raised with lettuce / main character of the film
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <div class=" d-flex justify-content-center align-items-center">
+                    <div class="img-container m-1" style="">
+                        <img src="/static/image/rug/rug3.jpg" th:src="@{/image/rug/rug3.jpg}"
+                            class="img-fluid" alt="...">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <p class="text-end">background of the film
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+
+</html>

@@ -83,6 +83,12 @@ public class PageController {
         return "makingStory/blackhole";
     }
 
+    @GetMapping("/makingStory/rug")
+    public String rug(Model model) {
+        model.addAttribute("menu", "film");
+        return "makingStory/rug";
+    }
+
 
     @GetMapping("/policy/privacyPolicy")
     public String privacyPolicy() {
