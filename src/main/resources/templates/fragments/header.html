@@ -38,59 +38,41 @@
             <ul style="font-size: 1rem" class="navbar-nav ">
                 <!-- th:classappend 로 현재 페이지에 따라 active,fw-bold 클래스 추가 -->
                 <li class="nav-item ">
-                    <a class="nav-link" th:classappend="${menu} == 'info' ? 'fw-bold active'"
+                    <a class="nav-link header-nav-link" th:classappend="${menu} == 'info' ? 'fw-bold active'"
                         href="/templates/info.html" th:href="@{/info}">Info</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" th:classappend="${menu} == 'clothing' ? 'fw-bold active'"
-                        href="/templates/clothing.html" th:href="@{/clothing}">Clothing</a>
+                    <a class="nav-link header-nav-link" th:classappend="${menu} == 'clothing' ? 'fw-bold active'"
+                        href="/templates/clothing.html" th:href="@{/clothing}" >Clothing</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" th:classappend="${menu} == 'photography' ? 'fw-bold active'"
+                    <a class="nav-link header-nav-link" th:classappend="${menu} == 'photography' ? 'fw-bold active'"
                         href="/templates/photography.html" th:href="@{/photography}">Photography</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" th:classappend="${menu} == 'film' ? 'fw-bold active'"
+                    <a class="nav-link header-nav-link" th:classappend="${menu} == 'film' ? 'fw-bold active'"
                         href="/templates/film.html" th:href="@{/film}">Film</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${menu} == 'object' ? 'fw-bold active'"
+                    <a class="nav-link header-nav-link" th:classappend="${menu} == 'object' ? 'fw-bold active'"
                         th:href="@{/object}">Object</a>
                 </li>
-                <!-- <li class="nav-item ">
-                    <button class="nav-link" onclick="openOffCanvasCart()">Cart</button>
-                </li>
-                <li sec:authorize="isAuthenticated()" class="nav-item ">
-                    <a class="nav-link" th:classappend="${menu} == 'mypage' ? 'fw-bold active'"
-                        th:href="@{/users/myPage}">MyPage</a>
-                </li> -->
-                <!-- <li sec:authorize="isAuthenticated()" class="nav-item ">
-                    <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
-                        href="/templates/index.html" th:href="@{/logout}">LogOut</a>
-                </li> -->
-                <!-- <li sec:authorize="isAnonymous()" class="nav-item">
-                    <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
-                        href="/templates/login.html" th:href="@{/login}">Login</a>
-                </li> -->
-                <!-- <li class="nav-item mx-4">
-                    <a class="nav-link mx-4" th:href="@{/locale}">USD/KOR</a>
-                </li> -->
             </ul>
             <ul style="font-size: 1rem" class="navbar-nav ms-auto">
                 <li class="nav-item ">
-                    <button class="nav-link" onclick="openOffCanvasCart()">Cart</button>
+                    <button class="nav-link header-nav-link" onclick="openOffCanvasCart()" >Cart</button>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item ">
-                    <a class="nav-link" th:classappend="${menu} == 'mypage' ? 'fw-bold active'"
-                        th:href="@{/users/myPage}">MyPage</a>
+                    <a class="nav-link header-nav-link" th:classappend="${menu} == 'mypage' ? 'fw-bold active'"
+                        th:href="@{/users/myPage}" >MyPage</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item ">
-                    <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
-                        href="/templates/index.html" th:href="@{/logout}">LogOut</a>
+                    <a class="nav-link header-nav-link"  th:classappend="${menu} == 'login' ? 'fw-bold active'"
+                        href="/templates/index.html" th:href="@{/logout}" >LogOut</a>
                 </li>
                 <li sec:authorize="isAnonymous()" class="nav-item">
-                    <a class="nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
-                        href="/templates/login.html" th:href="@{/login}">Login</a>
+                    <a class="nav-link header-nav-link" th:classappend="${menu} == 'login' ? 'fw-bold active'"
+                        href="/templates/login.html" th:href="@{/login}" >Login</a>
                 </li>
             </ul>
         </div>
